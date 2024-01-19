@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -17,29 +18,35 @@ using UnityEngine.Events;
 /// </summary>
 public class CharacterStatus : MonoBehaviour
 {
-    public MetaVal<float> Health { get; private set; }
+    public event Action death;
+    public event Action<float> healthChanged;
+    [SerializeField] float _currHealth;
+    public float currHealth { 
+        get { return _currHealth; } 
+        private set { 
+            if (value != _currHealth) { 
+                _currHealth = value; 
+                healthChanged.Invoke(value);
+            } } }
 
-    public bool isDead
+    public bool isDead { get { return _currHealth <= 0; } }
+
+    private void Awake()
     {
-        get
+        healthChanged += checkDeath;
+    }
+
+    public void checkDeath(float health)
+    {
+        checkDeath();
+    }
+    public void checkDeath ()
+    {
+        if (isDead)
         {
-            return Health.value <= 0;
+            healthChanged -= checkDeath;
+            death?.Invoke(); 
         }
-    }
-
-    private void Start()
-    {
-        Health.valueChanged += checkHealth;
-    }
-
-    private void checkHealth(int delta, float newHealth)
-    {
-
-    }
-
-    private void die()
-    {
-        Debug.Log(this + " has died");
     }
 }
 

@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 /// <summary>
@@ -11,7 +11,7 @@ using UnityEngine.Events;
 /// </summary>
 public class MetaVal<type> where type : IComparable
 {
-    public UnityEvent<int, type> valueChanged; //T0 - amount of change, T1 - new value
+    public event Action valueChanged; //T0 - amount of change, T1 - new value
     private type _value;
     public type value
     {
@@ -22,8 +22,7 @@ public class MetaVal<type> where type : IComparable
             _value = value;
             if (deltaVal != 0)
             {
-
-                valueChanged.Invoke(deltaVal, _value);
+                valueChanged.Invoke();
             }
         }
     }

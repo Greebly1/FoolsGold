@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    Pawn possessedPawn = null;
+    public Pawn possessedPawn { get; private set; } = null;
 
 
-    // Start is called before the first frame update
-    void Start()
+    public void possessPawn (Pawn pawn)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        possessedPawn = pawn;
     }
 }

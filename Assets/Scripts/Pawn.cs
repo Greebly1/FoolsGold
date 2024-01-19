@@ -8,21 +8,17 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Base pawn defines a gameobject that has a movement component, and a health component
 /// All pawns have a movement component (animator root motion) and a health component
+/// 
+/// For now all pawns will be player humanoid pawns
 /// </summary>
 public class Pawn : MonoBehaviour
 {
-    public Animator AnimationController = null;
+    public Animator AnimationController { get; private set; }
+    public CharacterStatus status { get; private set; }
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        AnimationController = GetComponent<Animator>();
+        status = GetComponent<CharacterStatus>();
     }
 }
