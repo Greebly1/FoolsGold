@@ -17,11 +17,47 @@ public class HumanoidPawn : MonoBehaviour
     public CharacterStatus status { get; private set; }
 
     Vector2 _movement = Vector2.zero;
-    bool sprinting = false;
-    public float sprintBlendingTime = 0.5f;
-    Coroutine sprintBlending;
+    Vector2 _targetMovement = Vector2.zero;
 
-    float maxSpeed = 0.67f;
+    float currSpeed
+    {
+        get { return _movement.magnitude; }
+    }
+    float targetSpeed
+    {
+        get { return _targetMovement.magnitude; }
+    }
+
+    Coroutine accelBlending;
+    bool isAccelBlending = false;
+
+    public float accelTime = 1.5f; //How many seconds it takes to accel from 0 to max speed
+
+
+
+    bool sprinting = false;
+    bool isSprinting
+    {
+        get { return currSpeed > 0.67f; }
+    }
+
+    public float sprintBlendingTime = 0.5f; //How long it takes for the max speed percent to increase to 1 when initiating a sprint
+    
+    Coroutine sprintBlending;
+    bool isSprintBlending = false;
+    
+    float _sprintBlendingTimer = 0f;
+    float sprintBlendingTimer { 
+        get { return _sprintBlendingTimer; } 
+        set { _sprintBlendingTimer = Mathf.Clamp(value, 0, sprintBlendingTime);  }
+    }
+
+    float _maxSpeedPercent = 0.67f;
+    float maxSpeedPercent
+    {
+        get { return _maxSpeedPercent; }
+        set { _maxSpeedPercent = Mathf.Clamp(value, 0, 1);  }
+    }
 
     private void Awake()
     {
@@ -31,7 +67,8 @@ public class HumanoidPawn : MonoBehaviour
 
     public void run(Vector2 input)
     {
-        _movement = input.normalized;
+        _targetMovement = input.normalized;
+        if (!isAccelBlending) { accelBlending = StartCoroutine("AccelerationBlending"); }
 
         UpdateAnimator();
     }
@@ -40,9 +77,11 @@ public class HumanoidPawn : MonoBehaviour
     {
         sprinting = !sprinting;
         Debug.Log("Sprint toggled");
-        sprintBlending = StartCoroutine("SprintToggleTimer");
 
-        
+        if (!isSprintBlending) { sprintBlending = StartCoroutine("SprintToggleTimer"); }
+
+
+
     }
 
     private void UpdateAnimator()
@@ -50,27 +89,63 @@ public class HumanoidPawn : MonoBehaviour
         Vector2 actualMovement;
 
 
-        actualMovement = Vector2.ClampMagnitude(_movement, maxSpeed);
+        actualMovement = Vector2.ClampMagnitude(_movement, maxSpeedPercent);
 
         AnimationController.SetFloat("Right", actualMovement.x);
         AnimationController.SetFloat("Forward", actualMovement.y);
-        Debug.Log("updating animator with input: " + actualMovement);
+        //Debug.Log("updating animator with input: " + actualMovement);
     }
 
     IEnumerator SprintToggleTimer()
     {
-        float timeElapsed = 0f;
-        Debug.Log("Starting timer coroutine");
+        isSprintBlending = true;
 
-        while (sprintBlendingTime > timeElapsed)
+        while ((sprinting && sprintBlendingTimer < 1 ) || ( !sprinting && sprintBlendingTimer > 0))
         {
-            timeElapsed += Time.deltaTime;
-            maxSpeed = Mathf.Lerp(0.67f, 1, timeElapsed / sprintBlendingTime);
-            Debug.Log("Ticking coroutine, maxspeed is: " + maxSpeed);
+            if (sprinting)
+            {
+                sprintBlendingTimer += Time.deltaTime;
+                maxSpeedPercent = Mathf.Lerp(0.67f, 1, sprintBlendingTimer / sprintBlendingTime);
+            } else
+            {
+                sprintBlendingTimer -= Time.deltaTime;
+                maxSpeedPercent = Mathf.Lerp(0.67f, 1, sprintBlendingTimer / sprintBlendingTime);
+            }
+
             UpdateAnimator();
-            yield  return null;
+            yield return null;
         }
-        Debug.Log("Exiting timer coroutine");
+        
         UpdateAnimator();
+
+        isSprintBlending = false;
+    }
+
+    IEnumerator AccelerationBlending()
+    {
+        isAccelBlending = true;
+
+        while (_movement != _targetMovement)
+        {
+            Vector2 accelVec = (_targetMovement - _movement).normalized;
+            Vector2 newMovement = _movement + (accelVec * Time.deltaTime * (1 / accelTime));
+
+            if (Vector2.Distance(newMovement, _targetMovement) > Vector2.Distance(_movement, _targetMovement))
+            {
+                _movement = _targetMovement;
+            } else
+            {
+                _movement = newMovement;
+            }
+
+            UpdateAnimator();
+
+            yield return null;
+        }
+
+        Debug.Log("Ending accelblending");
+        UpdateAnimator();
+
+        isAccelBlending = false;
     }
 }

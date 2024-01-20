@@ -5,8 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : Controller
 {
+    public static PlayerController ClientPlayerController { get; private set; }
+
     PlayerInput input;
-    [SerializeField] Camera topDownCamera;
+    [SerializeField] CameraController topDownCamera;
 
     //TODO
     //Recap how to use the new input system
@@ -23,5 +25,10 @@ public class PlayerController : Controller
     {
 
         possessedPawn.toggleSprint();
+    }
+
+    void Awake()
+    {
+        ClientPlayerController = this;
     }
 }
