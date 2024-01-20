@@ -12,17 +12,22 @@ public class CameraController : MonoBehaviour
         get { return cameraTarget.transform.position; }
         private set { cameraTarget.transform.position = value; } }
     public float camZoom = 15f;
-    public float maxZoom = 5f;
-    public float minZoom = 20f;
+    public float minZoom = 5f;
+    public float maxZoom = 20f;
 
     public Vector3 camOrientation
     {
         get { return new Vector3(transform.forward.x, 0, transform.forward.z).normalized; }
     }
 
+    public float initialXRotation = 60;
+    float localXRotation = 60;
+    public float maxXRot = 70;
+    public float minXRot = 30;
+
     void Awake()
     {
-
+        transform.rotation = Quaternion.Euler(initialXRotation, 0, 0);
     }
 
     void Update()
@@ -36,6 +41,18 @@ public class CameraController : MonoBehaviour
     {
         camZoom -= amount;
         camZoom = Mathf.Clamp(camZoom, maxZoom, minZoom);
+    }
+
+    public void RotateX(float amount)
+    {
+        localXRotation += amount;
+
+        if (localXRotation < minXRot || localXRotation > maxXRot) { 
+            localXRotation = Mathf.Clamp(localXRotation, minXRot, maxXRot);
+        } else
+        {
+            transform.Rotate(amount, 0, 0, Space.Self);
+        }
     }
 }
 

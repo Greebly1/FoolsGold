@@ -292,6 +292,11 @@ MonoBehaviour:
   camTargetMode: 0
   camMode: 1
   camZoom: 15
+  minZoom: 30
+  maxZoom: 8
+  initialXRotation: 60
+  maxXRot: 70
+  minXRot: 24
 --- !u!1 &562332173
 GameObject:
   m_ObjectHideFlags: 0

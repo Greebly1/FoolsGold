@@ -9,6 +9,7 @@ public class PlayerController : Controller
 
     PlayerInput input;
     [SerializeField] CameraController topDownCamera;
+    bool camxrotationEnabled = false;
 
     //TODO
     //Recap how to use the new input system
@@ -37,6 +38,21 @@ public class PlayerController : Controller
     public void OnCrouch()
     {
         possessedPawn.toggleCrouch();
+    }
+
+    public void OnToggleCamRotation()
+    {
+        camxrotationEnabled = !camxrotationEnabled;
+    }
+
+    public void OnAimUpdate(InputValue value)
+    {
+        Vector2 amount = value.Get<Vector2>();
+
+        if (camxrotationEnabled)
+        {
+            topDownCamera.RotateX(-amount.y);
+        }
     }
 
     void Awake()

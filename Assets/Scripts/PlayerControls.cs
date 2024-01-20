@@ -71,6 +71,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleCamRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""3190d283-052b-4a4c-9653-84fe382204fb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -271,6 +280,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0869676-8e62-4252-82e6-ac30c251c18b"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""ToggleCamRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -312,6 +332,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_Sprint = m_Grounded.FindAction("Sprint", throwIfNotFound: true);
         m_Grounded_Zoom = m_Grounded.FindAction("Zoom", throwIfNotFound: true);
         m_Grounded_Crouch = m_Grounded.FindAction("Crouch", throwIfNotFound: true);
+        m_Grounded_ToggleCamRotation = m_Grounded.FindAction("ToggleCamRotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -378,6 +399,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Grounded_Sprint;
     private readonly InputAction m_Grounded_Zoom;
     private readonly InputAction m_Grounded_Crouch;
+    private readonly InputAction m_Grounded_ToggleCamRotation;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
@@ -387,6 +409,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Grounded_Sprint;
         public InputAction @Zoom => m_Wrapper.m_Grounded_Zoom;
         public InputAction @Crouch => m_Wrapper.m_Grounded_Crouch;
+        public InputAction @ToggleCamRotation => m_Wrapper.m_Grounded_ToggleCamRotation;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -411,6 +434,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Crouch.started += instance.OnCrouch;
             @Crouch.performed += instance.OnCrouch;
             @Crouch.canceled += instance.OnCrouch;
+            @ToggleCamRotation.started += instance.OnToggleCamRotation;
+            @ToggleCamRotation.performed += instance.OnToggleCamRotation;
+            @ToggleCamRotation.canceled += instance.OnToggleCamRotation;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -430,6 +456,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Crouch.started -= instance.OnCrouch;
             @Crouch.performed -= instance.OnCrouch;
             @Crouch.canceled -= instance.OnCrouch;
+            @ToggleCamRotation.started -= instance.OnToggleCamRotation;
+            @ToggleCamRotation.performed -= instance.OnToggleCamRotation;
+            @ToggleCamRotation.canceled -= instance.OnToggleCamRotation;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -472,5 +501,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnToggleCamRotation(InputAction.CallbackContext context);
     }
 }
