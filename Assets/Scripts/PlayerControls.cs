@@ -62,6 +62,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""0eb581d2-89ba-435f-b543-7987291c21e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -240,6 +249,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0eb022e6-ca40-4559-9400-87101a15528c"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47068b64-c37c-40fc-801f-15b9638c2b69"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -280,6 +311,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_AimUpdate = m_Grounded.FindAction("AimUpdate", throwIfNotFound: true);
         m_Grounded_Sprint = m_Grounded.FindAction("Sprint", throwIfNotFound: true);
         m_Grounded_Zoom = m_Grounded.FindAction("Zoom", throwIfNotFound: true);
+        m_Grounded_Crouch = m_Grounded.FindAction("Crouch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -345,6 +377,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Grounded_AimUpdate;
     private readonly InputAction m_Grounded_Sprint;
     private readonly InputAction m_Grounded_Zoom;
+    private readonly InputAction m_Grounded_Crouch;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
@@ -353,6 +386,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @AimUpdate => m_Wrapper.m_Grounded_AimUpdate;
         public InputAction @Sprint => m_Wrapper.m_Grounded_Sprint;
         public InputAction @Zoom => m_Wrapper.m_Grounded_Zoom;
+        public InputAction @Crouch => m_Wrapper.m_Grounded_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -374,6 +408,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -390,6 +427,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -431,5 +471,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAimUpdate(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
     }
 }

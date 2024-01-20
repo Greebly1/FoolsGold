@@ -34,6 +34,11 @@ public class PlayerController : Controller
         Debug.Log(amount);
     }
 
+    public void OnCrouch()
+    {
+        possessedPawn.toggleCrouch();
+    }
+
     void Awake()
     {
         ClientPlayerController = this;

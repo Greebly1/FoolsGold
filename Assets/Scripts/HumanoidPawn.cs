@@ -33,8 +33,6 @@ public class HumanoidPawn : MonoBehaviour
 
     public float accelTime = 1.5f; //How many seconds it takes to accel from 0 to max speed
 
-
-
     bool sprinting = false;
     bool isSprinting
     {
@@ -58,6 +56,10 @@ public class HumanoidPawn : MonoBehaviour
         get { return _maxSpeedPercent; }
         set { _maxSpeedPercent = Mathf.Clamp(value, 0, 1);  }
     }
+
+
+    bool crouched = false;
+
 
     private void Awake()
     {
@@ -84,6 +86,12 @@ public class HumanoidPawn : MonoBehaviour
 
     }
 
+    public void toggleCrouch()
+    {
+        crouched = !crouched;
+        UpdateAnimator();
+    }
+
     private void UpdateAnimator()
     {
         Vector2 actualMovement;
@@ -93,6 +101,8 @@ public class HumanoidPawn : MonoBehaviour
 
         AnimationController.SetFloat("Right", actualMovement.x);
         AnimationController.SetFloat("Forward", actualMovement.y);
+
+        AnimationController.SetBool("Crouching", crouched);
         //Debug.Log("updating animator with input: " + actualMovement);
     }
 
