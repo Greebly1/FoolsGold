@@ -178,7 +178,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 565542995}
   m_SourcePrefab: {fileID: 100100000, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
 --- !u!1 &522287648
 GameObject:
@@ -379,6 +382,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &565542992 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
+  m_PrefabInstance: {fileID: 448963220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &565542995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565542992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprintBlendingTime: 0.5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,6 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc0bc5dbce2e174a9b6e43bc41111b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  possessedPawn: {fileID: 565542995}
   topDownCamera: {fileID: 522287650}
 --- !u!114 &1619181780
 MonoBehaviour:
@@ -516,7 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: d13955a938aaac6409ca96b57b972b77, type: 3}
-  m_NotificationBehavior: 3
+  m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -527,9 +549,29 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1619181778}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9b3e1cdc-e77c-45f6-82a3-b5cbf1563d43
+    m_ActionName: 'Grounded/Walk[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 82a6b332-5567-4ac1-8d61-965513aec78a
+    m_ActionName: 'Grounded/MoveCamera[/Mouse/delta]'
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: M&K
   m_DefaultActionMap: Grounded
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

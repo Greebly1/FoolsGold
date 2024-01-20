@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    public Pawn possessedPawn { get; private set; } = null;
+    public HumanoidPawn possessedPawn = null;
 
 
-    public void possessPawn (Pawn pawn)
+    public void possessPawn (HumanoidPawn pawn)
     {
         possessedPawn = pawn;
     }
