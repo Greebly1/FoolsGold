@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
         get { return cameraTarget.transform.position; }
         private set { cameraTarget.transform.position = value; } }
     public float camZoom = 15f;
+    public float maxZoom = 5f;
+    public float minZoom = 20f;
 
     public Vector3 camOrientation
     {
@@ -28,6 +30,12 @@ public class CameraController : MonoBehaviour
         targetPos = PlayerController.ClientPlayerController.possessedPawn.transform.position;
 
         transform.position = targetPos + (-transform.forward * camZoom) + camOrientation * (1.5f);
+    }
+
+    public void Zoom(float amount)
+    {
+        camZoom -= amount;
+        camZoom = Mathf.Clamp(camZoom, maxZoom, minZoom);
     }
 }
 

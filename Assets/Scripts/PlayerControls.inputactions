@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MoveCamera",
+                    "name": "AimUpdate",
                     "type": "Value",
                     "id": "82a6b332-5567-4ac1-8d61-965513aec78a",
                     "expectedControlType": "Vector2",
@@ -28,6 +28,15 @@
                     "type": "Value",
                     "id": "5181aa57-3e66-4dfb-9515-0871be9e610c",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "19d997f1-b657-4bc5-9c5a-d8f60fc5ccbb",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -146,12 +155,34 @@
                 },
                 {
                     "name": "",
+                    "id": "646ec018-d4e1-4e05-9a62-93eceefb38b6",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Walk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "695d2432-09b9-4775-84c0-bad6809b3042",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "M&K",
-                    "action": "MoveCamera",
+                    "action": "AimUpdate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b37c3f7b-fc03-4eac-9944-6b4c12f9264f",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "AimUpdate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -163,6 +194,28 @@
                     "processors": "",
                     "groups": "M&K",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60958bd6-4104-4d62-91ef-afc7e8b45d85",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "079d18d0-6cea-4526-9cff-64285ff7d1cc",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "M&K",
+                    "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -181,6 +234,17 @@
                 },
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Controller",
+            "bindingGroup": "Controller",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }

@@ -37,7 +37,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MoveCamera"",
+                    ""name"": ""AimUpdate"",
                     ""type"": ""Value"",
                     ""id"": ""82a6b332-5567-4ac1-8d61-965513aec78a"",
                     ""expectedControlType"": ""Vector2"",
@@ -50,6 +50,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""5181aa57-3e66-4dfb-9515-0871be9e610c"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""19d997f1-b657-4bc5-9c5a-d8f60fc5ccbb"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -168,12 +177,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""646ec018-d4e1-4e05-9a62-93eceefb38b6"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Walk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""695d2432-09b9-4775-84c0-bad6809b3042"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""M&K"",
-                    ""action"": ""MoveCamera"",
+                    ""action"": ""AimUpdate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b37c3f7b-fc03-4eac-9944-6b4c12f9264f"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""AimUpdate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -185,6 +216,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""M&K"",
                     ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""60958bd6-4104-4d62-91ef-afc7e8b45d85"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""079d18d0-6cea-4526-9cff-64285ff7d1cc"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -207,14 +260,26 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Controller"",
+            ""bindingGroup"": ""Controller"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
         // Grounded
         m_Grounded = asset.FindActionMap("Grounded", throwIfNotFound: true);
         m_Grounded_Walk = m_Grounded.FindAction("Walk", throwIfNotFound: true);
-        m_Grounded_MoveCamera = m_Grounded.FindAction("MoveCamera", throwIfNotFound: true);
+        m_Grounded_AimUpdate = m_Grounded.FindAction("AimUpdate", throwIfNotFound: true);
         m_Grounded_Sprint = m_Grounded.FindAction("Sprint", throwIfNotFound: true);
+        m_Grounded_Zoom = m_Grounded.FindAction("Zoom", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -277,15 +342,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Grounded;
     private List<IGroundedActions> m_GroundedActionsCallbackInterfaces = new List<IGroundedActions>();
     private readonly InputAction m_Grounded_Walk;
-    private readonly InputAction m_Grounded_MoveCamera;
+    private readonly InputAction m_Grounded_AimUpdate;
     private readonly InputAction m_Grounded_Sprint;
+    private readonly InputAction m_Grounded_Zoom;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
         public GroundedActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walk => m_Wrapper.m_Grounded_Walk;
-        public InputAction @MoveCamera => m_Wrapper.m_Grounded_MoveCamera;
+        public InputAction @AimUpdate => m_Wrapper.m_Grounded_AimUpdate;
         public InputAction @Sprint => m_Wrapper.m_Grounded_Sprint;
+        public InputAction @Zoom => m_Wrapper.m_Grounded_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -298,12 +365,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walk.started += instance.OnWalk;
             @Walk.performed += instance.OnWalk;
             @Walk.canceled += instance.OnWalk;
-            @MoveCamera.started += instance.OnMoveCamera;
-            @MoveCamera.performed += instance.OnMoveCamera;
-            @MoveCamera.canceled += instance.OnMoveCamera;
+            @AimUpdate.started += instance.OnAimUpdate;
+            @AimUpdate.performed += instance.OnAimUpdate;
+            @AimUpdate.canceled += instance.OnAimUpdate;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -311,12 +381,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walk.started -= instance.OnWalk;
             @Walk.performed -= instance.OnWalk;
             @Walk.canceled -= instance.OnWalk;
-            @MoveCamera.started -= instance.OnMoveCamera;
-            @MoveCamera.performed -= instance.OnMoveCamera;
-            @MoveCamera.canceled -= instance.OnMoveCamera;
+            @AimUpdate.started -= instance.OnAimUpdate;
+            @AimUpdate.performed -= instance.OnAimUpdate;
+            @AimUpdate.canceled -= instance.OnAimUpdate;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -343,10 +416,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_MKSchemeIndex];
         }
     }
+    private int m_ControllerSchemeIndex = -1;
+    public InputControlScheme ControllerScheme
+    {
+        get
+        {
+            if (m_ControllerSchemeIndex == -1) m_ControllerSchemeIndex = asset.FindControlSchemeIndex("Controller");
+            return asset.controlSchemes[m_ControllerSchemeIndex];
+        }
+    }
     public interface IGroundedActions
     {
         void OnWalk(InputAction.CallbackContext context);
-        void OnMoveCamera(InputAction.CallbackContext context);
+        void OnAimUpdate(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
 }

@@ -27,6 +27,13 @@ public class PlayerController : Controller
         possessedPawn.toggleSprint();
     }
 
+    public void OnZoom(InputValue inputValue)
+    {
+        float amount = inputValue.Get<float>();
+        topDownCamera.Zoom(amount);
+        Debug.Log(amount);
+    }
+
     void Awake()
     {
         ClientPlayerController = this;
