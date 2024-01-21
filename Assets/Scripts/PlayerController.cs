@@ -10,6 +10,7 @@ public class PlayerController : Controller
     PlayerInput input;
     [SerializeField] CameraController topDownCamera;
     bool camxrotationEnabled = false;
+    bool holdingSprint = false;
 
     //TODO
     //Recap how to use the new input system
@@ -24,8 +25,8 @@ public class PlayerController : Controller
 
     public void OnSprint(InputValue value)
     {
-
-        possessedPawn.toggleSprint();
+        holdingSprint = !holdingSprint;
+        possessedPawn.toggleSprint(holdingSprint);
     }
 
     public void OnZoom(InputValue inputValue)

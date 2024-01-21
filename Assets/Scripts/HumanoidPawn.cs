@@ -50,7 +50,7 @@ public class HumanoidPawn : MonoBehaviour
         set { _sprintBlendingTimer = Mathf.Clamp(value, 0, sprintBlendingTime);  }
     }
 
-    float _maxSpeedPercent = 0.67f;
+    float _maxSpeedPercent = 1f;
     float maxSpeedPercent
     {
         get { return _maxSpeedPercent; }
@@ -75,20 +75,30 @@ public class HumanoidPawn : MonoBehaviour
         UpdateAnimator();
     }
 
-    public void toggleSprint()
+    public void toggleSprint(bool isButtonHeld)
     {
+        if (!isButtonHeld && crouched) { 
+            toggleCrouch();
+            return; } // early out
+
+        if (!isButtonHeld && !sprinting)
+        {
+            return; // early out
+        }
+
         sprinting = !sprinting;
-        Debug.Log("Sprint toggled");
+        Debug.Log("Sprinting is :" + sprinting + ", button is held is: " + isButtonHeld);
+        //if (!isSprintBlending) { sprintBlending = StartCoroutine("SprintToggleTimer"); }
+        if (sprinting && crouched) { crouched = false; }
 
-        if (!isSprintBlending) { sprintBlending = StartCoroutine("SprintToggleTimer"); }
-
-
-
+        UpdateAnimator();
     }
 
     public void toggleCrouch()
     {
         crouched = !crouched;
+        sprinting = false;
+
         UpdateAnimator();
     }
 
@@ -103,6 +113,7 @@ public class HumanoidPawn : MonoBehaviour
         AnimationController.SetFloat("Forward", actualMovement.y);
 
         AnimationController.SetBool("Crouching", crouched);
+        AnimationController.SetBool("Sprinting", sprinting);
         //Debug.Log("updating animator with input: " + actualMovement);
     }
 
@@ -153,7 +164,7 @@ public class HumanoidPawn : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Ending accelblending");
+        //Debug.Log("Ending accelblending");
         UpdateAnimator();
 
         isAccelBlending = false;
