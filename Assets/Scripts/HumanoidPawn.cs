@@ -87,7 +87,7 @@ public class HumanoidPawn : MonoBehaviour
         }
 
         sprinting = !sprinting;
-        Debug.Log("Sprinting is :" + sprinting + ", button is held is: " + isButtonHeld);
+        //Debug.Log("Sprinting is :" + sprinting + ", button is held is: " + isButtonHeld);
         //if (!isSprintBlending) { sprintBlending = StartCoroutine("SprintToggleTimer"); }
         if (sprinting && crouched) { crouched = false; }
 
