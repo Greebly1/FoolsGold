@@ -182,6 +182,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
       insertIndex: -1
       addedObject: {fileID: 565542995}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 565542998}
   m_SourcePrefab: {fileID: 100100000, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
 --- !u!1 &522287648
 GameObject:
@@ -269,13 +272,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522287648}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 15, z: -7.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.04, z: -11.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &522287652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,15 +291,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6180b1a976069604a80efbac827d96fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedTarget: {fileID: 565542992}
   cameraTarget: {fileID: 1366134762}
   camTargetMode: 0
   camMode: 1
   camZoom: 15
-  minZoom: 30
+  minZoom: 40
   maxZoom: 8
-  initialXRotation: 60
-  maxXRot: 70
-  minXRot: 24
+  initialXRotation: 50
+  localXRotation: 50
+  maxXRot: 85
+  minXRot: 10
+  smoothTime: 0.25
 --- !u!1 &562332173
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +429,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelTime: 0.5
   sprintBlendingTime: 0.3
+--- !u!114 &565542998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565542992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de2e00aa6e3e414186cd86d72ef8de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CamTransform: {fileID: 1755110022}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +663,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1755110022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1781356600409242780, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
+  m_PrefabInstance: {fileID: 448963220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
