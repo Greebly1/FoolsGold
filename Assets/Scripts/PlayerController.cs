@@ -8,14 +8,12 @@ public class PlayerController : Controller
     public static PlayerController ClientPlayerController { get; private set; }
 
     PlayerInput input;
-    [SerializeField] CameraController topDownCamera;
+    [SerializeField] CamController topDownCamera;
     bool camxrotationEnabled = false;
     bool holdingSprint = false;
 
-    //TODO
-    //Recap how to use the new input system
-    //create the camera follow with mouse look system
 
+    //Methods starting with 'On' are called by the unity inputSystem
     public void OnWalk(InputValue value)
     {
         Vector2 input = value.Get<Vector2>();
@@ -32,8 +30,7 @@ public class PlayerController : Controller
     public void OnZoom(InputValue inputValue)
     {
         float amount = inputValue.Get<float>();
-        topDownCamera.Zoom(amount);
-        Debug.Log(amount);
+        topDownCamera.inputZoom -= amount * 2;
     }
 
     public void OnCrouch()
@@ -52,7 +49,7 @@ public class PlayerController : Controller
 
         if (camxrotationEnabled)
         {
-            topDownCamera.RotateX(-amount.y);
+            topDownCamera.inputXRotation -= amount.y;
         }
     }
 

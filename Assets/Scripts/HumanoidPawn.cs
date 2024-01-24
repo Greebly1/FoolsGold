@@ -16,7 +16,9 @@ public class HumanoidPawn : MonoBehaviour
     public Animator AnimationController { get; private set; }
     public CharacterStatus status { get; private set; }
 
+    //Describes how this pawn is moving (this is the input for the AnimationController
     Vector2 _movement = Vector2.zero;
+    //Describes the goal movement of this pawn (this is the input the controller gives this pawn)
     Vector2 _targetMovement = Vector2.zero;
 
     float currSpeed
@@ -41,8 +43,8 @@ public class HumanoidPawn : MonoBehaviour
 
     public float sprintBlendingTime = 0.5f; //How long it takes for the max speed percent to increase to 1 when initiating a sprint
     
-    Coroutine sprintBlending;
-    bool isSprintBlending = false;
+    //Coroutine sprintBlending;
+    //bool isSprintBlending = false;
     
     float _sprintBlendingTimer = 0f;
     float sprintBlendingTimer { 
@@ -57,7 +59,6 @@ public class HumanoidPawn : MonoBehaviour
         set { _maxSpeedPercent = Mathf.Clamp(value, 0, 1);  }
     }
 
-
     bool crouched = false;
 
 
@@ -70,6 +71,7 @@ public class HumanoidPawn : MonoBehaviour
     public void run(Vector2 input)
     {
         _targetMovement = input.normalized;
+        //If the coroutine isn't running, start the coroutine
         if (!isAccelBlending) { accelBlending = StartCoroutine("AccelerationBlending"); }
 
         UpdateAnimator();
@@ -117,44 +119,24 @@ public class HumanoidPawn : MonoBehaviour
         //Debug.Log("updating animator with input: " + actualMovement);
     }
 
-    IEnumerator SprintToggleTimer()
-    {
-        isSprintBlending = true;
-
-        while ((sprinting && sprintBlendingTimer < 1 ) || ( !sprinting && sprintBlendingTimer > 0))
-        {
-            if (sprinting)
-            {
-                sprintBlendingTimer += Time.deltaTime;
-                maxSpeedPercent = Mathf.Lerp(0.67f, 1, sprintBlendingTimer / sprintBlendingTime);
-            } else
-            {
-                sprintBlendingTimer -= Time.deltaTime;
-                maxSpeedPercent = Mathf.Lerp(0.67f, 1, sprintBlendingTimer / sprintBlendingTime);
-            }
-
-            UpdateAnimator();
-            yield return null;
-        }
-        
-        UpdateAnimator();
-
-        isSprintBlending = false;
-    }
-
+    //Coroutine that smoothly changes the current movement vector towards the target movement vector
     IEnumerator AccelerationBlending()
     {
-        isAccelBlending = true;
+        isAccelBlending = true; //So outside scope knows if this coroutine is already running
 
         while (_movement != _targetMovement)
         {
+            //unit vector pointing from _movement to _targetMovement
             Vector2 accelVec = (_targetMovement - _movement).normalized;
+            //The new movement value, moves with a fixed speed
             Vector2 newMovement = _movement + (accelVec * Time.deltaTime * (1 / accelTime));
 
+            //If the distance from the new value is larger than the current value
+            //This is in case it somehow overshoots the targetMovement
             if (Vector2.Distance(newMovement, _targetMovement) > Vector2.Distance(_movement, _targetMovement))
             {
                 _movement = _targetMovement;
-            } else
+            } else //This means the new movement is closer to the target movement
             {
                 _movement = newMovement;
             }
@@ -164,9 +146,8 @@ public class HumanoidPawn : MonoBehaviour
             yield return null;
         }
 
-        //Debug.Log("Ending accelblending");
         UpdateAnimator();
 
-        isAccelBlending = false;
+        isAccelBlending = false; //Tell outside scope that the coroutine is over
     }
 }
