@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accelTime: 0.4
+  accelTime: 0.15
   sprintBlendingTime: 4
 --- !u!114 &565542998
 MonoBehaviour:
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6180b1a976069604a80efbac827d96fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 565542992}
   camPivot: {fileID: 1366134762}
   maxZoom: 18
   minZoom: 5
@@ -532,6 +532,8 @@ MonoBehaviour:
   xRotationSmoothingTime: 0.3
   yRotationSmoothingTime: 0.2
   zoomSmoothingTime: 0.26
+  positionSmoothingTime: 0.5
+  targetMode: 0
 --- !u!1 &1366134762
 GameObject:
   m_ObjectHideFlags: 0

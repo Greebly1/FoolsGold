@@ -30,7 +30,7 @@ public class PlayerController : Controller
     public void OnZoom(InputValue inputValue)
     {
         float amount = inputValue.Get<float>();
-        topDownCamera.inputZoom -= amount * 2;
+        topDownCamera.inputZoom -= amount * 4;
     }
 
     public void OnCrouch()
