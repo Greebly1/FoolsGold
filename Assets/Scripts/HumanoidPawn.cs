@@ -111,16 +111,6 @@ public class HumanoidPawn : MonoBehaviour
         //Debug.Log("updating animator with input: " + actualMovement);
     }
 
-    private void turn(float xAngleDelta)
-    {
-
-    }
-
-    private void turnToFace(Vector3 focalPoint)
-    {
-
-    }
-
     private void Update()
     {
         //Naive fix for issue when the focal target is basically inside the pawn
