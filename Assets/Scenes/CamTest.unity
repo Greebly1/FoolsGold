@@ -640,7 +640,8 @@ MonoBehaviour:
   xRotationSmoothingTime: 0.3
   yRotationSmoothingTime: 0.2
   zoomSmoothingTime: 0.26
-  positionSmoothTime: 0.4
+  positionSmoothingTime: 0.5
+  targetMode: 0
 --- !u!1 &1366134762
 GameObject:
   m_ObjectHideFlags: 0

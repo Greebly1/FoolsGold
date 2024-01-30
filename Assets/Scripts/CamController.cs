@@ -17,6 +17,7 @@ public class CamController : MonoBehaviour
     [SerializeField] float xRotationSmoothingTime = 0.2f;
     [SerializeField] float yRotationSmoothingTime = 0.2f;
     [SerializeField] float zoomSmoothingTime = 0.2f;
+    public camTargetMode targetMode = camTargetMode.followPlayer;
     [SerializeField] float positionSmoothTime = 0.4f;
 
     float _inputZoom;
@@ -72,6 +73,9 @@ public class CamController : MonoBehaviour
         get { return camPivot.transform.rotation.eulerAngles.y; }
     }
 
+    Vector3 velocity = Vector3.zero;
+    
+
     public bool tryTargetObject(GameObject newTarget)
     {
         CamTargetTransform idealTarget = newTarget.GetComponent<CamTargetTransform>();
@@ -98,8 +102,11 @@ public class CamController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 newPos = Vector3.SmoothDamp(camPivot.transform.position, target.transform.position, ref velocity, positionSmoothTime);
-        camPivot.transform.position = newPos;
+        //if there is a target, constantly smoothdamp to it
+        if(target != null && targetMode == camTargetMode.followPlayer)
+        {
+            camPivot.transform.position = Vector3.SmoothDamp(camPivot.transform.position, target.transform.position, ref velocity, positionSmoothingTime);
+        }
     }
 
     void setZoom(float distance)
@@ -183,5 +190,13 @@ public class CamController : MonoBehaviour
         isZoomSmoothing = false;
         Debug.Log("Ending zoom coroutine");
     }
+}
+
+//Describes how the camPivot position behaves
+public enum camTargetMode
+{
+    followPlayer,
+    selectedObject,
+    mouseRoaming
 }
 
