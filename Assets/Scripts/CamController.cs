@@ -8,8 +8,8 @@ using UnityEngine.Rendering.UI;
 //Controller designed for open world adventure
 public class CamController : MonoBehaviour
 {
-    [SerializeField] GameObject target;
-    [SerializeField] protected GameObject camPivot;
+    [SerializeField] public GameObject target;
+    [SerializeField] public GameObject camPivot;
     [SerializeField] float maxZoom = 40;
     [SerializeField] float minZoom = 8;
     [SerializeField] float maxXRot = 80;
@@ -17,16 +17,17 @@ public class CamController : MonoBehaviour
     [SerializeField] float xRotationSmoothingTime = 0.2f;
     [SerializeField] float yRotationSmoothingTime = 0.2f;
     [SerializeField] float zoomSmoothingTime = 0.2f;
-
+    [SerializeField] float positionSmoothTime = 0.4f;
 
     float _inputZoom;
     public float inputZoom
     {
         get { return _inputZoom; }
         set { 
-            _inputZoom = Mathf.Clamp(value, minZoom, maxZoom);
-            if (!isZoomSmoothing)
+            float newZoom = Mathf.Clamp(value, minZoom, maxZoom);
+            if (!isZoomSmoothing & newZoom != _inputZoom)
             {
+                _inputZoom = newZoom;
                 zoomSmoothing = StartCoroutine("zoomLerp");
             }
         }
@@ -56,6 +57,7 @@ public class CamController : MonoBehaviour
     Coroutine zoomSmoothing;
     bool isZoomSmoothing = false;
 
+    Vector3 velocity = Vector3.zero;
 
     public float currZoom
     {
@@ -72,6 +74,11 @@ public class CamController : MonoBehaviour
 
     public bool tryTargetObject(GameObject newTarget)
     {
+        CamTargetTransform idealTarget = newTarget.GetComponent<CamTargetTransform>();
+        if (idealTarget != null ) {
+            target = idealTarget.CamTransform;
+            return true;
+        }
         target = newTarget;
         return true;
     }
@@ -81,6 +88,9 @@ public class CamController : MonoBehaviour
         if (target == null)
         {
             Debug.LogWarning("No target inside of client camera controller");
+        } else
+        {
+            tryTargetObject(target);
         }
         inputXRotation = currXRotation;
         inputZoom = currZoom;
@@ -88,7 +98,8 @@ public class CamController : MonoBehaviour
 
     private void Update()
     {
-        //if there is a target, constantly smoothdamp to it
+        Vector3 newPos = Vector3.SmoothDamp(camPivot.transform.position, target.transform.position, ref velocity, positionSmoothTime);
+        camPivot.transform.position = newPos;
     }
 
     void setZoom(float distance)

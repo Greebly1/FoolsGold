@@ -21,6 +21,7 @@ public class HumanoidPawn : MonoBehaviour
     //Describes the goal movement of this pawn (this is the input the controller gives this pawn)
     Vector2 _targetMovement = Vector2.zero;
 
+    [SerializeField] float turnSpeed = 720; //Degrees per second this pawn can rotate at
     float currSpeed
     {
         get { return _movement.magnitude; }
@@ -41,17 +42,6 @@ public class HumanoidPawn : MonoBehaviour
         get { return currSpeed > 0.67f; }
     }
 
-    public float sprintBlendingTime = 0.5f; //How long it takes for the max speed percent to increase to 1 when initiating a sprint
-    
-    //Coroutine sprintBlending;
-    //bool isSprintBlending = false;
-    
-    float _sprintBlendingTimer = 0f;
-    float sprintBlendingTimer { 
-        get { return _sprintBlendingTimer; } 
-        set { _sprintBlendingTimer = Mathf.Clamp(value, 0, sprintBlendingTime);  }
-    }
-
     float _maxSpeedPercent = 1f;
     float maxSpeedPercent
     {
@@ -60,6 +50,8 @@ public class HumanoidPawn : MonoBehaviour
     }
 
     bool crouched = false;
+
+    [HideInInspector] public Vector3 lookTarget = Vector3.forward;
 
 
     private void Awake()
@@ -70,7 +62,7 @@ public class HumanoidPawn : MonoBehaviour
 
     public void run(Vector2 input)
     {
-        _targetMovement = input.normalized;
+        _targetMovement = Vector2.ClampMagnitude(input, 1);
         //If the coroutine isn't running, start the coroutine
         if (!isAccelBlending) { accelBlending = StartCoroutine("AccelerationBlending"); }
 
@@ -119,6 +111,30 @@ public class HumanoidPawn : MonoBehaviour
         //Debug.Log("updating animator with input: " + actualMovement);
     }
 
+    private void turn(float xAngleDelta)
+    {
+
+    }
+
+    private void turnToFace(Vector3 focalPoint)
+    {
+
+    }
+
+    private void Update()
+    {
+        //Naive fix for issue when the focal target is basically inside the pawn
+        if (Vector3.Distance(new Vector3(lookTarget.x, 0, lookTarget.z), new Vector3(transform.position.x, 0, transform.position.z)) > 0.4)
+        {
+
+            float desiredYRot = Quaternion.LookRotation(new Vector3(lookTarget.x, 0, lookTarget.z) - new Vector3(transform.position.x, 0, transform.position.z), Vector3.up).eulerAngles.y;
+
+            Quaternion newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, desiredYRot, transform.rotation.eulerAngles.z);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRot, 8*Time.deltaTime);
+        }
+    }
+
     //Coroutine that smoothly changes the current movement vector towards the target movement vector
     IEnumerator AccelerationBlending()
     {
@@ -151,3 +167,4 @@ public class HumanoidPawn : MonoBehaviour
         isAccelBlending = false; //Tell outside scope that the coroutine is over
     }
 }
+

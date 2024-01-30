@@ -36,7 +36,7 @@
                     "name": "Zoom",
                     "type": "Value",
                     "id": "19d997f1-b657-4bc5-9c5a-d8f60fc5ccbb",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -238,6 +238,39 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "One Modifier",
+                    "id": "b4659b24-24b3-4de8-8f66-512ac20e5036",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "1b21af41-c338-42f3-abdf-03de7920f08e",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "4d8a0732-252d-4d6b-84e3-495d296b1bff",
+                    "path": "<Gamepad>/rightStick/y",
+                    "interactions": "",
+                    "processors": "Scale(factor=0.015)",
+                    "groups": "Controller",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "0eb022e6-ca40-4559-9400-87101a15528c",
                     "path": "<Keyboard>/c",
@@ -251,7 +284,7 @@
                 {
                     "name": "",
                     "id": "47068b64-c37c-40fc-801f-15b9638c2b69",
-                    "path": "<Gamepad>/rightStickPress",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
