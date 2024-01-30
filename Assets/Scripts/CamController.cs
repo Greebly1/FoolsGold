@@ -72,8 +72,6 @@ public class CamController : MonoBehaviour
     {
         get { return camPivot.transform.rotation.eulerAngles.y; }
     }
-
-    Vector3 velocity = Vector3.zero;
     
 
     public bool tryTargetObject(GameObject newTarget)
@@ -105,7 +103,7 @@ public class CamController : MonoBehaviour
         //if there is a target, constantly smoothdamp to it
         if(target != null && targetMode == camTargetMode.followPlayer)
         {
-            camPivot.transform.position = Vector3.SmoothDamp(camPivot.transform.position, target.transform.position, ref velocity, positionSmoothingTime);
+            camPivot.transform.position = Vector3.SmoothDamp(camPivot.transform.position, target.transform.position, ref velocity, positionSmoothTime);
         }
     }
 
