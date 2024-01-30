@@ -56,7 +56,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Zoom"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""19d997f1-b657-4bc5-9c5a-d8f60fc5ccbb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

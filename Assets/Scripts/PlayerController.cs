@@ -44,6 +44,8 @@ public class PlayerController : Controller
     {
         float amount = inputValue.Get<float>();
         zoomInput = amount * 2;
+        topDownCamera.inputZoom -= amount * 3;
+        Debug.Log("Zoom");
     }
 
     public void OnCrouch()
@@ -76,9 +78,9 @@ public class PlayerController : Controller
 
     private void Update()
     {
-        topDownCamera.inputZoom -= zoomInput;
         
-          
+
+
         if (input.currentControlScheme == "M&K")
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -89,11 +91,14 @@ public class PlayerController : Controller
             {
                 transform.position = mouseRay.GetPoint(distanceIntersection);
             }
+        } else if (input.currentControlScheme == "Controller")
+        {
+            topDownCamera.inputZoom -= zoomInput;
         }
 
         possessedPawn.lookTarget = transform.position;
         //Probably not the best solution
-        moveInput = moveInput; //Doing this updates the input inside the pawn in case it ends up rotating
+        moveInput = moveInput; //Doing this updates the input in case it ends up rotating
     }
 
     //Rotates a inputVector according to the camera and the pawn, so the new input is relative to the camera

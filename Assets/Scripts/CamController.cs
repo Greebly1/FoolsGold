@@ -26,10 +26,13 @@ public class CamController : MonoBehaviour
         get { return _inputZoom; }
         set { 
             float newZoom = Mathf.Clamp(value, minZoom, maxZoom);
-            if (!isZoomSmoothing & newZoom != _inputZoom)
+            if (!isZoomSmoothing)
             {
                 _inputZoom = newZoom;
                 zoomSmoothing = StartCoroutine("zoomLerp");
+            } else if (newZoom != _inputZoom)
+            {
+                _inputZoom = newZoom;
             }
         }
     }
