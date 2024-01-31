@@ -67,7 +67,11 @@ public class PlayerController : Controller
             topDownCamera.inputXRotation -= amount.y;
         }
 
-        
+    }
+
+    public void OnAlignCamOrientation()
+    {
+        topDownCamera.inputForward = new Vector2(possessedPawn.transform.forward.x, possessedPawn.transform.forward.z);
     }
 
     void Awake()

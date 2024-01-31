@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "AlignCamOrientation",
+                    "type": "Button",
+                    "id": "e8d5dcda-83ce-4d3f-a8d7-297850185086",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "MultiTap",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -300,6 +309,17 @@
                     "processors": "",
                     "groups": "M&K",
                     "action": "ToggleCamRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9d0fc31-f295-4a5d-a180-a32ff60ce9b4",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "M&K",
+                    "action": "AlignCamOrientation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -80,6 +80,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""AlignCamOrientation"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8d5dcda-83ce-4d3f-a8d7-297850185086"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""MultiTap"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -324,6 +333,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleCamRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9d0fc31-f295-4a5d-a180-a32ff60ce9b4"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""AlignCamOrientation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -366,6 +386,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_Zoom = m_Grounded.FindAction("Zoom", throwIfNotFound: true);
         m_Grounded_Crouch = m_Grounded.FindAction("Crouch", throwIfNotFound: true);
         m_Grounded_ToggleCamRotation = m_Grounded.FindAction("ToggleCamRotation", throwIfNotFound: true);
+        m_Grounded_AlignCamOrientation = m_Grounded.FindAction("AlignCamOrientation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -433,6 +454,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Grounded_Zoom;
     private readonly InputAction m_Grounded_Crouch;
     private readonly InputAction m_Grounded_ToggleCamRotation;
+    private readonly InputAction m_Grounded_AlignCamOrientation;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
@@ -443,6 +465,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Zoom => m_Wrapper.m_Grounded_Zoom;
         public InputAction @Crouch => m_Wrapper.m_Grounded_Crouch;
         public InputAction @ToggleCamRotation => m_Wrapper.m_Grounded_ToggleCamRotation;
+        public InputAction @AlignCamOrientation => m_Wrapper.m_Grounded_AlignCamOrientation;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -470,6 +493,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleCamRotation.started += instance.OnToggleCamRotation;
             @ToggleCamRotation.performed += instance.OnToggleCamRotation;
             @ToggleCamRotation.canceled += instance.OnToggleCamRotation;
+            @AlignCamOrientation.started += instance.OnAlignCamOrientation;
+            @AlignCamOrientation.performed += instance.OnAlignCamOrientation;
+            @AlignCamOrientation.canceled += instance.OnAlignCamOrientation;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -492,6 +518,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleCamRotation.started -= instance.OnToggleCamRotation;
             @ToggleCamRotation.performed -= instance.OnToggleCamRotation;
             @ToggleCamRotation.canceled -= instance.OnToggleCamRotation;
+            @AlignCamOrientation.started -= instance.OnAlignCamOrientation;
+            @AlignCamOrientation.performed -= instance.OnAlignCamOrientation;
+            @AlignCamOrientation.canceled -= instance.OnAlignCamOrientation;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -535,5 +564,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnZoom(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnToggleCamRotation(InputAction.CallbackContext context);
+        void OnAlignCamOrientation(InputAction.CallbackContext context);
     }
 }

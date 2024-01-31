@@ -50,34 +50,23 @@ public class CamController : MonoBehaviour
         }
     }
 
-    Vector2 _inputForward;
-    public Vector2 inputForward {
-        get { return _inputForward; }
+    float inputYRotation;
+    //This basically converts a Vector2 into the nearest rotation to a cardinal direction
+    public Vector2 inputForward
+    {
         set
         {
-            float angleToForward = Vector2.SignedAngle(new Vector2 (0, 1), value);
-            float angleQuantize = Mathf.Round(angleToForward/45);
+            float angleToForward = Vector2.SignedAngle(new Vector2(0, 1), value);
+            float angleQuantize = -Mathf.Round(angleToForward / 45) * 45;
+            Debug.Log("quant angle is: " + angleQuantize);
 
-            float root2div2 = Mathf.Sqrt(2) / 2;
-
-            Vector2 newForward;
-
-            switch (angleQuantize)
+            if (angleQuantize != inputYRotation)
             {
-                case 0: newForward = new Vector2(0, 1); break;
-                case 1: newForward = new Vector2(root2div2, root2div2); break;
-                case 2: newForward = new Vector2(1, 0); break;
-                case 3: newForward = new Vector2(root2div2, -root2div2); break;
-                case 4: newForward = new Vector2(0, -1); break;
-                case 5: newForward = new Vector2(-root2div2, -root2div2); break;
-                case 6: newForward = new Vector2(-1, 0); break;
-                case 7: newForward = new Vector2(-root2div2, -root2div2); break;
-                default: newForward = new Vector2(0, 1); break;
+                inputYRotation = angleQuantize;
+                yRotationSmoothing = StartCoroutine("yRotationLerp");
             }
-
-            _inputForward = newForward;
         }
-        }
+    }
 
     Coroutine xRotationSmoothing;
     bool isXRotationSmoothing = false;
@@ -185,8 +174,23 @@ public class CamController : MonoBehaviour
     {
         Debug.Log("Starting yRotation Coroutine");
         isYRotationSmoothing = true;
-        //TODO: Add y rotation
-        yield return null;
+        float velocity = 0; //needed for smoothdamp
+
+        while (currYRotation != inputYRotation)
+        {
+            float newY = Mathf.SmoothDampAngle(currYRotation, inputYRotation, ref velocity, yRotationSmoothingTime);
+
+            if (Mathf.Abs(currYRotation - inputYRotation) < 0.1f )
+            {
+                setRotation(y: inputYRotation);
+                break;
+            } else
+            {
+                setRotation(y:  newY);
+            }
+            yield return null;
+        }
+        
 
         isYRotationSmoothing = false;
         Debug.Log("Ending yRotation Coroutine");
