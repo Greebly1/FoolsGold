@@ -24,7 +24,7 @@ public class CamController : MonoBehaviour
     public float inputZoom
     {
         get { return _inputZoom; }
-        set { 
+        set {
             float newZoom = Mathf.Clamp(value, minZoom, maxZoom);
             if (!isZoomSmoothing)
             {
@@ -41,7 +41,7 @@ public class CamController : MonoBehaviour
     public float inputXRotation
     {
         get { return _inputXRotation; }
-        set { 
+        set {
             _inputXRotation = Mathf.Clamp(value, minXRot, maxXRot);
             if (!isXRotationSmoothing)
             {
@@ -50,7 +50,34 @@ public class CamController : MonoBehaviour
         }
     }
 
-    protected Vector2 inputForward;
+    Vector2 _inputForward;
+    public Vector2 inputForward {
+        get { return _inputForward; }
+        set
+        {
+            float angleToForward = Vector2.SignedAngle(new Vector2 (0, 1), value);
+            float angleQuantize = Mathf.Round(angleToForward/45);
+
+            float root2div2 = Mathf.Sqrt(2) / 2;
+
+            Vector2 newForward;
+
+            switch (angleQuantize)
+            {
+                case 0: newForward = new Vector2(0, 1); break;
+                case 1: newForward = new Vector2(root2div2, root2div2); break;
+                case 2: newForward = new Vector2(1, 0); break;
+                case 3: newForward = new Vector2(root2div2, -root2div2); break;
+                case 4: newForward = new Vector2(0, -1); break;
+                case 5: newForward = new Vector2(-root2div2, -root2div2); break;
+                case 6: newForward = new Vector2(-1, 0); break;
+                case 7: newForward = new Vector2(-root2div2, -root2div2); break;
+                default: newForward = new Vector2(0, 1); break;
+            }
+
+            _inputForward = newForward;
+        }
+        }
 
     Coroutine xRotationSmoothing;
     bool isXRotationSmoothing = false;
