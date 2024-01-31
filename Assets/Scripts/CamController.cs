@@ -54,6 +54,11 @@ public class CamController : MonoBehaviour
     //This basically converts a Vector2 into the nearest rotation to a cardinal direction
     public Vector2 inputForward
     {
+        get
+        {
+            Vector3 fwd = Quaternion.Euler(0, inputYRotation, 0) * Vector3.forward;
+            return new Vector2(fwd.x, fwd.z);
+        }
         set
         {
             float angleToForward = Vector2.SignedAngle(new Vector2(0, 1), value);
@@ -65,6 +70,15 @@ public class CamController : MonoBehaviour
                 inputYRotation = angleQuantize;
                 yRotationSmoothing = StartCoroutine("yRotationLerp");
             }
+        }
+    }
+
+    public Vector2 camFoward
+    {
+        get
+        {
+            Vector3 fwd = camPivot.transform.forward;
+            return new Vector2(fwd.x, fwd.z);
         }
     }
 
@@ -103,6 +117,8 @@ public class CamController : MonoBehaviour
         target = newTarget;
         return true;
     }
+
+
 
     private void Awake()
     {
@@ -145,7 +161,7 @@ public class CamController : MonoBehaviour
 
     IEnumerator xRotationLerp()
     {
-        Debug.Log("Starting xRotation Coroutine");
+        //Debug.Log("Starting xRotation Coroutine");
         isXRotationSmoothing = true;
 
         float velocity = 0;
@@ -167,12 +183,12 @@ public class CamController : MonoBehaviour
         }
 
         isXRotationSmoothing = false;
-        Debug.Log("Ending xRotation Coroutine");
+        //Debug.Log("Ending xRotation Coroutine");
     }
 
     IEnumerator yRotationLerp()
     {
-        Debug.Log("Starting yRotation Coroutine");
+        //Debug.Log("Starting yRotation Coroutine");
         isYRotationSmoothing = true;
         float velocity = 0; //needed for smoothdamp
 
@@ -180,7 +196,7 @@ public class CamController : MonoBehaviour
         {
             float newY = Mathf.SmoothDampAngle(currYRotation, inputYRotation, ref velocity, yRotationSmoothingTime);
 
-            if (Mathf.Abs(currYRotation - inputYRotation) < 0.1f )
+            if (Vector2.Angle(inputForward, camFoward) < 0.1)
             {
                 setRotation(y: inputYRotation);
                 break;
@@ -198,7 +214,7 @@ public class CamController : MonoBehaviour
 
     IEnumerator zoomLerp()
     {
-        Debug.Log("Starting zoom coroutine");
+        //Debug.Log("Starting zoom coroutine");
         isZoomSmoothing = true;
 
         float velocity = 0;
@@ -220,7 +236,7 @@ public class CamController : MonoBehaviour
         }
 
         isZoomSmoothing = false;
-        Debug.Log("Ending zoom coroutine");
+        //Debug.Log("Ending zoom coroutine");
     }
 }
 

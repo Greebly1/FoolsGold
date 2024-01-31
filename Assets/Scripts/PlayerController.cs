@@ -74,6 +74,11 @@ public class PlayerController : Controller
         topDownCamera.inputForward = new Vector2(possessedPawn.transform.forward.x, possessedPawn.transform.forward.z);
     }
 
+    public void OnQuickTurn()
+    {
+        topDownCamera.inputForward = -new Vector2(topDownCamera.transform.forward.x, topDownCamera.transform.forward.z);
+    }
+
     void Awake()
     {
         ClientPlayerController = this;

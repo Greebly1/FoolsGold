@@ -87,7 +87,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""e8d5dcda-83ce-4d3f-a8d7-297850185086"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""MultiTap"",
+                    ""interactions"": ""Hold(duration=0.2,pressPoint=0.5)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QuickTurn"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d37eba4-c537-432b-945b-3c8077f6d307"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 }
             ],
@@ -344,6 +353,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""AlignCamOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0aef0db7-27a2-4dbb-a701-073a70074dfd"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": ""MultiTap"",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""QuickTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -387,6 +407,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_Crouch = m_Grounded.FindAction("Crouch", throwIfNotFound: true);
         m_Grounded_ToggleCamRotation = m_Grounded.FindAction("ToggleCamRotation", throwIfNotFound: true);
         m_Grounded_AlignCamOrientation = m_Grounded.FindAction("AlignCamOrientation", throwIfNotFound: true);
+        m_Grounded_QuickTurn = m_Grounded.FindAction("QuickTurn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -455,6 +476,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Grounded_Crouch;
     private readonly InputAction m_Grounded_ToggleCamRotation;
     private readonly InputAction m_Grounded_AlignCamOrientation;
+    private readonly InputAction m_Grounded_QuickTurn;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
@@ -466,6 +488,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_Grounded_Crouch;
         public InputAction @ToggleCamRotation => m_Wrapper.m_Grounded_ToggleCamRotation;
         public InputAction @AlignCamOrientation => m_Wrapper.m_Grounded_AlignCamOrientation;
+        public InputAction @QuickTurn => m_Wrapper.m_Grounded_QuickTurn;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -496,6 +519,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AlignCamOrientation.started += instance.OnAlignCamOrientation;
             @AlignCamOrientation.performed += instance.OnAlignCamOrientation;
             @AlignCamOrientation.canceled += instance.OnAlignCamOrientation;
+            @QuickTurn.started += instance.OnQuickTurn;
+            @QuickTurn.performed += instance.OnQuickTurn;
+            @QuickTurn.canceled += instance.OnQuickTurn;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -521,6 +547,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AlignCamOrientation.started -= instance.OnAlignCamOrientation;
             @AlignCamOrientation.performed -= instance.OnAlignCamOrientation;
             @AlignCamOrientation.canceled -= instance.OnAlignCamOrientation;
+            @QuickTurn.started -= instance.OnQuickTurn;
+            @QuickTurn.performed -= instance.OnQuickTurn;
+            @QuickTurn.canceled -= instance.OnQuickTurn;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -565,5 +594,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnToggleCamRotation(InputAction.CallbackContext context);
         void OnAlignCamOrientation(InputAction.CallbackContext context);
+        void OnQuickTurn(InputAction.CallbackContext context);
     }
 }
