@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering.LookDev;
@@ -24,6 +25,12 @@ public class PlayerController : Controller
     }
     float zoomInput = 0;
 
+    public static event Action<Vector2> camRotate;
+    public static event Action<GameObject> camSetTarget;
+    public static event Action<float> camZoom;
+    public static event Action<Vector2> camQuickTurn;
+
+
     //Methods starting with 'On' are called by the unity inputSystem
     //TODO:
     //when the player rotates while holding a walk it does not rotate the input to match until this input event runs again
@@ -44,7 +51,7 @@ public class PlayerController : Controller
     {
         float amount = inputValue.Get<float>();
         zoomInput = amount * 2;
-        topDownCamera.inputZoom -= amount * 3;
+        camZoom.Invoke(amount * 3);
         Debug.Log("Zoom");
     }
 
@@ -64,19 +71,19 @@ public class PlayerController : Controller
 
         if (camxrotationEnabled)
         {
-            topDownCamera.inputXRotation -= amount.y;
+            camRotate.Invoke(amount);
         }
 
     }
 
     public void OnAlignCamOrientation()
     {
-        topDownCamera.inputForward = new Vector2(possessedPawn.transform.forward.x, possessedPawn.transform.forward.z);
+        camQuickTurn.Invoke(new Vector2(possessedPawn.transform.forward.x, possessedPawn.transform.forward.z));
     }
 
     public void OnQuickTurn()
     {
-        topDownCamera.inputForward = -new Vector2(topDownCamera.transform.forward.x, topDownCamera.transform.forward.z);
+        camQuickTurn.Invoke(- new Vector2(topDownCamera.transform.forward.x, topDownCamera.transform.forward.z));
     }
 
     void Awake()
@@ -87,9 +94,6 @@ public class PlayerController : Controller
 
     private void Update()
     {
-        
-
-
         if (input.currentControlScheme == "M&K")
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
