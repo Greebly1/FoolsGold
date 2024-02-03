@@ -54,7 +54,7 @@
                     "name": "ToggleCamRotation",
                     "type": "Value",
                     "id": "3190d283-052b-4a4c-9653-84fe382204fb",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AimDownSights",
+                    "type": "Value",
+                    "id": "2c095827-bf57-4a63-962e-cd6a6ddd3773",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -312,17 +321,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b0869676-8e62-4252-82e6-ac30c251c18b",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "M&K",
-                    "action": "ToggleCamRotation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a9d0fc31-f295-4a5d-a180-a32ff60ce9b4",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -342,6 +340,50 @@
                     "action": "QuickTurn",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02749782-6ded-44d0-970a-9092f9de303e",
+                    "path": "<Mouse>/{SecondaryAction}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "M&K",
+                    "action": "AimDownSights",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "MouseRotate",
+                    "id": "a16ec870-451e-4c0c-8d74-5680ab552db1",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleCamRotation",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "5c52a64e-c40f-45ed-b822-102cdf49388d",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "M&K",
+                    "action": "ToggleCamRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "0e00949d-3427-40d4-8ef4-b47fe3002f0e",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "M&K",
+                    "action": "ToggleCamRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

@@ -11,42 +11,61 @@ public class PlayerController : Controller
 
     PlayerInput input;
     [SerializeField] CamController topDownCamera;
-    bool camxrotationEnabled = false;
+
+    #region input state variables
     bool holdingSprint = false;
-    Vector2 _moveInput = Vector2.zero;
-    public Vector2 moveInput //Pretty bad for this to be public
+    bool _holdingAim = false;
+    bool holdingAim
+    {
+        get { return _holdingAim;}
+        set { _holdingAim = value;
+            if (!_holdingAim)
+            {
+                aimTimer = StartCoroutine("LastAimedTimer");
+            } else
+            {
+                possessedPawn.focusedOnTarget = true;
+            }
+        }
+    }
+    float timeSinceAiming = 0;
+    Coroutine aimTimer;
+
+    Vector2 _moveInput;
+    Vector2 moveInput //Pretty bad for this to be public
     {
         get { return _moveInput; }
         set
         {
             _moveInput = value;
-            possessedPawn.run(rotateInput(_moveInput));
+            possessedPawn.run(topDownCamera.rotateInput(_moveInput));
         }
     }
     float zoomInput = 0;
+    #endregion
 
+    #region cameraEvents
     public static event Action<Vector2> camRotate;
     public static event Action<GameObject> camSetTarget;
     public static event Action<float> camZoom;
     public static event Action<Vector2> camQuickTurn;
+    #endregion
 
-
-    //Methods starting with 'On' are called by the unity inputSystem
-    //TODO:
-    //when the player rotates while holding a walk it does not rotate the input to match until this input event runs again
+    #region inputEvent Handlers
+    //Methods starting with 'On' are called by the unity inputSystem using sendMessages() from the playerInput Component
     public void OnWalk(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+        if (moveInput.magnitude > 0) { possessedPawn.lastMovedDirection = topDownCamera.rotateInput(moveInput); }
+        
 
-        //Debug.Log(input);
+        //Debug.Log(moveInput);
     }
-
     public void OnSprint(InputValue value)
     {
         holdingSprint = !holdingSprint;
         possessedPawn.toggleSprint(holdingSprint);
     }
-
     public void OnZoom(InputValue inputValue)
     {
         float amount = inputValue.Get<float>();
@@ -54,38 +73,31 @@ public class PlayerController : Controller
         camZoom.Invoke(amount * 3);
         Debug.Log("Zoom");
     }
-
     public void OnCrouch()
     {
         possessedPawn.toggleCrouch();
     }
-
-    public void OnToggleCamRotation()
+    public void OnToggleCamRotation(InputValue inputValue)
     {
-        camxrotationEnabled = !camxrotationEnabled;
+        Vector2 amount = inputValue.Get<Vector2>();
+        camRotate.Invoke(amount);
     }
-
-    public void OnAimUpdate(InputValue value)
-    {
-        Vector2 amount = value.Get<Vector2>();
-
-        if (camxrotationEnabled)
-        {
-            camRotate.Invoke(amount);
-        }
-
-    }
-
     public void OnAlignCamOrientation()
     {
         camQuickTurn.Invoke(new Vector2(possessedPawn.transform.forward.x, possessedPawn.transform.forward.z));
     }
-
     public void OnQuickTurn()
     {
         camQuickTurn.Invoke(- new Vector2(topDownCamera.transform.forward.x, topDownCamera.transform.forward.z));
     }
+    public void OnAimDownSights()
+    {
+        Debug.Log("aim");
+        holdingAim = !holdingAim;
+    }
+    #endregion
 
+    #region Monobehavior Callbacks
     void Awake()
     {
         ClientPlayerController = this;
@@ -109,21 +121,23 @@ public class PlayerController : Controller
             topDownCamera.inputZoom -= zoomInput;
         }
 
+        moveInput = moveInput;
         possessedPawn.lookTarget = transform.position;
-        //Probably not the best solution
-        moveInput = moveInput; //Doing this updates the input in case it ends up rotating
     }
 
-    //Rotates a inputVector according to the camera and the pawn, so the new input is relative to the camera
-    Vector2 rotateInput(Vector2 inputVec)
+    #endregion
+
+    #region Coroutines
+    IEnumerator LastAimedTimer()
     {
-        Quaternion pawnRotation = Quaternion.Euler(0, possessedPawn.transform.rotation.eulerAngles.y, 0);
-        Quaternion camRotation = Quaternion.Euler(0, topDownCamera.camPivot.transform.rotation.eulerAngles.y, 0);
-
-        Vector3 rotatedInput = Quaternion.Inverse(pawnRotation) * new Vector3(inputVec.x, 0, inputVec.y);
-
-        rotatedInput = camRotation * rotatedInput;
-
-        return new Vector2(rotatedInput.x, rotatedInput.z);
+        while (!holdingAim)
+        {
+            timeSinceAiming += Time.deltaTime;
+            if (timeSinceAiming > 5) { possessedPawn.focusedOnTarget = false; }
+            yield return null;
+        }
+        timeSinceAiming = 0;
     }
+
+    #endregion
 }

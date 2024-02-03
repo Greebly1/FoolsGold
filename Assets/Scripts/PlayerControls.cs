@@ -76,7 +76,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""ToggleCamRotation"",
                     ""type"": ""Value"",
                     ""id"": ""3190d283-052b-4a4c-9653-84fe382204fb"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -98,6 +98,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AimDownSights"",
+                    ""type"": ""Value"",
+                    ""id"": ""2c095827-bf57-4a63-962e-cd6a6ddd3773"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -334,17 +343,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b0869676-8e62-4252-82e6-ac30c251c18b"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""M&K"",
-                    ""action"": ""ToggleCamRotation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""a9d0fc31-f295-4a5d-a180-a32ff60ce9b4"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -364,6 +362,50 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""QuickTurn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02749782-6ded-44d0-970a-9092f9de303e"",
+                    ""path"": ""<Mouse>/{SecondaryAction}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""AimDownSights"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""MouseRotate"",
+                    ""id"": ""a16ec870-451e-4c0c-8d74-5680ab552db1"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleCamRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""5c52a64e-c40f-45ed-b822-102cdf49388d"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""ToggleCamRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""0e00949d-3427-40d4-8ef4-b47fe3002f0e"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""ToggleCamRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -408,6 +450,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_ToggleCamRotation = m_Grounded.FindAction("ToggleCamRotation", throwIfNotFound: true);
         m_Grounded_AlignCamOrientation = m_Grounded.FindAction("AlignCamOrientation", throwIfNotFound: true);
         m_Grounded_QuickTurn = m_Grounded.FindAction("QuickTurn", throwIfNotFound: true);
+        m_Grounded_AimDownSights = m_Grounded.FindAction("AimDownSights", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -477,6 +520,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Grounded_ToggleCamRotation;
     private readonly InputAction m_Grounded_AlignCamOrientation;
     private readonly InputAction m_Grounded_QuickTurn;
+    private readonly InputAction m_Grounded_AimDownSights;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
@@ -489,6 +533,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @ToggleCamRotation => m_Wrapper.m_Grounded_ToggleCamRotation;
         public InputAction @AlignCamOrientation => m_Wrapper.m_Grounded_AlignCamOrientation;
         public InputAction @QuickTurn => m_Wrapper.m_Grounded_QuickTurn;
+        public InputAction @AimDownSights => m_Wrapper.m_Grounded_AimDownSights;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -522,6 +567,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @QuickTurn.started += instance.OnQuickTurn;
             @QuickTurn.performed += instance.OnQuickTurn;
             @QuickTurn.canceled += instance.OnQuickTurn;
+            @AimDownSights.started += instance.OnAimDownSights;
+            @AimDownSights.performed += instance.OnAimDownSights;
+            @AimDownSights.canceled += instance.OnAimDownSights;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -550,6 +598,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @QuickTurn.started -= instance.OnQuickTurn;
             @QuickTurn.performed -= instance.OnQuickTurn;
             @QuickTurn.canceled -= instance.OnQuickTurn;
+            @AimDownSights.started -= instance.OnAimDownSights;
+            @AimDownSights.performed -= instance.OnAimDownSights;
+            @AimDownSights.canceled -= instance.OnAimDownSights;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -595,5 +646,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnToggleCamRotation(InputAction.CallbackContext context);
         void OnAlignCamOrientation(InputAction.CallbackContext context);
         void OnQuickTurn(InputAction.CallbackContext context);
+        void OnAimDownSights(InputAction.CallbackContext context);
     }
 }

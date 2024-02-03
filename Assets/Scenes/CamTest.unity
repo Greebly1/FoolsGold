@@ -529,6 +529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 1
   accelTime: 0.1
+  focusedOnTarget: 0
   lookTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &565542998
 MonoBehaviour:
@@ -833,6 +834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 1
   accelTime: 0.1
+  focusedOnTarget: 0
   lookTarget: {x: 0, y: 0, z: 0}
 --- !u!195 &1163570146
 NavMeshAgent:
@@ -989,15 +991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 565542992}
   camPivot: {fileID: 1366134762}
-  maxZoom: 18
-  minZoom: 5
-  maxXRot: 80
-  minXRot: 20
-  xRotationSmoothingTime: 0.3
-  yRotationSmoothingTime: 0.3
-  zoomSmoothingTime: 0.26
-  targetMode: 0
-  positionSmoothTime: 0.4
+  currCamParams: {fileID: 11400000, guid: 120b133b2ce5e904f9184a2215fb0693, type: 2}
 --- !u!1 &1366134762
 GameObject:
   m_ObjectHideFlags: 0
