@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
+using AYellowpaper.SerializedCollections;
 
 //Controller designed for open world adventure
 public class CamController : MonoBehaviour
@@ -14,6 +15,7 @@ public class CamController : MonoBehaviour
 
     //Encapsulates camera parameters for easy switching
     [SerializeField] CamParams currCamParams;
+    [SerializeField] SerializedDictionary<camTargetMode, CamParams> ParamsByCamMode; //uses SerializableDictionary plugin
     #endregion
 
     camTargetMode _targetMode = camTargetMode.selectedObject;
@@ -204,7 +206,7 @@ public class CamController : MonoBehaviour
             PlayerController.camRotate += rotateEventHandle;
             PlayerController.camZoom += zoomEventHandle;
             PlayerController.camSetTarget += tryTargetObject;
-            PlayerController.camQuickTurn += quickTurnEventHandle;
+            if (targetMode == camTargetMode.followPlayer) { PlayerController.camQuickTurn += quickTurnEventHandle; }
             isObservingInputEvents = true;
         }
     }

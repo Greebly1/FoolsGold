@@ -527,6 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastMovedDirection: {x: 0, y: 1}
   turnSpeed: 1
   accelTime: 0.1
   focusedOnTarget: 0
@@ -832,6 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastMovedDirection: {x: 0, y: 1}
   turnSpeed: 1
   accelTime: 0.1
   focusedOnTarget: 0
@@ -992,6 +994,14 @@ MonoBehaviour:
   target: {fileID: 565542992}
   camPivot: {fileID: 1366134762}
   currCamParams: {fileID: 11400000, guid: 120b133b2ce5e904f9184a2215fb0693, type: 2}
+  ParamsByCamMode:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 11400000, guid: 120b133b2ce5e904f9184a2215fb0693, type: 2}
+    - Key: 1
+      Value: {fileID: 11400000, guid: 3cfb8aabab7fa4048b410df661a995aa, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: 120b133b2ce5e904f9184a2215fb0693, type: 2}
 --- !u!1 &1366134762
 GameObject:
   m_ObjectHideFlags: 0

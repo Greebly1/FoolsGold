@@ -133,7 +133,7 @@ public class PlayerController : Controller
         while (!holdingAim)
         {
             timeSinceAiming += Time.deltaTime;
-            if (timeSinceAiming > 5) { possessedPawn.focusedOnTarget = false; }
+            if (timeSinceAiming > 0.3f) { possessedPawn.focusedOnTarget = false; }
             yield return null;
         }
         timeSinceAiming = 0;
