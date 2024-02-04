@@ -84,11 +84,11 @@ public class PlayerController : Controller
     }
     public void OnAlignCamOrientation()
     {
-        camQuickTurn.Invoke(new Vector2(possessedPawn.transform.forward.x, possessedPawn.transform.forward.z));
+        camQuickTurn?.Invoke(new Vector2(possessedPawn.transform.forward.x, possessedPawn.transform.forward.z));
     }
     public void OnQuickTurn()
     {
-        camQuickTurn.Invoke(- new Vector2(topDownCamera.transform.forward.x, topDownCamera.transform.forward.z));
+        camQuickTurn?.Invoke(- new Vector2(topDownCamera.transform.forward.x, topDownCamera.transform.forward.z));
     }
     public void OnAimDownSights()
     {

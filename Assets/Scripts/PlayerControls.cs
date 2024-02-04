@@ -408,6 +408,109 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""b3eab6b1-c125-4517-bf37-a0f140444174"",
+            ""actions"": [
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Button"",
+                    ""id"": ""39d98cfb-daa2-4262-bec8-a403d9c385d9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleCamRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""74907035-b1f4-4dc6-8f13-ef269b97550c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""43e71a23-6e7e-4a58-b861-051d60edb2c4"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""1d225f5d-d11c-411f-9729-492e88610111"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""8d28ee28-61aa-4520-bb5c-e214eba0e80d"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""a64e10ef-b19f-4957-b5a7-5ccc72e25647"",
+                    ""path"": ""<Gamepad>/rightStick/y"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=0.015)"",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""MouseRotate"",
+                    ""id"": ""3488c9f5-2a93-41fa-b740-37a5d015511d"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleCamRotation"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""3e18d339-e33d-4440-a015-b9c5662291b8"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""ToggleCamRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""2f430528-0124-42aa-ac08-c45193c72283"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""ToggleCamRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -451,6 +554,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_AlignCamOrientation = m_Grounded.FindAction("AlignCamOrientation", throwIfNotFound: true);
         m_Grounded_QuickTurn = m_Grounded.FindAction("QuickTurn", throwIfNotFound: true);
         m_Grounded_AimDownSights = m_Grounded.FindAction("AimDownSights", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Zoom = m_Menu.FindAction("Zoom", throwIfNotFound: true);
+        m_Menu_ToggleCamRotation = m_Menu.FindAction("ToggleCamRotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -618,6 +725,60 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public GroundedActions @Grounded => new GroundedActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
+    private readonly InputAction m_Menu_Zoom;
+    private readonly InputAction m_Menu_ToggleCamRotation;
+    public struct MenuActions
+    {
+        private @PlayerControls m_Wrapper;
+        public MenuActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Zoom => m_Wrapper.m_Menu_Zoom;
+        public InputAction @ToggleCamRotation => m_Wrapper.m_Menu_ToggleCamRotation;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void AddCallbacks(IMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
+            @ToggleCamRotation.started += instance.OnToggleCamRotation;
+            @ToggleCamRotation.performed += instance.OnToggleCamRotation;
+            @ToggleCamRotation.canceled += instance.OnToggleCamRotation;
+        }
+
+        private void UnregisterCallbacks(IMenuActions instance)
+        {
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
+            @ToggleCamRotation.started -= instance.OnToggleCamRotation;
+            @ToggleCamRotation.performed -= instance.OnToggleCamRotation;
+            @ToggleCamRotation.canceled -= instance.OnToggleCamRotation;
+        }
+
+        public void RemoveCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     private int m_MKSchemeIndex = -1;
     public InputControlScheme MKScheme
     {
@@ -647,5 +808,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAlignCamOrientation(InputAction.CallbackContext context);
         void OnQuickTurn(InputAction.CallbackContext context);
         void OnAimDownSights(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnZoom(InputAction.CallbackContext context);
+        void OnToggleCamRotation(InputAction.CallbackContext context);
     }
 }

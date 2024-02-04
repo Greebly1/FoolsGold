@@ -12,17 +12,20 @@ public class CamController : MonoBehaviour
     #region Editor Vars
     [SerializeField] public GameObject target; //Target the campivot follows
     [SerializeField] public GameObject camPivot; //Parent transform of this camera
+    [SerializeField] camTargetMode initMode = camTargetMode.followPlayer; //that starting mode of the camera
 
     //Encapsulates camera parameters for easy switching
     [SerializeField] CamParams currCamParams;
     [SerializeField] SerializedDictionary<camTargetMode, CamParams> ParamsByCamMode; //uses SerializableDictionary plugin
     #endregion
 
-    camTargetMode _targetMode = camTargetMode.selectedObject;
+    camTargetMode _targetMode = camTargetMode.followPlayer;
     public camTargetMode targetMode
     {
         get { return _targetMode; }
-        set { _targetMode = value; }
+        set { _targetMode = value;
+            currCamParams = ParamsByCamMode[targetMode];
+        }
     }
 
     #region inputVars
@@ -143,6 +146,11 @@ public class CamController : MonoBehaviour
     #region MonoBehavior Callbacks
     private void Awake()
     {
+        targetMode = initMode;
+        inputXRot = currXRot;
+        inputYRot = currYRot;
+        inputZoom = currZoom;
+
         if (target == null)
         {
             Debug.LogWarning("No target inside of client camera controller");
@@ -150,13 +158,13 @@ public class CamController : MonoBehaviour
         {
             tryTargetObject(target);
         }
-        inputXRot = currXRot;
-        inputZoom = currZoom;
+        
     }
 
     private void OnEnable()
     {
         observeCamEvents();
+        targetMode = targetMode;
     }
 
     private void Update()

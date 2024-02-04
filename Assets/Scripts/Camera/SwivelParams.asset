@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SwivelParams
   m_EditorClassIdentifier: 
   maxZoom: 40
-  minZoom: 8
+  minZoom: 2
   maxXRot: 80
-  minXRot: 20
+  minXRot: -80
   xRotationSmoothingTime: 0.2
   yRotationSmoothingTime: 0.2
   zoomSmoothingTime: 0.2
