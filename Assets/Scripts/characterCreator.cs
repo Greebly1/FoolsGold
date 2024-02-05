@@ -1,15 +1,60 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class characterCreator : MonoBehaviour
 {
+    public static string directory = "/SaveData";
+    public static string fileName = "CharData.txt";
+
     public characterCreationParams settings = new characterCreationParams();
 
     public void saveCharacterParams(characterCreationParams characterSettings)
     {
+        string dir = Application.persistentDataPath + directory;
+
+        if (!Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
+
         string JSONCharSettings = JsonUtility.ToJson(characterSettings);
+
+        File.WriteAllText(dir + fileName, JSONCharSettings);
+    }
+
+    public void saveEventHandler()
+    {
+        saveCharacterParams(settings);
+    }
+
+    public void loadEventHandler()
+    {
+        loadCharParams(out settings);
+    }
+
+    public static bool loadCharParams(out characterCreationParams charSettings)
+    {
+        string filePath = Application.persistentDataPath + directory + fileName;
+        bool wasSuccessful = false;
+        characterCreationParams loadedSettings = new characterCreationParams();
+
+        if (File.Exists(filePath))
+        {
+            string loadedJSON = File.ReadAllText(filePath);
+
+            loadedSettings = JsonUtility.FromJson<characterCreationParams>(loadedJSON);
+
+            wasSuccessful = true;
+        } else
+        {
+            Debug.LogWarning("no save file exists");
+        }
+
+        charSettings = loadedSettings;
+        return wasSuccessful;
     }
 
     
