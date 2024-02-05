@@ -23,6 +23,7 @@ public class characterCreator : MonoBehaviour
     public void midesectionChanged(Single value) => settings.midsection = value;
     public void muscleChanged(Single value) => settings.muscle = value;
     public void fatChanged(Single value) => settings.fat = value;
+    public void skinColorChanged(Color color, SkinColors.colorNames value2) => settings.skinColor = value2;
     #endregion
 }
 

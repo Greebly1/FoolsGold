@@ -69,8 +69,8 @@ public class PlayerController : Controller
     public void OnZoom(InputValue inputValue)
     {
         float amount = inputValue.Get<float>();
-        zoomInput = amount * 2;
-        camZoom.Invoke(amount * 3);
+        zoomInput = amount;
+        camZoom.Invoke(amount);
         Debug.Log("Zoom");
     }
     public void OnCrouch()

@@ -7,6 +7,7 @@ public class CamParams : ScriptableObject
 {
     [SerializeField] public float maxZoom = 40;
     [SerializeField] public float minZoom = 8; //This may be changed when the cam switches modes
+    [SerializeField] public float zoomStep = 1;
     [SerializeField] public float maxXRot = 80;
     [SerializeField] public float minXRot = 20; //This may also be changed when the cam switches modes
 
