@@ -248,17 +248,6 @@ public class CamController : MonoBehaviour
 
         camPivot.transform.rotation = Quaternion.Euler(x ?? currXRot, y ?? currYRot, z ?? currZRotation);
     }
-
-    //Rotates a vector2 by this camera's y axis rotation
-    public Vector2 rotateInput(Vector2 inputVec)
-    {
-        //make a quaternion representing this cam's y rotation
-        Quaternion camRotation = Quaternion.Euler(0, currYRot, 0);
-        //Multiply a vector3 made using the input vector by the camrotation quaternion, rotating it
-        Vector3 rotatedInput = camRotation * new Vector3(inputVec.x, 0, inputVec.y);
-        //Return a vector 2 made from the rotated input vector3
-        return new Vector2(rotatedInput.x, rotatedInput.z);
-    }
     #endregion
 
     #region Coroutines

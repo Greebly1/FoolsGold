@@ -1,18 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 
 public class Targeter : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Transform target = null; //the gameobject this targeter is following
+
+    bool followTarget = false; //whether to follow the target or not
+
+    Coroutine followCoroutine = null;
+    bool isFollowingTarget = false; //if coroutine is running or not
+
+    public void setTarget(Transform newTarget, bool follow = true)
     {
-        
+        target = newTarget; //do nullchecks outside of this script
+        setFollow(follow);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void setFollow(bool follow)
     {
-        
+        if (followTarget == follow) return; //Early out
+
+        if (follow == true) //The follow must be true, and the followtarget must be false
+        {
+            followTarget = true;
+            followCoroutine = StartCoroutine("followObject"); ;
+        } else
+        {
+            followTarget = false;
+        }
     }
+    #region coroutines
+
+    IEnumerator followObject()
+    {
+        isFollowingTarget = true;
+        while (followTarget && target != null)
+        {
+            transform.position = target.transform.position;
+            yield return null;
+        }
+
+        isFollowingTarget = false;
+    }
+
+    #endregion
 }

@@ -24,7 +24,7 @@ public class PlayerController : Controller
                 aimTimer = StartCoroutine("LastAimedTimer");
             } else
             {
-                possessedPawn.focusedOnTarget = true;
+                possessedPawn.lookAtTarget = true;
             }
         }
     }
@@ -32,13 +32,13 @@ public class PlayerController : Controller
     Coroutine aimTimer;
 
     Vector2 _moveInput;
-    Vector2 moveInput //Pretty bad for this to be public
+    Vector2 moveInput 
     {
         get { return _moveInput; }
         set
         {
             _moveInput = value;
-            possessedPawn.run(topDownCamera.rotateInput(_moveInput));
+            possessedPawn.setMoveVec(topDownCamera.gameObject.rotateInput(_moveInput));
         }
     }
     float zoomInput = 0;
@@ -56,7 +56,7 @@ public class PlayerController : Controller
     public void OnWalk(InputValue value)
     {
         moveInput = value.Get<Vector2>();
-        if (moveInput.magnitude > 0) { possessedPawn.lastMovedDirection = topDownCamera.rotateInput(moveInput); }
+        if (moveInput.magnitude > 0) { possessedPawn.lastMovedDirection = topDownCamera.gameObject.rotateInput(moveInput); }
         
 
         //Debug.Log(moveInput);
@@ -122,7 +122,7 @@ public class PlayerController : Controller
         }
 
         moveInput = moveInput;
-        possessedPawn.lookTarget = transform.position;
+        possessedPawn.lookTarget.setTarget(this.gameObject.transform);
     }
 
     #endregion
@@ -133,7 +133,7 @@ public class PlayerController : Controller
         while (!holdingAim)
         {
             timeSinceAiming += Time.deltaTime;
-            if (timeSinceAiming > 0.3f) { possessedPawn.focusedOnTarget = false; }
+            if (timeSinceAiming > 0.3f) { possessedPawn.lookAtTarget = false; }
             yield return null;
         }
         timeSinceAiming = 0;

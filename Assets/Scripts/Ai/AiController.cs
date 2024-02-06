@@ -48,7 +48,7 @@ public class AiController : Controller
         //The pawn expects a vector2 with max length of 1: constructing one using desiredVelocity
         Vector2 moveInput = Vector2.ClampMagnitude(new Vector2(desiredVelocity.x, desiredVelocity.z), 1);
 
-        possessedPawn.run(moveInput);
+        possessedPawn.setMoveVec(moveInput);
         //possessedPawn.lookTarget = desiredPosition; //this will probably cause errors
 
         navAgent.nextPosition = possessedPawn.transform.position;

@@ -611,6 +611,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookTarget: {fileID: 0}
+  lookAtTarget: 0
   lastMovedDirection: {x: 0, y: 1}
   turnSpeed: 1
   accelTime: 0.1
