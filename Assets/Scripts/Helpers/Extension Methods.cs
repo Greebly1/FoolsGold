@@ -21,7 +21,7 @@ public static class GameObjectExtensions
     {
         float yRot = pivot.transform.rotation.eulerAngles.y; //get this object's y rotation
 
-        if (undoRot) { yRot *= -1; } //create an inverse rotation if we want to undo a rotation
+        if (!undoRot) { yRot *= -1; } //create an inverse rotation if we want to undo a rotation
 
         //make a quaternion representing the y rotation
         Quaternion pivotRot = Quaternion.Euler(0, yRot, 0);

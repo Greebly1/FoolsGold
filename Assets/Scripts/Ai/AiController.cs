@@ -52,6 +52,6 @@ public class AiController : Controller
         //possessedPawn.lookTarget = desiredPosition; //this will probably cause errors
 
         navAgent.nextPosition = possessedPawn.transform.position;
-        possessedPawn.lookTarget = possessedPawn.transform.position + Vector3.forward * 100;
+        possessedPawn.lookTarget.transform.position = possessedPawn.transform.position + Vector3.forward * 100;
     }
 }

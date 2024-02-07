@@ -38,7 +38,7 @@ public class PlayerController : Controller
         set
         {
             _moveInput = value;
-            possessedPawn.setMoveVec(topDownCamera.gameObject.rotateInput(_moveInput));
+            possessedPawn.setMoveVec(topDownCamera.gameObject.rotateInput(_moveInput, true));
         }
     }
     float zoomInput = 0;
@@ -56,7 +56,7 @@ public class PlayerController : Controller
     public void OnWalk(InputValue value)
     {
         moveInput = value.Get<Vector2>();
-        if (moveInput.magnitude > 0) { possessedPawn.lastMovedDirection = topDownCamera.gameObject.rotateInput(moveInput); }
+        if (moveInput.magnitude > 0) { possessedPawn.lastMovedDirection = topDownCamera.gameObject.rotateInput(moveInput, true); }
         
 
         //Debug.Log(moveInput);
