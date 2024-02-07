@@ -5,6 +5,7 @@ using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerController : Controller
 {
     public static PlayerController ClientPlayerController { get; private set; }
@@ -24,6 +25,7 @@ public class PlayerController : Controller
                 aimTimer = StartCoroutine("LastAimedTimer");
             } else
             {
+                possessedPawn.lookTarget.setTarget(transform, follow: true);
                 possessedPawn.lookAtTarget = true;
             }
         }
@@ -64,7 +66,9 @@ public class PlayerController : Controller
     public void OnSprint(InputValue value)
     {
         holdingSprint = !holdingSprint;
-        possessedPawn.toggleSprint(holdingSprint);
+
+        //since the OnSprint event has been published it is safe to say that we are possessing a humanoid pawn
+        (possessedPawn as HumanoidPawn).toggleSprint(holdingSprint);
     }
     public void OnZoom(InputValue inputValue)
     {
@@ -75,7 +79,8 @@ public class PlayerController : Controller
     }
     public void OnCrouch()
     {
-        possessedPawn.toggleCrouch();
+        //since the OnCrouch event has been published it is safe to say that we are possessing a humanoid pawn
+        (possessedPawn as HumanoidPawn).toggleCrouch();
     }
     public void OnToggleCamRotation(InputValue inputValue)
     {
@@ -98,14 +103,22 @@ public class PlayerController : Controller
     #endregion
 
     #region Monobehavior Callbacks
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        if (ClientPlayerController != null) { 
+            Debug.LogWarning("There are two player controllers!"); 
+            Destroy(this.gameObject);
+            return;
+        }
         ClientPlayerController = this;
         input = GetComponent<PlayerInput>();
     }
 
     private void Update()
     {
+        //TODO:
+        //Extract the mouse raycasting for the targeter into its own seperate singleton system
         if (input.currentControlScheme == "M&K")
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -116,13 +129,10 @@ public class PlayerController : Controller
             {
                 transform.position = mouseRay.GetPoint(distanceIntersection);
             }
-        } else if (input.currentControlScheme == "Controller")
-        {
-            topDownCamera.inputZoom -= zoomInput;
         }
 
         moveInput = moveInput;
-        possessedPawn.lookTarget.setTarget(this.gameObject.transform);
+    
     }
 
     #endregion

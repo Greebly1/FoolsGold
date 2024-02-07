@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    public HumanoidPawn possessedPawn = null;
+    public Pawn possessedPawn = null;
 
+    protected virtual void Awake ()
+    {
 
-    public virtual void possessPawn (HumanoidPawn pawn)
+    }
+
+    protected virtual void possessPawn (Pawn pawn)
     {
         possessedPawn = pawn;
     }

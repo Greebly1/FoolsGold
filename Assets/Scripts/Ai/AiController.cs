@@ -14,8 +14,10 @@ public class AiController : Controller
     }
     Vector3 desiredVelocity = Vector3.zero;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (possessedPawn == null ) { 
             Debug.LogWarning(this.name + " AI does not have a pawn"); 
             return; 
@@ -25,9 +27,10 @@ public class AiController : Controller
         //I only want that logic to be in one place
     }
 
-    public override void possessPawn (HumanoidPawn pawn)
+    protected override void possessPawn (Pawn pawn)
     {
-        possessedPawn = pawn;
+        base.possessPawn(pawn);
+
         navAgent = possessedPawn.GetComponent<NavMeshAgent>();
         if (navAgent == null) {
             Debug.LogWarning(possessedPawn.name + " is possessed by " + this.name + " but does not contain a NavMeshAgent");

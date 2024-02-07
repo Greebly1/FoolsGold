@@ -1159,6 +1159,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4882036877722667226, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: accelTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4882036877722667226, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: lookTarget
       value: 
       objectReference: {fileID: 2063520745}
