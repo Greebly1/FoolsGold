@@ -11,6 +11,13 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class HumanoidPawn : Pawn
 {
+    #region vars
+    #region editor vars
+    //TODO: make a holdable interface or something
+    [SerializeField] Weapon heldWeapon;
+
+    #endregion
+
     bool sprinting = false;
     bool isSprinting
     {
@@ -18,7 +25,9 @@ public class HumanoidPawn : Pawn
     }
 
     bool crouched = false;
+    #endregion
 
+    #region event handlers
     public void toggleSprint(bool isButtonHeld)
     {
         if (!isButtonHeld && crouched) { 
@@ -45,7 +54,15 @@ public class HumanoidPawn : Pawn
 
         UpdateAnimator();
     }
+    
+    //TODO: extract some attack logic into the base pawn class so nonhumanoid pawns can still attack
+    public void Attack()
+    {
+        heldWeapon.OnPrimaryAttack.Invoke();
+    }
+    #endregion
 
+    #region Pawn class overrides
     protected override void UpdateAnimator()
     {
         base.UpdateAnimator(); //support base animation controller params from parent class
@@ -54,6 +71,6 @@ public class HumanoidPawn : Pawn
         AnimationController.SetBool("Crouching", crouched);
         AnimationController.SetBool("Sprinting", sprinting);
     }
-
+    #endregion
 }
 

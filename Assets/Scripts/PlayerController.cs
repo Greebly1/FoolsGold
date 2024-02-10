@@ -100,6 +100,10 @@ public class PlayerController : Controller
         Debug.Log("aim");
         holdingAim = !holdingAim;
     }
+    public void OnPrimaryFire()
+    {
+        (possessedPawn as HumanoidPawn).Attack();
+    }
     #endregion
 
     #region Monobehavior Callbacks

@@ -12,6 +12,8 @@ public class WeaponAction_Raycast : WeaponAction //GameAction, Monobehavior
     #region inspector variables
     //specifies the origin of the bullet, and used for a forward vector for the raycast
     [SerializeField] Transform firePointTransform;
+    [SerializeField] float raycastRange = 100;
+    [SerializeField] int damage = 5; //TODO: encapsulate bullet data into its own struct
     #endregion
 
     #region Shorthand Getters
@@ -43,13 +45,25 @@ public class WeaponAction_Raycast : WeaponAction //GameAction, Monobehavior
     //public void functions with no parameters to be subscribed to weapon events via the inspector
     public void triggerPulled()
     {
-
+        //Debug.Log("trigger pulled event handling");
+        shoot();
     }
     public void triggerReleased()
     {
 
     }
 
+    void shoot()
+    {
+        //Debug.Log("Shooting");
+        RaycastHit hitResults;
+        if (Physics.Raycast(firePointPosition, firePointForward, out hitResults))
+        {
+            //Debug.Log("Hit something");
+            HealthStatus hitTarget = hitResults.collider.gameObject.GetComponent<HealthStatus>();
+            if (hitTarget != null) { hitTarget.Damage(damage); }
+        }
+    }
 
     #endregion
 }

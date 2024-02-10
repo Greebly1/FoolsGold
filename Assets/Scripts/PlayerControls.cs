@@ -107,6 +107,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PrimaryFire"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4be260f-5ff3-47b5-be4e-2a0ca7fb06e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -406,6 +415,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleCamRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a341e448-0975-402e-9c86-9bc37a9e5aac"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""PrimaryFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -554,6 +574,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_AlignCamOrientation = m_Grounded.FindAction("AlignCamOrientation", throwIfNotFound: true);
         m_Grounded_QuickTurn = m_Grounded.FindAction("QuickTurn", throwIfNotFound: true);
         m_Grounded_AimDownSights = m_Grounded.FindAction("AimDownSights", throwIfNotFound: true);
+        m_Grounded_PrimaryFire = m_Grounded.FindAction("PrimaryFire", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Zoom = m_Menu.FindAction("Zoom", throwIfNotFound: true);
@@ -628,6 +649,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Grounded_AlignCamOrientation;
     private readonly InputAction m_Grounded_QuickTurn;
     private readonly InputAction m_Grounded_AimDownSights;
+    private readonly InputAction m_Grounded_PrimaryFire;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
@@ -641,6 +663,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @AlignCamOrientation => m_Wrapper.m_Grounded_AlignCamOrientation;
         public InputAction @QuickTurn => m_Wrapper.m_Grounded_QuickTurn;
         public InputAction @AimDownSights => m_Wrapper.m_Grounded_AimDownSights;
+        public InputAction @PrimaryFire => m_Wrapper.m_Grounded_PrimaryFire;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -677,6 +700,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AimDownSights.started += instance.OnAimDownSights;
             @AimDownSights.performed += instance.OnAimDownSights;
             @AimDownSights.canceled += instance.OnAimDownSights;
+            @PrimaryFire.started += instance.OnPrimaryFire;
+            @PrimaryFire.performed += instance.OnPrimaryFire;
+            @PrimaryFire.canceled += instance.OnPrimaryFire;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -708,6 +734,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AimDownSights.started -= instance.OnAimDownSights;
             @AimDownSights.performed -= instance.OnAimDownSights;
             @AimDownSights.canceled -= instance.OnAimDownSights;
+            @PrimaryFire.started -= instance.OnPrimaryFire;
+            @PrimaryFire.performed -= instance.OnPrimaryFire;
+            @PrimaryFire.canceled -= instance.OnPrimaryFire;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -808,6 +837,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAlignCamOrientation(InputAction.CallbackContext context);
         void OnQuickTurn(InputAction.CallbackContext context);
         void OnAimDownSights(InputAction.CallbackContext context);
+        void OnPrimaryFire(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

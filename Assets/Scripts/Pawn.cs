@@ -8,6 +8,7 @@ using UnityEngine;
 /// The pawn then sends these values out to their components
 /// Movement is tightly coupled to the concrete implementation of pawn, due to the use of root motion
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class Pawn : MonoBehaviour
 {
     #region Vars
