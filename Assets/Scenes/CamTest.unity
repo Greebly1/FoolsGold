@@ -1262,7 +1262,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4882036877722667226, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: accelTime
-      value: 0.5
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4882036877722667226, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: turnSpeed
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4882036877722667226, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: heldWeapon

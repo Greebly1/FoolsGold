@@ -71,8 +71,13 @@ public class Pawn : MonoBehaviour
         {
             Vector3 lookDirection = new Vector3(lookTargetX, 0, lookTargetZ) - new Vector3(transform.position.x, 0, transform.position.z);
             slerpYRot(lookDirection);
+            lastMovedDirection = new Vector2(transform.forward.x, transform.forward.z);
         }
-        else //Default to looking in the direction of the last movement
+        else if (currSpeed > 0) //Default to looking in the direction of the last movement
+        {
+            slerpYRot(currMovement);
+        }
+        else
         {
             slerpYRot(lastMovedDirection);
         }
