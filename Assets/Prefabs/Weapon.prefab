@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1612694057279656044}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071065, z: -0, w: 0.7071071}
-  m_LocalPosition: {x: -5.907, y: 0.892, z: -0.001}
+  m_LocalPosition: {x: -8.241, y: -0.004, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 4367420746174349546}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.067, y: 0.67, z: 0}
+  m_LocalPosition: {x: -5.59, y: -0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2943172302433633351}
   m_Layer: 0
-  m_Name: Stock
+  m_Name: RightHandIK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,7 @@ Transform:
   m_GameObject: {fileID: 7550013061926628339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.541, y: 0.866, z: 0}
+  m_LocalPosition: {x: -2.52, y: -0.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -191,11 +191,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0edc2e0f22959ad42b9eb7480eb4a1c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.828
+      value: -3.34
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edc2e0f22959ad42b9eb7480eb4a1c8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.022
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edc2e0f22959ad42b9eb7480eb4a1c8, type: 3}
       propertyPath: m_LocalPosition.z
