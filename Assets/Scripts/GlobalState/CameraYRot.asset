@@ -9,15 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55b61f387fd22ca49b6538fe9f99ee68, type: 3}
-  m_Name: SwivelParams
+  m_Script: {fileID: 11500000, guid: 8eb74a2e2075b344a8c782e565df3545, type: 3}
+  m_Name: CameraYRot
   m_EditorClassIdentifier: 
-  maxZoom: 6
-  minZoom: 0.1
-  zoomStep: 1
-  maxXRot: 80
-  minXRot: -80
-  xRotationSmoothingTime: 0.2
-  yRotationSmoothingTime: 0.2
-  zoomSmoothingTime: 0.2
-  positionSmoothTime: 0.4
+  value: 0

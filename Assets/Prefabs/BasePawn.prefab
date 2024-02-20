@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
       propertyPath: m_Name
-      value: PlayerPawn
+      value: BasePawn
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
       propertyPath: m_Controller
@@ -63,9 +63,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4882036877722667226}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 455027654521785291}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7968294517568755253}
@@ -92,24 +89,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastMovedDirection: {x: 0, y: 1}
+  lookTarget: {fileID: 0}
+  lookTargetPrefab: {fileID: 8840821240145415329, guid: 46e6dc71a3f23dc4d840d23b4c73b8e6, type: 3}
   turnSpeed: 1
   accelTime: 0.1
-  focusedOnTarget: 0
-  lookTarget: {x: 0, y: 0, z: 0}
---- !u!114 &455027654521785291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6032264717403365800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3de2e00aa6e3e414186cd86d72ef8de6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CamTransform: {fileID: 4048974113932402589}
+  lookAtTarget: 0
+  camTarget: {fileID: 4048974113932402589}
+  inputMovement: {x: 0, y: 0}
+  lastMovedDirection: {x: 0, y: 1}
+  heldWeapon: {fileID: 0}
 --- !u!143 &7968294517568755253
 CharacterController:
   m_ObjectHideFlags: 0

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamTargetTransform : MonoBehaviour
+public interface ICamTargetable
 {
-    public GameObject CamTransform = null;
+    public GameObject CamTransform ();
 
 
 }

@@ -58,7 +58,7 @@ public class HumanoidPawn : Pawn
     //TODO: extract some attack logic into the base pawn class so nonhumanoid pawns can still attack
     public void Attack()
     {
-        heldWeapon.OnPrimaryAttack.Invoke();
+        heldWeapon?.OnPrimaryAttack.Invoke();
     }
     #endregion
 

@@ -9,21 +9,22 @@ using UnityEngine;
 /// Movement is tightly coupled to the concrete implementation of pawn, due to the use of root motion
 /// </summary>
 [RequireComponent(typeof(Animator))]
-public class Pawn : MonoBehaviour
+public class Pawn : MonoBehaviour, ICamTargetable
 {
     #region Vars
-    [SerializeField] public Targeter lookTarget; //Gameobject that this pawn can use to look at a position
+    [HideInInspector] public Targeter lookTarget; //Gameobject that this pawn can use to look at a position
+    [SerializeField] GameObject lookTargetPrefab;
     [SerializeField] float turnSpeed = 720; //Degrees per second this pawn can rotate at
     [SerializeField] float accelTime = 1.5f; //How many seconds it takes to accel from 0 to max speed, Higher values will feel clunkier, shorter values will feel snappier
     [HideInInspector] public bool lookAtTarget = false;
+    [SerializeField] public GameObject camTarget;
 
     #region Components
     protected Animator AnimationController { get; private set; }
     #endregion
 
     public Vector2 inputMovement = Vector3.zero;  //Describes the goal movement of this pawn (this is the input the controller gives this pawn)
-    protected Vector2 currMovement = Vector3.zero; //Describes how this pawn is moving (this is the input for the AnimationController
-    public Vector2 lastMovedDirection = new Vector2(0, 1); //used for setting the pawn orientation when lookAtTarget == false;
+    protected Vector2 currMovement = Vector3.zero; //Describes how this pawn is moving (this is the input given to the AnimationController)
 
     float _maxSpeedPercent = 1f; //controls the max speed of this pawn used to clamp input going into the animation controller
     float maxSpeedPercent
@@ -61,26 +62,33 @@ public class Pawn : MonoBehaviour
     private void Awake()
     {
         AnimationController = GetComponent<Animator>();
+        try
+        {
+            lookTarget = Instantiate(lookTargetPrefab, transform.position, Quaternion.identity).GetComponent<Targeter>();
+        } catch { Debug.LogWarning("Failed to instantiate valid targeter object"); }
     }
 
     private void Update()
     {
-        //Naive fix for issue when the focal target is basically inside the pawn
-        //If the pawn is meant to be focusing on the target, and the target isn't too close to them
-        if (lookAtTarget && Vector3.Distance(new Vector3(lookTargetX, 0, lookTargetZ), new Vector3(transform.position.x, 0, transform.position.z)) > 0.4)
+
+        //If you are meant to look at the target, but the target is too close
+        if (lookAtTarget && Vector3.Distance(new Vector3(lookTargetX, 0, lookTargetZ), new Vector3(transform.position.x, 0, transform.position.z)) < 0.4)
         {
+            //do nothing
+        } else if (lookAtTarget) //if you are meant to look at the target
+        {
+            //Look at the target
             Vector3 lookDirection = new Vector3(lookTargetX, 0, lookTargetZ) - new Vector3(transform.position.x, 0, transform.position.z);
             slerpYRot(lookDirection);
-            lastMovedDirection = new Vector2(transform.forward.x, transform.forward.z);
-        }
-        else if (currSpeed > 0) //Default to looking in the direction of the last movement
+        } else if (currSpeed > 0) //if you are moving
         {
+            //Look in the direction you are moving
             slerpYRot(currMovement);
-        }
-        else
+        } else
         {
-            slerpYRot(lastMovedDirection);
+            //Default to doing nothing, we don't need to rotate
         }
+
 
         UpdateAnimator();
     }
@@ -93,6 +101,11 @@ public class Pawn : MonoBehaviour
         inputMovement = Vector2.ClampMagnitude(input, 1);
         //If the coroutine isn't running, start the coroutine
         if (!isAccelBlending) { accelBlending = StartCoroutine("AccelerationBlending"); }
+    }
+
+    public virtual void ResetInput()
+    {
+        inputMovement = new Vector2(0,0);
     }
     #endregion
 
@@ -110,6 +123,11 @@ public class Pawn : MonoBehaviour
 
         //Debug.Log("updating animator with input: " + actualMovement);
     }
+
+    #region Interfaces
+    public GameObject CamTransform() { return camTarget ?? this.gameObject; }
+
+    #endregion
 
     #region Coroutines
     //Coroutine that smoothly changes the current movement vector towards the input movement vector
