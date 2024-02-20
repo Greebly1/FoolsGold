@@ -33,15 +33,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Zoom",
-                    "type": "Button",
-                    "id": "19d997f1-b657-4bc5-9c5a-d8f60fc5ccbb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "0eb581d2-89ba-435f-b543-7987291c21e9",
@@ -49,33 +40,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "ToggleCamRotation",
-                    "type": "Value",
-                    "id": "3190d283-052b-4a4c-9653-84fe382204fb",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "AlignCamOrientation",
-                    "type": "Button",
-                    "id": "e8d5dcda-83ce-4d3f-a8d7-297850185086",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=0.2,pressPoint=0.5)",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "QuickTurn",
-                    "type": "Button",
-                    "id": "3d37eba4-c537-432b-945b-3c8077f6d307",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 },
                 {
                     "name": "AimDownSights",
@@ -264,50 +228,6 @@
                 },
                 {
                     "name": "",
-                    "id": "079d18d0-6cea-4526-9cff-64285ff7d1cc",
-                    "path": "<Mouse>/scroll/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "M&K",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "One Modifier",
-                    "id": "b4659b24-24b3-4de8-8f66-512ac20e5036",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "1b21af41-c338-42f3-abdf-03de7920f08e",
-                    "path": "<Gamepad>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Controller",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "4d8a0732-252d-4d6b-84e3-495d296b1bff",
-                    "path": "<Gamepad>/rightStick/y",
-                    "interactions": "",
-                    "processors": "Scale(factor=0.015)",
-                    "groups": "Controller",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
                     "id": "0eb022e6-ca40-4559-9400-87101a15528c",
                     "path": "<Keyboard>/c",
                     "interactions": "",
@@ -330,28 +250,6 @@
                 },
                 {
                     "name": "",
-                    "id": "a9d0fc31-f295-4a5d-a180-a32ff60ce9b4",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "M&K",
-                    "action": "AlignCamOrientation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0aef0db7-27a2-4dbb-a701-073a70074dfd",
-                    "path": "<Keyboard>/f",
-                    "interactions": "MultiTap",
-                    "processors": "",
-                    "groups": "M&K",
-                    "action": "QuickTurn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "02749782-6ded-44d0-970a-9092f9de303e",
                     "path": "<Mouse>/{SecondaryAction}",
                     "interactions": "",
@@ -360,39 +258,6 @@
                     "action": "AimDownSights",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "MouseRotate",
-                    "id": "a16ec870-451e-4c0c-8d74-5680ab552db1",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleCamRotation",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "5c52a64e-c40f-45ed-b822-102cdf49388d",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "M&K",
-                    "action": "ToggleCamRotation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "0e00949d-3427-40d4-8ef4-b47fe3002f0e",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "M&K",
-                    "action": "ToggleCamRotation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",

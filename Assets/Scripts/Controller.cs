@@ -13,6 +13,13 @@ public class Controller : MonoBehaviour
 
     protected virtual void possessPawn (Pawn pawn)
     {
+        if (possessedPawn != null) { possessedPawn.ResetInput(); }
         possessedPawn = pawn;
+    }
+
+    public void tryPossessGameObject (GameObject possiblePawn)
+    {
+        Pawn tryGetPawn = possiblePawn.GetComponent<Pawn>();
+        if (tryGetPawn != null) { possessPawn(tryGetPawn); }
     }
 }

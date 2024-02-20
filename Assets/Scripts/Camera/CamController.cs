@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,13 +6,14 @@ using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using AYellowpaper.SerializedCollections;
+using UnityEngine.InputSystem;
 
 //Controller designed for open world adventure
 public class CamController : MonoBehaviour
 {
     #region Editor Vars
-    [SerializeField] public GameObject target; //Target the campivot follows
-    [SerializeField] public GameObject camPivot; //Parent transform of this camera
+    [SerializeField] public GameObject target; //Target that the camera pivot follows
+    [SerializeField] public Camera controlledCamera; //Parent transform of this camera
     [SerializeField] camTargetMode initMode = camTargetMode.followPlayer; //that starting mode of the camera
 
     //Encapsulates camera parameters for easy switching
@@ -27,6 +29,12 @@ public class CamController : MonoBehaviour
             currCamParams = ParamsByCamMode[targetMode];
         }
     }
+
+    #region Globals
+    [Header("Global Variables")]
+    [SerializeField] GlobalFloat OUT_YRotation;
+    #endregion
+
 
     #region inputVars
     float _inputZoom;
@@ -102,36 +110,37 @@ public class CamController : MonoBehaviour
     #endregion
 
     Vector3 velocity = Vector3.zero; //used for positional smoothing within Update(), Vector3.smoothdamp() requires a velocity variable passed as reference
-    bool isObservingInputEvents = false;
 
     #region Shorthand Getters
     //The following getters/setters help make this script a bit more readible
     public Vector2 camFoward //Forward vector as a vector2
         { 
         get {
-            Vector3 fwd = camPivot.transform.forward;
+            Vector3 fwd = controlledCamera.transform.forward;
             return new Vector2(fwd.x, fwd.z);
         }
     } 
     float currZoom //The distance from the camera to the pivot
     {
-        get { return Vector3.Distance(transform.position, camPivot.transform.position); }
+        get { return Vector3.Distance(controlledCamera.transform.position, transform.position); }
         set { setZoom(value); }
     } 
     float currXRot //The x rotation of the pivot
     {
-        get { return camPivot.transform.rotation.eulerAngles.x; }
+        get { return transform.rotation.eulerAngles.x; }
         set { setRotation(x:  value); }
     } 
     float currYRot //The y rotation of the pivot
     {
-        get { return camPivot.transform.rotation.eulerAngles.y; }
-        set { setRotation(y: value); }
+        get { return transform.rotation.eulerAngles.y; }
+        set { setRotation(y: value); 
+            if (OUT_YRotation != null) { OUT_YRotation.value = value; }
+        }
     }
     Vector3 currPosition //The position of the pivot
     {
-        get { return camPivot.transform.position; }
-        set { camPivot.transform.position = value; }
+        get { return transform.position; }
+        set { transform.position = value; }
     }
     float maxZoom { get { return currCamParams.maxZoom; } }
     float minZoom { get { return currCamParams.minZoom; } }
@@ -154,16 +163,17 @@ public class CamController : MonoBehaviour
         if (target == null)
         {
             Debug.LogWarning("No target inside of client camera controller");
-        } else
-        {
-            tryTargetObject(target);
         }
-        
+        else
+        {
+            TryTargetObject(target);
+        }
+
+        OUT_YRotation.value = currYRot;
     }
 
     private void OnEnable()
     {
-        observeCamEvents();
         targetMode = targetMode;
     }
 
@@ -178,60 +188,71 @@ public class CamController : MonoBehaviour
 
     private void OnDisable()
     {
-        ignoreCamEvents();
     }
     #endregion
 
     #region inputEventHandling
-    //Responds to camRotate event from PlayerController
-    void rotateEventHandle(Vector2 deltaRotation)
+    //Functions that start with 'On' should be called by a playerInput component on a parent gameobject using unity broadcast message
+    public void OnZoom(InputValue value)
     {
-        if (targetMode == camTargetMode.selectedObject)
-        {
-            inputYRot += deltaRotation.x;
-        }
+        float input = value.Get<Vector2>().y;
 
-        inputXRot -= deltaRotation.y;
+        inputZoom -= input;
     }
-    //Responds to camZoom event from PlayerController
-    void zoomEventHandle(float deltaZoom)
+
+    public void OnAlignYRotation(InputValue value)
     {
-        inputZoom -= deltaZoom;
-    }
-    void tryTargetObject(GameObject newTarget)
-    {
-        CamTargetTransform idealTarget = newTarget.GetComponent<CamTargetTransform>();
-        target = idealTarget.CamTransform ?? newTarget;
-    }
-    void quickTurnEventHandle(Vector2 newForward)
-    {
-        inputForward = newForward;
-    }
-    void observeCamEvents()
-    {
-        if (!isObservingInputEvents)
+        try
         {
-            PlayerController.camRotate += rotateEventHandle;
-            PlayerController.camZoom += zoomEventHandle;
-            PlayerController.camSetTarget += tryTargetObject;
-            if (targetMode == camTargetMode.followPlayer) { PlayerController.camQuickTurn += quickTurnEventHandle; }
-            isObservingInputEvents = true;
+            Vector3 playerForward = PlayerController.ClientPlayerController.possessedPawn.transform.forward;
+            inputForward = new Vector2(playerForward.x, playerForward.z);
+        } 
+        catch (NullReferenceException ex)
+        {
+            Debug.LogWarning(ex.Message);
+            Debug.LogWarning("Player pawn is null, using default value");
+            inputForward = inputForward;
         }
     }
-    void ignoreCamEvents()
+
+    public void OnQuickTurn(InputValue value)
     {
-        if (isObservingInputEvents)
+        inputForward = -inputForward;
+    }
+
+    public void OnCamRotation(InputValue value)
+    {
+        Vector2 input = value.Get<Vector2>();
+
+        inputXRot -= input.y;
+
+        if (targetMode == camTargetMode.selectedObject) { inputYRot += input.x; }
+    }
+
+    public void SelectObject(GameObject newTarget)
+    {
+        ICamTargetable idealTarget = newTarget.GetComponent<ICamTargetable>();
+        if (idealTarget != null) {
+            if (target == idealTarget.CamTransform()) { return; } //Early Out
+            target = idealTarget.CamTransform(); 
+        } else 
         {
-            PlayerController.camRotate -= rotateEventHandle;
-            PlayerController.camZoom -= zoomEventHandle;
-            PlayerController.camSetTarget -= tryTargetObject;
-            PlayerController.camQuickTurn -= quickTurnEventHandle;
-            isObservingInputEvents = false;
+            return; //Early out
         }
+        inputXRot = inputXRot;
+        inputYRot = inputYRot;
+        inputZoom = inputZoom;
     }
     #endregion
 
     #region Helper Functions
+    void TryTargetObject(GameObject newTarget)
+    {
+        ICamTargetable idealTarget = newTarget.GetComponent<ICamTargetable>();
+        target = idealTarget.CamTransform() ?? newTarget;
+    }
+
+
     //Makes it easy to set the distance from the camPivot, effetively sets the zoom
     void setZoom(float distance)
     {
@@ -239,14 +260,14 @@ public class CamController : MonoBehaviour
         if (distance >= maxZoom) { amount = maxZoom; }
         else if (distance <= minZoom) { amount = minZoom; }
 
-        transform.position = camPivot.transform.position + (-transform.forward * amount);
+        controlledCamera.transform.position = transform.position + (-transform.forward * amount);
     }
     //Makes it easy to set just one (or more) value(s) of the rotation inside the campivot transform
     void setRotation(float? x = null, float? y = null, float? z = null)
     {
-        float currZRotation = camPivot.transform.rotation.eulerAngles.z;
+        float currZRotation = transform.rotation.eulerAngles.z;
 
-        camPivot.transform.rotation = Quaternion.Euler(x ?? currXRot, y ?? currYRot, z ?? currZRotation);
+        transform.rotation = Quaternion.Euler(x ?? currXRot, y ?? currYRot, z ?? currZRotation);
     }
     #endregion
 
@@ -258,6 +279,7 @@ public class CamController : MonoBehaviour
 
         float velocity = 0;
 
+        
         while (currXRot != inputXRot)
         {
             float newXRot = Mathf.SmoothDampAngle(currXRot, inputXRot, ref velocity, xRotationSmoothingTime);
@@ -272,7 +294,7 @@ public class CamController : MonoBehaviour
             }
             
             yield return null;
-        }
+        } 
 
         isXRotationSmoothing = false;
         //Debug.Log("Ending xRotation Coroutine");
@@ -283,7 +305,7 @@ public class CamController : MonoBehaviour
         //Debug.Log("Starting yRotation Coroutine");
         isYRotationSmoothing = true;
         float velocity = 0; //needed for smoothdamp
-
+        
         while (currYRot != inputYRot)
         {
             float newYRot = Mathf.SmoothDampAngle(currYRot, inputYRot, ref velocity, yRotationSmoothingTime);
@@ -297,8 +319,8 @@ public class CamController : MonoBehaviour
                 currYRot = newYRot;
             }
             yield return null;
-        }
-        
+        } 
+        yield return null;
 
         isYRotationSmoothing = false;
         Debug.Log("Ending yRotation Coroutine");
