@@ -163,6 +163,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1951566873508387099, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_Weight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2006035661338724261, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -191,6 +195,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2608250653754465670, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_Weight
+      value: 0.91
+      objectReference: {fileID: 0}
     - target: {fileID: 2630257349102428934, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -202,6 +210,26 @@ PrefabInstance:
     - target: {fileID: 2820506163574338006, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878040021955073626, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_Data.m_MaxLimit
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878040021955073626, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_Data.m_MinLimit
+      value: -13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878040021955073626, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_Data.m_ConstrainedAxes.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878040021955073626, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_Data.m_ConstrainedAxes.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2878040021955073626, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_Data.m_ConstrainedAxes.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3091080435307254890, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: m_Layer
@@ -260,9 +288,9 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4882036877722667226, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
-      propertyPath: lookTarget
+      propertyPath: heldWeapon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 619670084}
     - target: {fileID: 5093252511596633750, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -450,7 +478,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7362636569467644531, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1539092156}
+    - targetCorrespondingSourceObject: {fileID: 7003235639678741714, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 619670085}
   m_SourcePrefab: {fileID: 100100000, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
 --- !u!1 &133396103
 GameObject:
@@ -1107,6 +1141,34 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+--- !u!1 &619670081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7003235639678741714, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+  m_PrefabInstance: {fileID: 98395961}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &619670084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4045430711656195911, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+  m_PrefabInstance: {fileID: 98395961}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619670081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80565b591ee44c441a6213a80c67c7c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &619670085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619670081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &660565735 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6032264717403365800, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
@@ -1179,6 +1241,18 @@ MonoBehaviour:
       - m_Target: {fileID: 7087948526363355816}
         m_TargetAssemblyTypeName: CamController, Assembly-CSharp
         m_MethodName: SelectObject
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1480816284}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: tryPossessGameObject
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1455,6 +1529,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possessedPawn: {fileID: 660565737}
   IN_CamYRotation: {fileID: 11400000, guid: e0744237aeb7c814b9ae55292285e75b, type: 2}
+--- !u!1 &1539092154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7362636569467644531, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+  m_PrefabInstance: {fileID: 98395961}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1539092156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539092154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1625650342
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,8 +12,7 @@ using UnityEngine;
 public class Pawn : MonoBehaviour, ICamTargetable
 {
     #region Vars
-    [HideInInspector] public Targeter lookTarget; //Gameobject that this pawn can use to look at a position
-    [SerializeField] GameObject lookTargetPrefab;
+    public Targeter lookTarget; //Gameobject that this pawn can use to look at a position
     [SerializeField] float turnSpeed = 720; //Degrees per second this pawn can rotate at
     [SerializeField] float accelTime = 1.5f; //How many seconds it takes to accel from 0 to max speed, Higher values will feel clunkier, shorter values will feel snappier
     [HideInInspector] public bool lookAtTarget = false;
@@ -62,10 +61,7 @@ public class Pawn : MonoBehaviour, ICamTargetable
     private void Awake()
     {
         AnimationController = GetComponent<Animator>();
-        try
-        {
-            lookTarget = Instantiate(lookTargetPrefab, transform.position, Quaternion.identity).GetComponent<Targeter>();
-        } catch { Debug.LogWarning("Failed to instantiate valid targeter object"); }
+        if (lookTarget == null) { Debug.LogError("A pawn does not have a targeter"); }
     }
 
     private void Update()
