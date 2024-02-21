@@ -74,12 +74,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""PrimaryFire"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""c4be260f-5ff3-47b5-be4e-2a0ca7fb06e6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [

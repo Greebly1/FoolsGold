@@ -12,11 +12,8 @@ using UnityEngine.InputSystem;
 public class HumanoidPawn : Pawn
 {
     #region vars
-    #region editor vars
-    //TODO: make a holdable interface or something
-    [SerializeField] Weapon heldWeapon;
-
-    #endregion
+    
+    [SerializeField] IHoldable heldItem;
 
     bool sprinting = false;
     bool isSprinting
@@ -27,7 +24,7 @@ public class HumanoidPawn : Pawn
     bool crouched = false;
     #endregion
 
-    #region event handlers
+    #region Input Functions
     public void toggleSprint(bool isButtonHeld)
     {
         if (!isButtonHeld && crouched) { 
@@ -54,12 +51,51 @@ public class HumanoidPawn : Pawn
 
         UpdateAnimator();
     }
-    
+
     //TODO: extract some attack logic into the base pawn class so nonhumanoid pawns can still attack
-    public void Attack()
+    public void PrimaryAction(bool isInitiating)
     {
-        heldWeapon?.OnPrimaryAttack.Invoke();
+        try
+        {
+            (heldItem as Weapon)?.Action_Primary(isInitiating);
+        } catch
+        {
+            //we either 1: are not holding an item or
+            //          2: the item we are holding is not a weapon
+            //TODO: make default attack functionality for one handed or two handed items, and default unarmed attack functionality
+        }
     }
+
+    public void SecondaryAction(bool isInitiating)
+    {
+        try
+        {
+            (heldItem as Weapon)?.Action_Secondary(isInitiating);
+        }
+        catch
+        {
+            //we either 1: are not holding an item or
+            //          2: the item we are holding is not a weapon
+            //TODO: make default attack functionality for one handed or two handed items, and default unarmed attack functionality
+        }
+    }
+
+    public void FocusItem(bool isInitiating)
+    {
+        try
+        {
+            //depending on isInitiating
+
+            //play an animation to set up the aim animation layers
+            //play an animation to raise the weapon
+        }
+        catch
+        {
+            //we either 1: are not holding an item or
+            //          2: the item we are holding is not a weapon
+        }
+    }
+
     #endregion
 
     #region Pawn class overrides
@@ -70,6 +106,8 @@ public class HumanoidPawn : Pawn
         //Humanoid skeletal mesh animation controllers supports crouching and sprinting input
         AnimationController.SetBool("Crouching", crouched);
         AnimationController.SetBool("Sprinting", sprinting);
+        //Debug.Log(lookAtTarget);
+        //AnimationController.SetBool("Aiming", lookAtTarget);
     }
     #endregion
 }

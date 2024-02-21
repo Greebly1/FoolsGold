@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 320800074246478822}
   - component: {fileID: 7452486917474538464}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: Weapon_USAS-12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,6 +135,9 @@ MonoBehaviour:
   OffSecondaryAttack:
     m_PersistentCalls:
       m_Calls: []
+  _isTwoHanded: 1
+  leftHandPosition: {fileID: 4367420746174349546}
+  rightHandPosition: {fileID: 7550013061926628339}
 --- !u!114 &7452486917474538464
 MonoBehaviour:
   m_ObjectHideFlags: 0

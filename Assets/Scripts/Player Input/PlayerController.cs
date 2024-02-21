@@ -80,10 +80,12 @@ public class PlayerController : Controller
     {
         Debug.Log("aim");
         holdingAim = !holdingAim;
+
+        (possessedPawn as HumanoidPawn).FocusItem(holdingAim);
     }
-    public void OnPrimaryFire()
+    public void OnPrimaryFire(InputValue value)
     {
-        (possessedPawn as HumanoidPawn).Attack();
+        (possessedPawn as HumanoidPawn).PrimaryAction(value.isPressed);
     }
     #endregion
 
