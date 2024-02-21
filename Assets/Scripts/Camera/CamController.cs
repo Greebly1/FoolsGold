@@ -30,11 +30,6 @@ public class CamController : MonoBehaviour
         }
     }
 
-    #region Globals
-    [Header("Global Variables")]
-    [SerializeField] GlobalFloat OUT_YRotation;
-    #endregion
-
 
     #region inputVars
     float _inputZoom;
@@ -133,9 +128,8 @@ public class CamController : MonoBehaviour
     float currYRot //The y rotation of the pivot
     {
         get { return transform.rotation.eulerAngles.y; }
-        set { setRotation(y: value); 
-            if (OUT_YRotation != null) { OUT_YRotation.value = value; }
-        }
+        set { setRotation(y: value); }
+        
     }
     Vector3 currPosition //The position of the pivot
     {
@@ -169,7 +163,6 @@ public class CamController : MonoBehaviour
             TryTargetObject(target);
         }
 
-        OUT_YRotation.value = currYRot;
     }
 
     private void OnEnable()

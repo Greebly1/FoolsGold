@@ -9,11 +9,6 @@ public class PlayerController : Controller
 {
     public static PlayerController ClientPlayerController { get; private set; }
 
-    #region Globals
-    [Header ("Global Variables")]
-    [SerializeField] GlobalFloat IN_CamYRotation;
-    #endregion
-
     #region input state variables
     bool holdingSprint = false;
     bool _holdingAim = false;
@@ -48,11 +43,11 @@ public class PlayerController : Controller
         {
             _moveInput = value;
 
-            try { possessedPawn.setMoveVec(moveInput.Rotated(IN_CamYRotation.value, true)); }
+            try { possessedPawn.setMoveVec(moveInput.Rotated(Camera.main.transform.rotation.eulerAngles.y, true)); }
             catch (NullReferenceException ex)
             {
                 Debug.LogWarning(ex.Message);
-                Debug.LogWarning("CamYRotation not initialized, defaulting to 0");
+                Debug.LogError("there is no camera.main for the pawn input to be rotated locally, default to no rotation");
                 possessedPawn.setMoveVec(moveInput);
             }
         }

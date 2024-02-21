@@ -1528,7 +1528,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possessedPawn: {fileID: 660565737}
-  IN_CamYRotation: {fileID: 11400000, guid: e0744237aeb7c814b9ae55292285e75b, type: 2}
 --- !u!1 &1539092154 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7362636569467644531, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
@@ -1868,7 +1867,6 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 3cfb8aabab7fa4048b410df661a995aa, type: 2}
     - Key: 2
       Value: {fileID: 11400000, guid: 120b133b2ce5e904f9184a2215fb0693, type: 2}
-  OUT_YRotation: {fileID: 11400000, guid: e0744237aeb7c814b9ae55292285e75b, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
