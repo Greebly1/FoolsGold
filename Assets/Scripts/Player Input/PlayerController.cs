@@ -87,6 +87,11 @@ public class PlayerController : Controller
     {
         (possessedPawn as HumanoidPawn).PrimaryAction(value.isPressed);
     }
+
+    public void OnSecondaryFire(InputValue value)
+    {
+        (possessedPawn as HumanoidPawn).SecondaryAction(value.isPressed);
+    }
     #endregion
 
     #region Monobehavior Callbacks
@@ -115,8 +120,12 @@ public class PlayerController : Controller
     {
         while (!holdingAim)
         {
+            
             timeSinceAiming += Time.deltaTime;
-            if (timeSinceAiming > 0.3f) { possessedPawn.lookAtTarget = false; }
+            if (timeSinceAiming > 0.3f) { 
+                possessedPawn.lookAtTarget = false;
+                break;
+            }
             yield return null;
         }
         timeSinceAiming = 0;

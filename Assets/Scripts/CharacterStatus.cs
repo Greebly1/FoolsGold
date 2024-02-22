@@ -46,6 +46,7 @@ public class CharacterStatus : MonoBehaviour
         {
             healthChanged -= checkDeath;
             death?.Invoke(); 
+            Destroy(this.gameObject);
         }
     }
 }

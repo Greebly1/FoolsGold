@@ -1837,6 +1837,7 @@ MonoBehaviour:
   lookAtTarget: 0
   camTarget: {fileID: 4048974113932402589}
   inputMovement: {x: 0, y: 0}
+  heldObject: {fileID: 3882806825749972898}
 --- !u!143 &7968294517568755253
 CharacterController:
   m_ObjectHideFlags: 0

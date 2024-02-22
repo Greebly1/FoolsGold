@@ -12,8 +12,10 @@ using UnityEngine.InputSystem;
 public class HumanoidPawn : Pawn
 {
     #region vars
-    
-    [SerializeField] IHoldable heldItem;
+
+    [SerializeField] GameObject heldObject = null;
+
+    IHoldable heldItem { get { return heldObject.GetComponentInChildren<IHoldable>(); } }
 
     bool sprinting = false;
     bool isSprinting
@@ -107,7 +109,7 @@ public class HumanoidPawn : Pawn
         AnimationController.SetBool("Crouching", crouched);
         AnimationController.SetBool("Sprinting", sprinting);
         //Debug.Log(lookAtTarget);
-        //AnimationController.SetBool("Aiming", lookAtTarget);
+        AnimationController.SetBool("Aiming", lookAtTarget);
     }
     #endregion
 }

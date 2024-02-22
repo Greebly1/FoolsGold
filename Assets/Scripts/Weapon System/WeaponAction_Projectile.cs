@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Weapon attachment that performs a bullet raycast
-/// </summary>
-public class WeaponAction_Raycast : WeaponAction //GameAction, Monobehavior
+public class WeaponAction_Projectile : WeaponAction
 {
-    #region vars
-
-    #region inspector variables
-    //specifies the origin of the bullet, and used for a forward vector for the raycast
     [SerializeField] Transform firePointTransform;
-    [SerializeField] int damage = 5; //TODO: encapsulate bullet data into its own struct
-    #endregion
+    [SerializeField] int damage = 5; //TODO: encapsulate damage data into its own serializable struct
+    [SerializeField] GameObject prefab = null;
 
     #region Shorthand Getters
     Vector3 firePointPosition { get { return firePointTransform.position; } }
@@ -21,7 +14,6 @@ public class WeaponAction_Raycast : WeaponAction //GameAction, Monobehavior
 
     #endregion
 
-    #endregion
 
     #region Monobehavior Callbacks
     protected override void Awake()
@@ -40,6 +32,7 @@ public class WeaponAction_Raycast : WeaponAction //GameAction, Monobehavior
     }
     #endregion
 
+
     #region Weapon Event Responders
     //public void functions with no parameters to be subscribed to weapon events via the inspector
     public void triggerPulled()
@@ -54,15 +47,11 @@ public class WeaponAction_Raycast : WeaponAction //GameAction, Monobehavior
 
     void shoot()
     {
-        Debug.Log("Shooting");
-        RaycastHit hitResults;
-        if (Physics.Raycast(firePointPosition, firePointForward, out hitResults))
-        {
-            Debug.Log("Hit something");
-            HealthStatus hitTarget = hitResults.collider.gameObject.GetComponent<HealthStatus>();
-            if (hitTarget != null) { hitTarget.Damage(damage); }
-        }
+        Debug.Log("Shooting projectile");
+        
+        //Locate the projectile object pool
+        //Spawn the projectile from the object pool
+        Instantiate(prefab, firePointPosition, firePointTransform.rotation);
     }
-
     #endregion
 }

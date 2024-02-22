@@ -44,7 +44,7 @@ public class HealthStatus : MonoBehaviour
 
     protected virtual void Awake()
     {
-        currHealth = (int)(initialHealthPercent * maxHealth);
+        currHealth = (int)(initialHealthPercent/100 * maxHealth);
     }
 
     #endregion
@@ -62,6 +62,7 @@ public class HealthStatus : MonoBehaviour
         {
             Debug.Log("Dead");
             deathEvent?.Invoke();
+            Destroy(this.gameObject);
         }
     }
     #endregion

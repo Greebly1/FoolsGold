@@ -80,6 +80,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SecondaryFire"",
+                    ""type"": ""Value"",
+                    ""id"": ""80ae23f5-f7e8-4b47-a63b-8750fafc9182"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -291,6 +300,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""PrimaryFire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11bc08e8-ce21-4f6c-97bd-d38916b6d629"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""SecondaryFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -436,6 +456,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Grounded_Crouch = m_Grounded.FindAction("Crouch", throwIfNotFound: true);
         m_Grounded_AimDownSights = m_Grounded.FindAction("AimDownSights", throwIfNotFound: true);
         m_Grounded_PrimaryFire = m_Grounded.FindAction("PrimaryFire", throwIfNotFound: true);
+        m_Grounded_SecondaryFire = m_Grounded.FindAction("SecondaryFire", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Zoom = m_Menu.FindAction("Zoom", throwIfNotFound: true);
@@ -507,6 +528,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Grounded_Crouch;
     private readonly InputAction m_Grounded_AimDownSights;
     private readonly InputAction m_Grounded_PrimaryFire;
+    private readonly InputAction m_Grounded_SecondaryFire;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
@@ -517,6 +539,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_Grounded_Crouch;
         public InputAction @AimDownSights => m_Wrapper.m_Grounded_AimDownSights;
         public InputAction @PrimaryFire => m_Wrapper.m_Grounded_PrimaryFire;
+        public InputAction @SecondaryFire => m_Wrapper.m_Grounded_SecondaryFire;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -544,6 +567,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PrimaryFire.started += instance.OnPrimaryFire;
             @PrimaryFire.performed += instance.OnPrimaryFire;
             @PrimaryFire.canceled += instance.OnPrimaryFire;
+            @SecondaryFire.started += instance.OnSecondaryFire;
+            @SecondaryFire.performed += instance.OnSecondaryFire;
+            @SecondaryFire.canceled += instance.OnSecondaryFire;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -566,6 +592,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @PrimaryFire.started -= instance.OnPrimaryFire;
             @PrimaryFire.performed -= instance.OnPrimaryFire;
             @PrimaryFire.canceled -= instance.OnPrimaryFire;
+            @SecondaryFire.started -= instance.OnSecondaryFire;
+            @SecondaryFire.performed -= instance.OnSecondaryFire;
+            @SecondaryFire.canceled -= instance.OnSecondaryFire;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -663,6 +692,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnAimDownSights(InputAction.CallbackContext context);
         void OnPrimaryFire(InputAction.CallbackContext context);
+        void OnSecondaryFire(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
