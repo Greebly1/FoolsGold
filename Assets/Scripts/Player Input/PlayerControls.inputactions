@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "AimUpdate",
-                    "type": "Value",
-                    "id": "82a6b332-5567-4ac1-8d61-965513aec78a",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Sprint",
                     "type": "Value",
                     "id": "5181aa57-3e66-4dfb-9515-0871be9e610c",
@@ -67,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "3a7b980a-ddf9-4e69-a9c6-2075dd591532",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -193,28 +193,6 @@
                 },
                 {
                     "name": "",
-                    "id": "695d2432-09b9-4775-84c0-bad6809b3042",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "M&K",
-                    "action": "AimUpdate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b37c3f7b-fc03-4eac-9944-6b4c12f9264f",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Controller",
-                    "action": "AimUpdate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2001edc4-15cf-486d-b8c7-f8fff0d2aecb",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -287,6 +265,17 @@
                     "processors": "",
                     "groups": "M&K",
                     "action": "SecondaryFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7597ff1-beef-4a99-b578-dc92bde7cf01",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "M&K",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

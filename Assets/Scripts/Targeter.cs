@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Targeter : MonoBehaviour
 {
-    Transform target = null; //the gameobject this targeter is following
+    protected Transform target = null; //the gameobject this targeter is following
 
     bool followTarget = false; //whether to follow the target or not
 
@@ -38,11 +38,17 @@ public class Targeter : MonoBehaviour
         isFollowingTarget = true;
         while (followTarget && target != null)
         {
-            transform.position = target.transform.position;
+            DoFollow();
+            
             yield return null;
         }
 
         isFollowingTarget = false;
+    }
+
+    protected virtual void DoFollow()
+    {
+        transform.position = target.transform.position;
     }
 
     #endregion

@@ -15,6 +15,12 @@ public class Controller : MonoBehaviour
     {
         if (possessedPawn != null) { possessedPawn.ResetInput(); }
         possessedPawn = pawn;
+        pawn.OnDeath.AddListener(unpossessPawn);
+    }
+
+    protected virtual void unpossessPawn()
+    {
+        possessedPawn = null;
     }
 
     public void tryPossessGameObject (GameObject possiblePawn)

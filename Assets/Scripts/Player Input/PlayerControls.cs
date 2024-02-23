@@ -37,15 +37,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""AimUpdate"",
-                    ""type"": ""Value"",
-                    ""id"": ""82a6b332-5567-4ac1-8d61-965513aec78a"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Sprint"",
                     ""type"": ""Value"",
                     ""id"": ""5181aa57-3e66-4dfb-9515-0871be9e610c"",
@@ -89,6 +80,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""3a7b980a-ddf9-4e69-a9c6-2075dd591532"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -215,28 +215,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""695d2432-09b9-4775-84c0-bad6809b3042"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""M&K"",
-                    ""action"": ""AimUpdate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b37c3f7b-fc03-4eac-9944-6b4c12f9264f"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller"",
-                    ""action"": ""AimUpdate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""2001edc4-15cf-486d-b8c7-f8fff0d2aecb"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
@@ -309,6 +287,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""M&K"",
                     ""action"": ""SecondaryFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7597ff1-beef-4a99-b578-dc92bde7cf01"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -451,12 +440,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Grounded
         m_Grounded = asset.FindActionMap("Grounded", throwIfNotFound: true);
         m_Grounded_Walk = m_Grounded.FindAction("Walk", throwIfNotFound: true);
-        m_Grounded_AimUpdate = m_Grounded.FindAction("AimUpdate", throwIfNotFound: true);
         m_Grounded_Sprint = m_Grounded.FindAction("Sprint", throwIfNotFound: true);
         m_Grounded_Crouch = m_Grounded.FindAction("Crouch", throwIfNotFound: true);
         m_Grounded_AimDownSights = m_Grounded.FindAction("AimDownSights", throwIfNotFound: true);
         m_Grounded_PrimaryFire = m_Grounded.FindAction("PrimaryFire", throwIfNotFound: true);
         m_Grounded_SecondaryFire = m_Grounded.FindAction("SecondaryFire", throwIfNotFound: true);
+        m_Grounded_Interact = m_Grounded.FindAction("Interact", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Zoom = m_Menu.FindAction("Zoom", throwIfNotFound: true);
@@ -523,23 +512,23 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Grounded;
     private List<IGroundedActions> m_GroundedActionsCallbackInterfaces = new List<IGroundedActions>();
     private readonly InputAction m_Grounded_Walk;
-    private readonly InputAction m_Grounded_AimUpdate;
     private readonly InputAction m_Grounded_Sprint;
     private readonly InputAction m_Grounded_Crouch;
     private readonly InputAction m_Grounded_AimDownSights;
     private readonly InputAction m_Grounded_PrimaryFire;
     private readonly InputAction m_Grounded_SecondaryFire;
+    private readonly InputAction m_Grounded_Interact;
     public struct GroundedActions
     {
         private @PlayerControls m_Wrapper;
         public GroundedActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walk => m_Wrapper.m_Grounded_Walk;
-        public InputAction @AimUpdate => m_Wrapper.m_Grounded_AimUpdate;
         public InputAction @Sprint => m_Wrapper.m_Grounded_Sprint;
         public InputAction @Crouch => m_Wrapper.m_Grounded_Crouch;
         public InputAction @AimDownSights => m_Wrapper.m_Grounded_AimDownSights;
         public InputAction @PrimaryFire => m_Wrapper.m_Grounded_PrimaryFire;
         public InputAction @SecondaryFire => m_Wrapper.m_Grounded_SecondaryFire;
+        public InputAction @Interact => m_Wrapper.m_Grounded_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Grounded; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -552,9 +541,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walk.started += instance.OnWalk;
             @Walk.performed += instance.OnWalk;
             @Walk.canceled += instance.OnWalk;
-            @AimUpdate.started += instance.OnAimUpdate;
-            @AimUpdate.performed += instance.OnAimUpdate;
-            @AimUpdate.canceled += instance.OnAimUpdate;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
@@ -570,6 +556,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SecondaryFire.started += instance.OnSecondaryFire;
             @SecondaryFire.performed += instance.OnSecondaryFire;
             @SecondaryFire.canceled += instance.OnSecondaryFire;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IGroundedActions instance)
@@ -577,9 +566,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Walk.started -= instance.OnWalk;
             @Walk.performed -= instance.OnWalk;
             @Walk.canceled -= instance.OnWalk;
-            @AimUpdate.started -= instance.OnAimUpdate;
-            @AimUpdate.performed -= instance.OnAimUpdate;
-            @AimUpdate.canceled -= instance.OnAimUpdate;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
@@ -595,6 +581,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SecondaryFire.started -= instance.OnSecondaryFire;
             @SecondaryFire.performed -= instance.OnSecondaryFire;
             @SecondaryFire.canceled -= instance.OnSecondaryFire;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IGroundedActions instance)
@@ -687,12 +676,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IGroundedActions
     {
         void OnWalk(InputAction.CallbackContext context);
-        void OnAimUpdate(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnAimDownSights(InputAction.CallbackContext context);
         void OnPrimaryFire(InputAction.CallbackContext context);
         void OnSecondaryFire(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

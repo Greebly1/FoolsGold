@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 /// <summary>
 /// The base class for the pawn component
 /// The pawn will be the central hub for interfacing with a character gameobject. It contains input values and events
@@ -17,6 +19,7 @@ public class Pawn : MonoBehaviour, ICamTargetable
     [SerializeField] float accelTime = 1.5f; //How many seconds it takes to accel from 0 to max speed, Higher values will feel clunkier, shorter values will feel snappier
     [HideInInspector] public bool lookAtTarget = false;
     [SerializeField] public GameObject camTarget;
+    [SerializeField] float interactRadius = 1;
 
     #region Components
     protected Animator AnimationController { get; private set; }
@@ -56,6 +59,9 @@ public class Pawn : MonoBehaviour, ICamTargetable
 
     #endregion
 
+    public UnityEvent OnDeath;
+
+
     #region Monobehavior Callbacks
 
     private void Awake()
@@ -89,6 +95,11 @@ public class Pawn : MonoBehaviour, ICamTargetable
         UpdateAnimator();
     }
 
+    private void OnDestroy()
+    {
+        OnDeath.Invoke();
+    }
+
     #endregion
 
     #region Input Functions
@@ -102,6 +113,22 @@ public class Pawn : MonoBehaviour, ICamTargetable
     public virtual void ResetInput()
     {
         inputMovement = new Vector2(0,0);
+    }
+
+    public virtual void Interact()
+    {
+        Collider[] interactTargets = Physics.OverlapSphere(transform.position, interactRadius);
+
+        foreach (Collider target in interactTargets)
+        {
+            try
+            {
+                IInteractable damagable = target.GetComponent<IInteractable>();
+                damagable.interact(this.gameObject);
+            }
+            catch { /*the thingamabob is not interactable */ }
+
+        }
     }
     #endregion
 

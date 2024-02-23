@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Animations.Rigging;
+using UnityEngine.Animations;
 
 
 
 /// <summary>
 /// The 
 /// </summary>
-public class HumanoidPawn : Pawn
+public class HumanoidPawn : Pawn, IHolder
 {
     #region vars
 
     [SerializeField] GameObject heldObject = null;
+    [SerializeField] GameObject leftHandIKTarget = null;
+    [SerializeField] GameObject rightHandIKTarget = null;
+    [SerializeField] GameObject heldObjectEmpty = null;
+    [SerializeField] BlendableRig rightHandIK = null;
+    [SerializeField] BlendableRig leftHandIK = null;
 
     IHoldable heldItem { get { return heldObject.GetComponentInChildren<IHoldable>(); } }
 
@@ -111,6 +118,70 @@ public class HumanoidPawn : Pawn
         //Debug.Log(lookAtTarget);
         AnimationController.SetBool("Aiming", lookAtTarget);
     }
+    #endregion
+
+
+    #region IHolder Interface
+    public GameObject leftHand { get => leftHandIKTarget;  }
+    public GameObject rightHand { get => rightHandIKTarget; }
+
+    public bool isHoldingObject { get => heldObject != null; }
+
+    public GameObject heldObjectEmptyTarget { get => heldObjectEmpty; }
+
+    public void HoldObject(GameObject obj)
+    {
+        heldObject = obj;
+        IHoldable holdableObj = obj.GetComponent<IHoldable>();
+        if (holdableObj != null)
+        {
+            //First get the hand targeters
+            Targeter rightHandTargeter = rightHand.GetComponent<Targeter>();
+            Targeter leftHandTargeter = leftHand.GetComponent<Targeter>();
+            if (leftHandTargeter == null || rightHandTargeter == null) { Debug.LogError("The hands of this humanoid pawn do not contain targeting components"); return; } //early out, it failed
+        
+            //Second, get the rig layers
+            //These are blendable rigs, which is just a helper class I made that extends the normal rig class with a SmoothdampLayerWeight function
+            BlendableRig rightHandIKPosition = rightHand.GetComponent<BlendableRig>();
+            BlendableRig leftHandIKPosition = leftHand.GetComponent<BlendableRig>();
+            if (rightHandIKPosition == null || leftHandIKPosition == null) { Debug.LogError("The hands of this humanoid pawn do not contain blendable rigs"); return; } //early out, it failed
+
+            //Set the position of the targeters
+            rightHandTargeter.setTarget(holdableObj.handPos_Left.transform, follow: true); //!!! these targeting positions are flipped, but they work
+            leftHandTargeter.setTarget(holdableObj.handPos_Right.transform, follow: true);
+
+            //tell the rigs to smoothdamp the layer weights up to 1
+            rightHandIKPosition.SmoothdampLayerWeight(1);
+            leftHandIKPosition.SmoothdampLayerWeight(1);
+            rightHandIK.SmoothdampLayerWeight(1);
+            leftHandIK.SmoothdampLayerWeight(1);
+
+            //Finally, move the object to the held object mount, and parent it to that
+            obj.transform.SetParent(heldObjectEmptyTarget.transform, worldPositionStays: false);
+            obj.transform.localPosition = Vector3.zero;
+        } else
+        {
+            Debug.Log("Tried to hold an object that doesn't have an IHoldable interface");
+        }
+    }
+
+    public void StopHoldingObject()
+    {
+        heldObject = null;
+
+        //get the rig layers
+        //These are blendable rigs, which is just a helper class I made that extends the normal rig class with a SmoothdampLayerWeight function
+        BlendableRig rightHandIKPosition = rightHand.GetComponent<BlendableRig>();
+        BlendableRig leftHandIKPosition = leftHand.GetComponent<BlendableRig>();
+        if (rightHandIKPosition == null || leftHandIKPosition == null) { Debug.LogError("The hands of this humanoid pawn do not contain blendable rigs"); return; } //early out, it failed
+
+        //set the layer weights to 0
+        rightHandIKPosition.SmoothdampLayerWeight(0);
+        leftHandIKPosition.SmoothdampLayerWeight(0);
+        rightHandIK.SmoothdampLayerWeight(0);
+        leftHandIK.SmoothdampLayerWeight(0);
+    }
+
     #endregion
 }
 

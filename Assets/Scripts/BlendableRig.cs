@@ -21,7 +21,7 @@ public class BlendableRig : Rig
     {
         inputWeight = weight;
     }
-    public void SmoothLerpWeight(float targetWeight)
+    public void SmoothdampLayerWeight(float targetWeight)
     {
         inputWeight = targetWeight;
 

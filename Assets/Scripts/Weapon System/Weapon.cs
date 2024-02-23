@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour, IHoldable
     [SerializeField] GameObject rightHandPosition = null;
     bool IHoldable.isTwoHanded { get => _isTwoHanded;  set => _isTwoHanded = value;  }
     GameObject IHoldable.handPos_Left { get => leftHandPosition; set => leftHandPosition = value; }
-    GameObject IHoldable.handPos_Right { get => leftHandPosition; set => leftHandPosition = value; }
+    GameObject IHoldable.handPos_Right { get => rightHandPosition; set => rightHandPosition = value; }
     #endregion
 
     public void Action_Primary(bool initiate)
@@ -34,5 +34,12 @@ public class Weapon : MonoBehaviour, IHoldable
         else OffSecondaryAttack.Invoke();
     }
 
+    public void Pickup(GameObject newOwner)
+    {
+        //only a pawn can pick up weapons
+        HumanoidPawn pawnCast = newOwner.GetComponent<HumanoidPawn>();
+        if (pawnCast == null) { Debug.LogError("Somehow, a non humanoid Pawn gameobject has tried to pick this weapon up, this should never happen");  return; } //early out
 
+        pawnCast.HoldObject(this.gameObject);
+    }
 }

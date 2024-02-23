@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: CombatParams
   m_EditorClassIdentifier: 
   maxZoom: 40
-  minZoom: 8
+  minZoom: 4
+  zoomStep: 1
   maxXRot: 80
   minXRot: 20
   xRotationSmoothingTime: 0.2

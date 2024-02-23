@@ -22,6 +22,10 @@ public class PlayerController : Controller
             } else
             {
                 try { possessedPawn.lookTarget.setTarget(Cursor3D.ClientPlayerCursor.transform, follow: true); }
+                catch (MissingReferenceException ex)
+                {
+                    //There is no pawn so do nothing
+                }
                 catch (NullReferenceException ex)
                 {
                     Debug.LogWarning(ex.Message);
@@ -44,6 +48,10 @@ public class PlayerController : Controller
             _moveInput = value;
 
             try { possessedPawn.setMoveVec(moveInput.Rotated(Camera.main.transform.rotation.eulerAngles.y, true)); }
+            catch (MissingReferenceException ex)
+            {
+                //There is no pawn so do nothing
+            }
             catch (NullReferenceException ex)
             {
                 Debug.LogWarning(ex.Message);
@@ -91,6 +99,12 @@ public class PlayerController : Controller
     public void OnSecondaryFire(InputValue value)
     {
         (possessedPawn as HumanoidPawn).SecondaryAction(value.isPressed);
+    }
+
+    public void OnInteract()
+    {
+        //tell pawn to try to interact with something
+        possessedPawn?.Interact();
     }
     #endregion
 
