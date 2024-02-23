@@ -48,10 +48,10 @@ public class WeaponAction_Projectile : WeaponAction
     void shoot()
     {
         Debug.Log("Shooting projectile");
-        
+
         //Locate the projectile object pool
         //Spawn the projectile from the object pool
-        Instantiate(prefab, firePointPosition, firePointTransform.rotation);
+        GameObjectPool.pools[prefab].PoolInstantiate(firePointPosition, firePointTransform.rotation);
     }
     #endregion
 }

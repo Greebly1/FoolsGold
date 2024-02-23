@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c184f31aa6b0f884fb29d65f8952b694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  proj_Speed: 5
+  proj_Speed: 10
   proj_TimeToLive: 2
   proj_Damage: 10
   proj_radius: 0.1
