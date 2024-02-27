@@ -1896,9 +1896,6 @@ PrefabInstance:
     - {fileID: 8518312946018171209, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6032264717403365800, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 660565742}
     - targetCorrespondingSourceObject: {fileID: 7362636569467644531, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1539092156}
@@ -4062,10 +4059,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6032264717403365800, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1901737196}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
 --- !u!1 &660565735 stripped
 GameObject:
@@ -4083,26 +4077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &660565742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 660565735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9026beee37e5c9340b488c4a0d87d88f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialHealthPercent: 100
-  maxHealth: 1
-  healthChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  deathEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &675129739
 GameObject:
   m_ObjectHideFlags: 0
@@ -4820,31 +4794,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890776548}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1901737190 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6032264717403365800, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
-  m_PrefabInstance: {fileID: 567220624}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1901737196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901737190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9026beee37e5c9340b488c4a0d87d88f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialHealthPercent: 50
-  maxHealth: 20
-  healthChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  deathEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!20 &1310594127900739797
 Camera:
   m_ObjectHideFlags: 0

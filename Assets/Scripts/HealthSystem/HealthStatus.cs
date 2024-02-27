@@ -13,7 +13,7 @@ public class HealthStatus : MonoBehaviour
 
     #region Events
     public UnityEvent<float> healthChanged;
-    public UnityEvent deathEvent;
+    public UnityEvent deathEvent; //health is <= 0
     #endregion
 
     #region state vars
@@ -30,6 +30,8 @@ public class HealthStatus : MonoBehaviour
             }
         }
     }
+
+    bool hasDied = false;
 
     #endregion
 
@@ -58,11 +60,11 @@ public class HealthStatus : MonoBehaviour
     #region helper functions
     void CheckDeath()
     {
-        if (!alive)
+        if (!alive && !hasDied)
         {
             Debug.Log("Dead");
+            hasDied = true;
             deathEvent?.Invoke();
-            Destroy(this.gameObject);
         }
     }
     #endregion

@@ -1715,6 +1715,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
       insertIndex: -1
       addedObject: {fileID: 902366067482341863}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8607201981378655762}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6325157118230800261}
   m_SourcePrefab: {fileID: 100100000, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
 --- !u!4 &368156809140551915 stripped
 Transform:
@@ -1862,6 +1868,50 @@ MonoBehaviour:
   - m_Rig: {fileID: 4823440426452543172}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &8607201981378655762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032264717403365800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9026beee37e5c9340b488c4a0d87d88f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialHealthPercent: 100
+  maxHealth: 1
+  healthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6325157118230800261}
+        m_TargetAssemblyTypeName: Death_Delete, Assembly-CSharp
+        m_MethodName: Kill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6325157118230800261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032264717403365800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045ab74ecbb9fe64da1c34c0d588ac15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6412343430709738258 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
