@@ -4961,7 +4961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 660565735}
   controlledCamera: {fileID: 1310594127900739797}
-  initMode: 0
+  initMode: 1
   currCamParams: {fileID: 11400000, guid: 120b133b2ce5e904f9184a2215fb0693, type: 2}
   ParamsByCamMode:
     _serializedList:

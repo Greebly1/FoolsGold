@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b61f387fd22ca49b6538fe9f99ee68, type: 3}
   m_Name: SwivelParams
   m_EditorClassIdentifier: 
-  maxZoom: 6
+  maxZoom: 100
   minZoom: 0.1
   zoomStep: 1
   maxXRot: 80
