@@ -9,4 +9,6 @@ public interface IState
     public void OnBegin();
 
     public void OnEnd();
+
+    public int StateID();
 }

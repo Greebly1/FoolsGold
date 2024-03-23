@@ -10,12 +10,18 @@ using UnityEngine.InputSystem.LowLevel;
 public class StateMachine
 {
     IState _currState = null;
-    Dictionary<IState, List<Transition>> transitions; //Each state has its own list of transitions out of that state
-    List<Transition> transitions_Local { get => transitions[currState]; } //Gets the current state's transitions out of the dictionary above
+    Dictionary<int, List<Transition>> transitions = new Dictionary<int, List<Transition>>(); //Each state has its own list of transitions out of that state
+    List<Transition> transitions_Local { get => transitions[currState.StateID()]; } //Gets the current state's transitions out of the dictionary above
 
     List<Transition> transitions_Global = transitions_Empty; //special list of transitions that are checked regardless of what the current state is
 
     static List<Transition> transitions_Empty = new List<Transition>(capacity: 0); //Empty transition list used for code safety
+
+    float _timeInState;
+    public float timeInState
+    {
+        get { return _timeInState; }
+    }
 
     /// <summary>
     /// currState property so that
@@ -27,12 +33,13 @@ public class StateMachine
         get => _currState;
         set
         {
-            //Debug.Log("setting state to " + newState.GetType().Name);
+            Debug.Log("setting state to " + value.GetType().Name);
             if (currState == value || value == null) return; //don't do anything unless the new state is a different state
 
             currState?.OnEnd(); //End the current state
-            currState = value; //Swap to the new state
+            _currState = value; //Swap to the new state
             currState.OnBegin(); //Start the new state
+            _timeInState = 0;
         }
     }
 
@@ -48,7 +55,7 @@ public class StateMachine
             currState = nextTransition.nextState;
 
         currState?.Tick(); //Do the currentState's work
-
+        _timeInState += Time.deltaTime;
     }
 
     /// <summary>
@@ -58,15 +65,21 @@ public class StateMachine
     /// <returns>The first available transition whoose condition is true</returns>
     private Transition GetTransition()
     {
-        //check each _anyTransition for a true transition condition
-        foreach (var transition in transitions_Global)
-            if (transition.Condition())
-                return transition;
+        try
+        {
+            //check each _anyTransition for a true transition condition
+            foreach (var transition in transitions_Global)
+                if (transition.Condition())
+                    return transition;
 
-        //then check the _currentTransitions conditions
-        foreach (var transition in transitions_Local)
-            if (transition.Condition())
-                return transition;
+            //then check the _currentTransitions conditions
+            foreach (var transition in transitions_Local)
+                if (transition.Condition())
+                    return transition;
+        } catch (NullReferenceException ex) {
+            Debug.LogWarning(ex.Message + " | A state machine does not have any transitions");
+        }
+        
 
 
         return null; //No available transition condition is true
@@ -77,15 +90,17 @@ public class StateMachine
     /// </summary>
     public void AddTransitionLocal(IState FromState, IState ToState, Func<bool> When)
     {
+
         //Debug.Log("Added a transition from the " + FromState.GetType().Name + " To the " + ToState.GetType().Name);
         //create an empty list of transitions if this state has no transition list
-        if (transitions.TryGetValue(FromState, out var transition) == false)
+        if (!transitions.ContainsKey(FromState.StateID()))
         {
-            transition = transitions_Empty;
-            transitions[FromState] = transition;
+            transitions[FromState.StateID()] = new List<Transition>();
         }
 
-        transition.Add(new Transition(When, ToState));
+        Transition newTransition = new Transition(When, ToState);
+
+        transitions[FromState.StateID()].Add(newTransition);
     }
 
     /// <summary>
@@ -97,6 +112,7 @@ public class StateMachine
     {
         transitions_Global.Add(new Transition(When, NewState));
     }
+
 }
 
 //This is a class (must be a class to be nullable)
