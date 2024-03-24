@@ -316,7 +316,7 @@ public class CamController : MonoBehaviour
         yield return null;
 
         isYRotationSmoothing = false;
-        Debug.Log("Ending yRotation Coroutine");
+        //Debug.Log("Ending yRotation Coroutine");
     }
 
     IEnumerator zoomLerp()

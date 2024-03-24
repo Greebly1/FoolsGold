@@ -13,3 +13,8 @@ public class IntEvent : UnityEvent<int>
 {
 
 }
+[System.Serializable]
+public class DamageEvent : UnityEvent<Damage>
+{
+
+}

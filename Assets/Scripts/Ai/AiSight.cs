@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
@@ -25,20 +26,28 @@ public class AiSight : MonoBehaviour
 
 
     #region sight functions
+    public bool canSee(MonoBehaviour target)
+    {
+        if (target == null) return false;
+
+        return canSee(target.gameObject);
+    }
     public bool canSee(GameObject target)
     {
-        Vector3 targetDirection = target.transform.position - this.transform.position;
-        float targetAngle = Vector3.Angle(transform.forward, targetDirection);
-        if (targetAngle <= fieldOfView && Vector3.Distance(this.transform.position, target.transform.position) <= sightRange)
+        if (target == null) return false;
+
+        Vector3 targetDirection = (target.transform.position - this.transform.position).normalized;
+        
+        RaycastHit hitinfo;
+        Ray targetRay = new Ray(transform.position, targetDirection);
+
+        if (Physics.Raycast(targetRay, out hitinfo, sightRange))
         {
-            //Debug.Log("target within field of view");
-            RaycastHit hitinfo;
-            if (Physics.Raycast(transform.position, (target.transform.position - transform.position).normalized, out hitinfo) && hitinfo.collider.gameObject == target)
-            {
-                //Debug.Log("sees the target");
-                return true;
-            }
+            if (hitinfo.collider.gameObject == target) { return true; }
         }
+
+
+
         return false;
     }
 

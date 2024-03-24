@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponAction_Projectile : WeaponAction
 {
     [SerializeField] Transform firePointTransform;
     [SerializeField] int damage = 5; //TODO: encapsulate damage data into its own serializable struct
     [SerializeField] GameObject prefab = null;
+    bool triggerHeld = false;
+    [SerializeField] float autofireDelay = 0.1f;
+    Coroutine autofireRoutine;
+    float autofireTimer = 0;
 
+    public Weapon owningWeapon = null;
+
+    public UnityEvent fireEvent;
     #region Shorthand Getters
     Vector3 firePointPosition { get { return firePointTransform.position; } }
     Vector3 firePointForward { get { return firePointTransform.forward; } }
@@ -29,8 +37,11 @@ public class WeaponAction_Projectile : WeaponAction
     protected override void Update()
     {
         base.Update();
+        autofireTimer -= Time.deltaTime;
     }
     #endregion
+
+
 
 
     #region Weapon Event Responders
@@ -38,20 +49,37 @@ public class WeaponAction_Projectile : WeaponAction
     public void triggerPulled()
     {
         //Debug.Log("trigger pulled event handling");
-        shoot();
+        triggerHeld = true;
+        autofireRoutine = StartCoroutine("autofire");
     }
     public void triggerReleased()
     {
-
+        triggerHeld = false;
     }
 
     void shoot()
     {
+        autofireTimer = autofireDelay;
         Debug.Log("Shooting projectile");
-
+        fireEvent.Invoke();
         //Locate the projectile object pool
         //Spawn the projectile from the object pool
-        GameObjectPool.pools[prefab].PoolInstantiate(firePointPosition, firePointTransform.rotation);
+        GameObjectPool.pools[prefab].PoolInstantiate(firePointPosition, firePointTransform.rotation)
+            .GetComponent<IDamage>().damage.teamSource = owningWeapon.owningTeam;
     }
     #endregion
+
+    IEnumerator autofire()
+    {
+        while (triggerHeld)
+        {
+            if (autofireTimer <= 0)
+            {
+                shoot();
+
+            }
+            
+            yield return null;
+        }
+    }
 }

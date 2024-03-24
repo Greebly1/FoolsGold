@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gunmetal
+  m_Name: EviiProjectile
   m_Shader: {fileID: -6465566751694194690, guid: 3739e562a03fc0b4982d8aa66cc50865, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -130,16 +130,16 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SPECULAR_IOR: 1.5
-    - _SPECULAR_ROUGHNESS: 0.6
+    - _SPECULAR_ROUGHNESS: 0.93
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BASE_COLOR: {r: 0.5283019, g: 0.4643408, b: 0.33641866, a: 0}
+    - _BASE_COLOR: {r: 0.9056604, g: 0.3720844, b: 0.26059094, a: 0}
     - _Color: {r: 0.12433251, g: 0.15921423, b: 0.20754719, a: 1}
-    - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
+    - _EMISSION_COLOR: {r: 0.9528302, g: 0.0764062, b: 0.0764062, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SPECULAR_COLOR: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

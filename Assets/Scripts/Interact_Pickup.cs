@@ -19,6 +19,6 @@ public class Interact_Pickup : MonoBehaviour, IInteractable
 
     public void debuggMessage()
     {
-        Debug.Log("The pickup worked");
+        //Debug.Log("The pickup worked");
     }
 }

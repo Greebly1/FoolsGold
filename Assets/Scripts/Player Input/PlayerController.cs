@@ -86,7 +86,7 @@ public class PlayerController : Controller
     }
     public void OnAimDownSights()
     {
-        Debug.Log("aim");
+        //Debug.Log("aim");
         holdingAim = !holdingAim;
 
         (possessedPawn as HumanoidPawn).FocusItem(holdingAim);
@@ -122,7 +122,7 @@ public class PlayerController : Controller
 
     private void Update()
     {
-        
+        //possessPawn(possessedPawn); <-- I don't know why I put this here, probably some debugging thing because I was never taught how to use breakpoints
         moveInput = moveInput;
     }
 

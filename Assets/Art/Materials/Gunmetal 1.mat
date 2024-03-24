@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gunmetal
+  m_Name: Gunmetal 1
   m_Shader: {fileID: -6465566751694194690, guid: 3739e562a03fc0b4982d8aa66cc50865, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -137,7 +137,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BASE_COLOR: {r: 0.5283019, g: 0.4643408, b: 0.33641866, a: 0}
+    - _BASE_COLOR: {r: 0.6792453, g: 0.41448632, b: 0.36205056, a: 0}
     - _Color: {r: 0.12433251, g: 0.15921423, b: 0.20754719, a: 1}
     - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class AiController : Controller
 {
-    protected NavMeshAgent navAgent = null;
+    public NavMeshAgent navAgent = null;
     [SerializeField] protected Targeter moveTargeter;
     [SerializeField] protected AiSight senses;
 
@@ -92,5 +92,24 @@ public class AiController : Controller
 
         navAgent.nextPosition = possessedPawn.transform.position;
         possessedPawn.lookTarget.transform.position = possessedPawn.transform.position + Vector3.forward * 100;
+    }
+
+    public bool playerInLineOfSight()
+    {
+        /*
+        if (PlayerController.ClientPlayerController == null) { return false; }
+
+        Vector3 dirToPlayer = (PlayerController.ClientPlayerController.possessedPawn.transform.position - possessedPawn.transform.position).normalized;
+
+        RaycastHit hit;
+        if (Physics.Raycast(possessedPawn.transform.position, dirToPlayer, out hit)){
+            if (hit.collider.gameObject == PlayerController.ClientPlayerController.possessedPawn.gameObject)
+            {
+                return true;
+            }
+        }
+
+        return false; */
+        return senses.canSee(PlayerController.ClientPlayerController.possessedPawn);
     }
 }

@@ -21,6 +21,8 @@ public class Pawn : MonoBehaviour, ICamTargetable
     [SerializeField] public GameObject camTarget;
     [SerializeField] float interactRadius = 1;
 
+    public Team team = Team.noTeam;
+
     #region Components
     protected Animator AnimationController { get; private set; }
     #endregion

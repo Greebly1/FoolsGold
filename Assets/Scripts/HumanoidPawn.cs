@@ -25,7 +25,12 @@ public class HumanoidPawn : Pawn, IHolder
     IHoldable heldItem { get { return heldObject.GetComponentInChildren<IHoldable>(); } }
 
     bool sprinting = false;
-    bool isSprinting
+    public bool Sprinting
+    {
+        get { return sprinting; }
+    }
+
+    public bool isSprinting
     {
         get { return currSpeed > 0.67f; }
     }
@@ -107,6 +112,14 @@ public class HumanoidPawn : Pawn, IHolder
 
     #endregion
 
+    private void Start()
+    {
+        if (heldObject != null)
+        {
+            HoldObject(heldObject);
+        }
+    }
+
     #region Pawn class overrides
     protected override void UpdateAnimator()
     {
@@ -159,6 +172,8 @@ public class HumanoidPawn : Pawn, IHolder
             //Finally, move the object to the held object mount, and parent it to that
             obj.transform.SetParent(heldObjectEmptyTarget.transform, worldPositionStays: false);
             obj.transform.localPosition = Vector3.zero;
+
+            holdableObj.setTeam(team);
         } else
         {
             Debug.Log("Tried to hold an object that doesn't have an IHoldable interface");

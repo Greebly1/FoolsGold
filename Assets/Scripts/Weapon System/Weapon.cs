@@ -11,7 +11,7 @@ public class Weapon : MonoBehaviour, IHoldable
     public UnityEvent OffPrimaryAttack;
     public UnityEvent OnSecondaryAttack;
     public UnityEvent OffSecondaryAttack;
-
+    public Team owningTeam = Team.noTeam;
 
     #region Holdable interface
     [SerializeField] bool _isTwoHanded = false;
@@ -20,6 +20,11 @@ public class Weapon : MonoBehaviour, IHoldable
     bool IHoldable.isTwoHanded { get => _isTwoHanded;  set => _isTwoHanded = value;  }
     GameObject IHoldable.handPos_Left { get => leftHandPosition; set => leftHandPosition = value; }
     GameObject IHoldable.handPos_Right { get => rightHandPosition; set => rightHandPosition = value; }
+    public void setTeam(Team newTeam)
+    {
+        owningTeam = newTeam;
+    }
+    
     #endregion
 
     public void Action_Primary(bool initiate)

@@ -51,10 +51,24 @@ public class HealthStatus : MonoBehaviour
 
     #endregion
 
-    public void Damage(int amount)
+    //seperate overloaded damage function that takes into account which team the damage came from
+
+    public void Damage(Damage damage) {
+        
+
+        Pawn owningpawn = GetComponent<Pawn>();
+        Debug.Log("Damage is being called, health team is: " + owningpawn.team.ToString());
+        if (owningpawn == null) { return; }
+        if (damage.teamSource != owningpawn.team)
+        {
+            Damage(damage.amount);
+        } 
+    }
+
+    public void Damage(int damage)
     {
         Debug.Log("took damage");
-        currHealth -= amount;
+        currHealth -= damage;
     }
 
     #region helper functions

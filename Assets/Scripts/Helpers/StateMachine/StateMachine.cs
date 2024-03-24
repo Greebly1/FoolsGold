@@ -11,7 +11,16 @@ public class StateMachine
 {
     IState _currState = null;
     Dictionary<int, List<Transition>> transitions = new Dictionary<int, List<Transition>>(); //Each state has its own list of transitions out of that state
-    List<Transition> transitions_Local { get => transitions[currState.StateID()]; } //Gets the current state's transitions out of the dictionary above
+    List<Transition> transitions_Local {
+        get
+        {
+            if (!transitions.ContainsKey(currState.StateID()))
+            {
+                transitions[currState.StateID()] = new List<Transition>();
+            }
+            return transitions[currState.StateID()];
+        }
+    } //Gets the current state's transitions out of the dictionary above
 
     List<Transition> transitions_Global = transitions_Empty; //special list of transitions that are checked regardless of what the current state is
 
@@ -33,7 +42,7 @@ public class StateMachine
         get => _currState;
         set
         {
-            Debug.Log("setting state to " + value.GetType().Name);
+            //Debug.Log("setting state to " + value.GetType().Name);
             if (currState == value || value == null) return; //don't do anything unless the new state is a different state
 
             currState?.OnEnd(); //End the current state

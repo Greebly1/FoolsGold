@@ -12,6 +12,16 @@ public class Targeter : MonoBehaviour
     Coroutine followCoroutine = null;
     bool isFollowingTarget = false; //if coroutine is running or not
 
+    public void setTarget(MonoBehaviour newTarget, bool follow = true)
+    {
+        setTarget(newTarget.gameObject.transform, follow);
+    }
+
+    public void setTarget(GameObject newTarget, bool follow = true)
+    {
+        setTarget(newTarget.transform, follow);
+    }
+
     public void setTarget(Transform newTarget, bool follow = true)
     {
         target = newTarget; //do nullchecks outside of this script

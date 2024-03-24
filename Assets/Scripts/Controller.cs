@@ -5,6 +5,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     public Pawn possessedPawn = null;
+    public Team team = Team.noTeam;
 
     protected virtual void Awake ()
     {
@@ -13,13 +14,19 @@ public class Controller : MonoBehaviour
 
     protected virtual void possessPawn (Pawn pawn)
     {
+
+
         if (possessedPawn != null) { possessedPawn.ResetInput(); }
         possessedPawn = pawn;
         pawn.OnDeath.AddListener(unpossessPawn);
+        pawn.team = this.team;
     }
 
     protected virtual void unpossessPawn()
     {
+        if (possessedPawn == null) { return; }
+
+        possessedPawn.team = Team.noTeam;
         possessedPawn = null;
     }
 
