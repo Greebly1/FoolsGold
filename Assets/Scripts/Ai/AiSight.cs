@@ -6,7 +6,9 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
-/// Handles AI Sight
+/// Handles AI Sight, unfortunately I didnt comment most of this when I made it and forgot how it works
+/// I had plans to make it much more robust so it automatically sends updates when it sees interesting things such as the player, a teammate or an item
+/// however, as of commit <cad94328dbe5f3ae7f58058c79ff5489565b7ff0> I only use the CanSee(gameobject) function
 /// </summary>
 public class AiSight : MonoBehaviour
 {
