@@ -3181,6 +3181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allWaves:
   - {fileID: 11400000, guid: 80d021bdfae1ad44f98eb82dc47ad3e4, type: 2}
+  - {fileID: 11400000, guid: 80d021bdfae1ad44f98eb82dc47ad3e4, type: 2}
+  - {fileID: 11400000, guid: 80d021bdfae1ad44f98eb82dc47ad3e4, type: 2}
   currWave: 0
   enemiesAlive: 0
   waveDelayLength: 5
