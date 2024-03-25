@@ -35,12 +35,15 @@ public class AIState_Attack : IState
 
     public void OnEnd()
     {
+        if (controller.possessedPawn == null)  {return; }
         controller.possessedPawn.lookTarget.setFollow(false);
         controller.possessedPawn.lookAtTarget = false;
     }
 
     public void Tick()
     {
+        if (senses == null) { return; }
+
         //Shooting/sprinting logic
         if (senses.canSee(PlayerController.ClientPlayerController.possessedPawn))
         { //The ai sees the player

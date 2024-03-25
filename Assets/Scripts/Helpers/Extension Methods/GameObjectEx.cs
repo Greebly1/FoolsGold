@@ -36,4 +36,9 @@ public static class GameObjectExtensions
 
         return typecast;
     }
+
+    public static Vector3 position(this GameObject self)
+    {
+        return self.transform.position;
+    }
 }

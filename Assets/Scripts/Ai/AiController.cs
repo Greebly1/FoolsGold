@@ -110,6 +110,9 @@ public class AiController : Controller
         }
 
         return false; */
+
+        if (senses == null) { return false; }
+
         return senses.canSee(PlayerController.ClientPlayerController.possessedPawn);
     }
 }
