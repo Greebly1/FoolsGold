@@ -16,7 +16,7 @@ public class AiSight : MonoBehaviour
     public GameObjectEvent LostATarget;
 
     List<GameObject> _seenTargets = new List<GameObject>();
-    public List<GameObject> seentargets { 
+    public List<GameObject> targetsSeenLastFrame { 
         get => _seenTargets;
         private set {  _seenTargets = value; } 
     }
@@ -63,7 +63,7 @@ public class AiSight : MonoBehaviour
     {
         seenList = new List<type>();
 
-        foreach (GameObject seenObject in seentargets)
+        foreach (GameObject seenObject in targetsSeenLastFrame)
         {
             type typeCast = seenObject.GetComponent<type>();
 
@@ -88,34 +88,36 @@ public class AiSight : MonoBehaviour
             .Where<GameObject>(target => target != null && canSee(target))
             .ToList();
 
-        if (targetsSeenThisFrame.Count > seentargets.Count) //we have seen one or more new targets
+        if (targetsSeenThisFrame.Count > targetsSeenLastFrame.Count) //we have seen one or more new targets
         {
             //Find the new target(s)
             List<GameObject> newTargets = targetsSeenThisFrame
-                .Where<GameObject>(target => !seentargets.Contains(target))
+                .Where<GameObject>(target => !targetsSeenLastFrame.Contains(target))
                 .ToList();
 
             //Invoke the seen target event for each target
             foreach (GameObject newTarget in newTargets)
             {
                 SeenNewTarget.Invoke(newTarget);
+                Debug.Log("Seen new target");
             }
             
-        } else if (targetsSeenThisFrame.Count < seentargets.Count) //we have lost sight of one or more targets
+        } else if (targetsSeenThisFrame.Count < targetsSeenLastFrame.Count) //we have lost sight of one or more targets
         {
             //Find the lost target(s)
-            List<GameObject> lostTargets = seentargets
+            List<GameObject> lostTargets = targetsSeenLastFrame
                 .Where<GameObject>(target => !targetsSeenThisFrame.Contains(target))
                 .ToList();
 
             //Invoke the lost target event for each target
             foreach (GameObject newTarget in lostTargets)
             {
-                LostATarget.Invoke(newTarget);
+                LostATarget.Invoke(newTarget); 
+                Debug.Log("Lost sight of a target");
             }
         }
 
-        seentargets = targetsSeenThisFrame;
+        targetsSeenLastFrame = targetsSeenThisFrame;
     }
 
     #endregion

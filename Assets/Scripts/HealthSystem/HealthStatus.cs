@@ -57,7 +57,7 @@ public class HealthStatus : MonoBehaviour
         
 
         Pawn owningpawn = GetComponent<Pawn>();
-        Debug.Log("Damage is being called, health team is: " + owningpawn.team.ToString());
+        //Debug.Log("Damage is being called, health team is: " + owningpawn.team.ToString());
         if (owningpawn == null) { return; }
         if (damage.teamSource != owningpawn.team)
         {

@@ -60,12 +60,13 @@ public class WeaponAction_Projectile : WeaponAction
     void shoot()
     {
         autofireTimer = autofireDelay;
-        Debug.Log("Shooting projectile");
         fireEvent.Invoke();
         //Locate the projectile object pool
         //Spawn the projectile from the object pool
-        GameObjectPool.pools[prefab].PoolInstantiate(firePointPosition, firePointTransform.rotation)
-            .GetComponent<IDamage>().damage.teamSource = owningWeapon.owningTeam;
+        GameObjectPool.pools[prefab]
+            .PoolInstantiate(firePointPosition, firePointTransform.rotation)
+            .GetComponent<IDamage>()
+            .damage.teamSource = owningWeapon.owningTeam;
     }
     #endregion
 
