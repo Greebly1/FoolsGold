@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     //events for communicating with the singleton
     public static event Action TitleInput;
     public static event Action PauseToggled;
+    public static void TitleInputInvoke() {  TitleInput.Invoke(); }   
+    public static void PauseToggledInvoke() {  PauseToggled.Invoke(); }
 
     [SerializeField] string TitleSceneName = "Title";
     [SerializeField] string MainMenuSceneName = "MainMenu";
@@ -28,7 +30,6 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
-
         instance = this;
         DontDestroyOnLoad(this);
         TitleInput += TitleStart;
@@ -64,5 +65,21 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Unpause");
         SceneManager.UnloadSceneAsync(PauseSceneName);
+    }
+
+    public void setScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+    
+    public void Quit()
+    {
+#if UNITY_EDITOR
+        // Quit the game
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        // Quit the game
+        Application.Quit();
+#endif
     }
 }
