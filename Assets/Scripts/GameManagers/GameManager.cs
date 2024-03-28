@@ -101,11 +101,9 @@ public class GameManager : MonoBehaviour
         gameovercoroutine = StartCoroutine("DeathScreenDelay");
     }
 
-
-
-    IEnumerable DeathScreenDelay()
+    IEnumerator DeathScreenDelay()
     {
-        yield return null;
+        yield return new WaitForSeconds(deathScreenDelay);
 
         SceneManager.LoadScene(GameOverScreenName);
     }
