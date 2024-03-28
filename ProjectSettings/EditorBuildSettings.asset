@@ -11,5 +11,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 7c768c17b1833cb4ba49f1ea605045e8
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 0136592cc9217274b93b3dbf3bcd15e9
+  - enabled: 1
+    path: Assets/Scenes/TestScenes/EnemyWaves.unity
+    guid: a815bca97566f9241b1d9eda56e97046
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

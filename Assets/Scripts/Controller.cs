@@ -9,16 +9,14 @@ public class Controller : MonoBehaviour
 
     protected virtual void Awake ()
     {
-
+        if (possessedPawn != null) { possessPawn(possessedPawn); }
     }
 
     protected virtual void possessPawn (Pawn pawn)
     {
-
-
         if (possessedPawn != null) { possessedPawn.ResetInput(); }
         possessedPawn = pawn;
-        pawn.OnDeath.AddListener(unpossessPawn);
+        pawn.OnDeath.AddListener(OnPawnDeath);
         pawn.team = this.team;
     }
 
@@ -28,6 +26,13 @@ public class Controller : MonoBehaviour
 
         possessedPawn.team = Team.noTeam;
         possessedPawn = null;
+    }
+
+    protected virtual void OnPawnDeath()
+    {
+        unpossessPawn();
+        Debug.Log("I DIe");
+
     }
 
     public void tryPossessGameObject (GameObject possiblePawn)

@@ -128,6 +128,16 @@ public class PlayerController : Controller
 
     #endregion
 
+    #region overrides 
+
+    protected override void OnPawnDeath()
+    {
+        base.OnPawnDeath();
+        Debug.Log("I DIED");
+        GameManager.instance.PlayerDied.Invoke();
+    }
+
+    #endregion
 
     #region Coroutines
     IEnumerator LastAimedTimer()

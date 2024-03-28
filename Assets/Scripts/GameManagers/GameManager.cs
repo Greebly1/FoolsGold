@@ -6,6 +6,7 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,14 +15,19 @@ public class GameManager : MonoBehaviour
     //events for communicating with the singleton
     public static event Action TitleInput;
     public static event Action PauseToggled;
+    public UnityEvent PlayerDied;
     public static void TitleInputInvoke() {  TitleInput.Invoke(); }   
     public static void PauseToggledInvoke() {  PauseToggled.Invoke(); }
 
     [SerializeField] string TitleSceneName = "Title";
     [SerializeField] string MainMenuSceneName = "MainMenu";
     [SerializeField] string PauseSceneName = "PauseMenu";
+    [SerializeField] string GameOverScreenName = "GameOver";
 
     bool isPaused = false;
+    [SerializeField] float deathScreenDelay = 1f;
+
+    Coroutine gameovercoroutine = null;
 
     private void Awake()
     {
@@ -34,6 +40,12 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
         TitleInput += TitleStart;
         PauseToggled += TogglePause;
+        
+    }
+
+    private void Start()
+    {
+        PlayerDied.AddListener(OnPlayerDeath);
     }
 
     public void TitleStart() {
@@ -81,5 +93,20 @@ public class GameManager : MonoBehaviour
         // Quit the game
         Application.Quit();
 #endif
+    }
+
+    public void OnPlayerDeath()
+    {
+        Debug.Log("Deathscreen");
+        gameovercoroutine = StartCoroutine("DeathScreenDelay");
+    }
+
+
+
+    IEnumerable DeathScreenDelay()
+    {
+        yield return null;
+
+        SceneManager.LoadScene(GameOverScreenName);
     }
 }
