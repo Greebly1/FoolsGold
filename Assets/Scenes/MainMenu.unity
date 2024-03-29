@@ -148,9 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee404ff59009fef4b8b08072d80fb8dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TitleSceneName: Title
-  MainMenuSceneName: MainMenu
-  PauseSceneName: PauseMenu
+  PlayerDied:
+    m_PersistentCalls:
+      m_Calls: []
+  Scenes: {fileID: 11400000, guid: 28b71f8bcde879449a5cd6b522ba6f93, type: 2}
+  deathScreenDelay: 1
 --- !u!4 &90037729
 Transform:
   m_ObjectHideFlags: 0

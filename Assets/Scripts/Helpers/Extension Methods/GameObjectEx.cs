@@ -41,4 +41,5 @@ public static class GameObjectExtensions
     {
         return self.transform.position;
     }
+
 }

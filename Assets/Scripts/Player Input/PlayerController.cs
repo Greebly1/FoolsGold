@@ -47,6 +47,8 @@ public class PlayerController : Controller
         {
             _moveInput = value;
 
+            if (possessedPawn == null) { return; }
+
             try { possessedPawn.setMoveVec(moveInput.Rotated(Camera.main.transform.rotation.eulerAngles.y, true)); }
             catch (MissingReferenceException ex)
             {

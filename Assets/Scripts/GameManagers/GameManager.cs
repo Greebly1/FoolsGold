@@ -16,13 +16,47 @@ public class GameManager : MonoBehaviour
     public static event Action TitleInput;
     public static event Action PauseToggled;
     public UnityEvent PlayerDied;
-    public static void TitleInputInvoke() {  TitleInput.Invoke(); }   
-    public static void PauseToggledInvoke() {  PauseToggled.Invoke(); }
+    public static void TitleInputInvoke() {  TitleInput.Invoke(); }
+    public static void PauseToggledInvoke() { PauseToggled.Invoke(); }
 
-    [SerializeField] string TitleSceneName = "Title";
-    [SerializeField] string MainMenuSceneName = "MainMenu";
-    [SerializeField] string PauseSceneName = "PauseMenu";
-    [SerializeField] string GameOverScreenName = "GameOver";
+    [SerializeField] LevelFlow Scenes;
+
+    #region scene name getters
+    string getSceneName (level levelEnum, string Default)
+    {
+        if (Scenes == null) { return Default; }
+        string output;
+        Scenes.SceneDictionary.TryGetValue(levelEnum, out output);
+        if (output != null) { return output; }
+        return Default;
+    }
+    string TitleSceneName {
+        get {
+            return getSceneName(level.Title, Default: "Title");
+        }
+    }
+    string MainMenuSceneName
+    {
+        get
+        {
+            return getSceneName(level.MainMenu, Default: "MainMenu");
+        }
+    }
+    string PauseSceneName
+    {
+        get
+        {
+            return getSceneName(level.PauseMenu, Default: "PauseMenu");
+        }
+    }
+    string GameOverSceneName
+    {
+        get
+        {
+            return getSceneName(level.GameOver, Default: "GameOver");
+        }
+    }
+    #endregion
 
     bool isPaused = false;
     [SerializeField] float deathScreenDelay = 1f;
@@ -105,6 +139,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(deathScreenDelay);
 
-        SceneManager.LoadScene(GameOverScreenName);
+        SceneManager.LoadScene(GameOverSceneName);
     }
 }
