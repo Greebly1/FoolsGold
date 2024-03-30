@@ -90,7 +90,7 @@ public class AIState_Attack : IState
     {
         Vector3 targetPos;
 
-        if (PlayerController.ClientPlayerController.possessedPawn.transform.position != null)
+        if (PlayerController.ClientPlayerController.possessedPawn != null)
         {
             targetPos = PlayerController.ClientPlayerController.possessedPawn.transform.position;
         } else

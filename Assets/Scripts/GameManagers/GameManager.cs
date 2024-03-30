@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public static event Action TitleInput;
     public static event Action PauseToggled;
     public UnityEvent PlayerDied;
+    [SerializeField] KeyCode pauseKey = KeyCode.P;
     public static void TitleInputInvoke() {  TitleInput.Invoke(); }
     public static void PauseToggledInvoke() { PauseToggled.Invoke(); }
 
@@ -82,6 +83,14 @@ public class GameManager : MonoBehaviour
         PlayerDied.AddListener(OnPlayerDeath);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(pauseKey))
+        {
+            TogglePause();
+        }
+    }
+
     public void TitleStart() {
         SceneManager.LoadScene(MainMenuSceneName);
         
@@ -104,11 +113,14 @@ public class GameManager : MonoBehaviour
     public void initiatePause()
     {
         Debug.Log("Pause");
+        Time.timeScale = 0;
+        
         SceneManager.LoadScene(PauseSceneName, LoadSceneMode.Additive);
     }
 
     public void endPause()
     {
+        Time.timeScale = 1;
         Debug.Log("Unpause");
         SceneManager.UnloadSceneAsync(PauseSceneName);
     }

@@ -2025,6 +2025,7 @@ MonoBehaviour:
   PlayerDied:
     m_PersistentCalls:
       m_Calls: []
+  pauseKey: 112
   Scenes: {fileID: 11400000, guid: 28b71f8bcde879449a5cd6b522ba6f93, type: 2}
   deathScreenDelay: 1
 --- !u!4 &121262595

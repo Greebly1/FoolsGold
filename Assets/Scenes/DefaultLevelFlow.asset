@@ -21,6 +21,6 @@ MonoBehaviour:
     - Key: 3
       Value: GameOver
     - Key: 4
-      Value: None
+      Value: PauseMenu
     - Key: 2
       Value: EnemyWaves
