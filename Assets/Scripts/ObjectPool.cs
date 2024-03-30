@@ -44,8 +44,6 @@ public class GameObjectPool : MonoBehaviour
     private void Awake()
     {
         //TODO: add a check that deletes this gameobject if the prefab template itself contains an object pool
-
-
         if (pools.TryAdd(prefabTemplate, this))
         {
 
@@ -60,6 +58,10 @@ public class GameObjectPool : MonoBehaviour
         if (isLoadingObjects == false) { loadingCoroutine = StartCoroutine("FillPool"); }
     }
 
+    private void OnDestroy()
+    {
+        pools.Remove(prefabTemplate);
+    }
     #endregion
 
     //Instantiates 1 object each frame until the pool is filled

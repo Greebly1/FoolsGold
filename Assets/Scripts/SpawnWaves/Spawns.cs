@@ -34,4 +34,9 @@ public class Spawn : MonoBehaviour
     {
         Instantiate(prefab, this.transform.position, this.transform.rotation);
     }
+
+    private void OnDestroy()
+    {
+        Spawns.Remove(this);
+    }
 }

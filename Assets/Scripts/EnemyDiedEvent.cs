@@ -8,8 +8,8 @@ public class EnemyDiedEvent : MonoBehaviour
 {
     public static event Action EnemyDied;
 
-    private void OnDestroy()
+    public void BroadcastEvent()
     {
-        EnemyDied?.Invoke();
+        EnemyDied.Invoke();
     }
 }

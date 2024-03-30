@@ -15,7 +15,10 @@ public class PlayerController : Controller
     bool holdingAim
     {
         get { return _holdingAim;}
-        set { _holdingAim = value;
+        set { 
+            if (possessedPawn == null) { _holdingAim = false; return; }
+            
+            _holdingAim = value;
             if (!_holdingAim)
             {
                 aimTimer = StartCoroutine("LastAimedTimer");
@@ -79,28 +82,28 @@ public class PlayerController : Controller
         holdingSprint = !holdingSprint;
 
         //since the OnSprint event has been published it is safe to say that we are possessing a humanoid pawn
-        (possessedPawn as HumanoidPawn).toggleSprint(holdingSprint);
+        (possessedPawn as HumanoidPawn)?.toggleSprint(holdingSprint);
     }
     public void OnCrouch()
     {
         //since the OnCrouch event has been published it is safe to say that we are possessing a humanoid pawn
-        (possessedPawn as HumanoidPawn).toggleCrouch();
+        (possessedPawn as HumanoidPawn)?.toggleCrouch();
     }
     public void OnAimDownSights()
     {
         //Debug.Log("aim");
         holdingAim = !holdingAim;
 
-        (possessedPawn as HumanoidPawn).FocusItem(holdingAim);
+        (possessedPawn as HumanoidPawn)?.FocusItem(holdingAim);
     }
     public void OnPrimaryFire(InputValue value)
     {
-        (possessedPawn as HumanoidPawn).PrimaryAction(value.isPressed);
+        (possessedPawn as HumanoidPawn)?.PrimaryAction(value.isPressed);
     }
 
     public void OnSecondaryFire(InputValue value)
     {
-        (possessedPawn as HumanoidPawn).SecondaryAction(value.isPressed);
+        (possessedPawn as HumanoidPawn)?.SecondaryAction(value.isPressed);
     }
 
     public void OnInteract()
@@ -146,7 +149,8 @@ public class PlayerController : Controller
     {
         while (!holdingAim)
         {
-            
+            if (possessedPawn == null) { break; }
+
             timeSinceAiming += Time.deltaTime;
             if (timeSinceAiming > 0.3f) { 
                 possessedPawn.lookAtTarget = false;

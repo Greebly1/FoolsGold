@@ -97,11 +97,6 @@ public class Pawn : MonoBehaviour, ICamTargetable
         UpdateAnimator();
     }
 
-    private void OnDestroy()
-    {
-        OnDeath.Invoke();
-    }
-
     #endregion
 
     #region Input Functions
@@ -199,6 +194,15 @@ public class Pawn : MonoBehaviour, ICamTargetable
     private void slerpYRot(Vector3 lookDir)
     {
         slerpYRot(new Vector2(lookDir.x, lookDir.z));
+    }
+    #endregion
+
+
+    #region Message Responders
+    //These functions are called from other components that are expected to be on a pawn gameobject such as a health component via the sendmessages function
+    public void Dead()
+    {
+        OnDeath.Invoke();
     }
     #endregion
 }

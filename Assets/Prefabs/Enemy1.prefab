@@ -330,7 +330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -338,16 +338,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2011920778929931281}
+      objectReference: {fileID: 7443408156621530150}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 5956596592208237104}
+      objectReference: {fileID: 2011920778929931281}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 2011920778929931281}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -357,20 +365,40 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: destroySelf
+      value: BroadcastEvent
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: 
+      value: destroySelf
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: destroySelf
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: EventDisposable, Assembly-CSharp
+      value: EnemyDiedEvent, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: 
+      value: EventDisposable, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: EventDisposable, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: Dead
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: Dead
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -378,7 +406,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: 
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: e9e3ac26653ef02458b9526641a2b71c, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
