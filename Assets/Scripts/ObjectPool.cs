@@ -15,7 +15,20 @@ public class GameObjectPool : MonoBehaviour
     Coroutine loadingCoroutine = null;
 
     #region Pool functions
-    public GameObject firstAvailableObject { get => objectPool.First(obj => !obj.activeInHierarchy); } 
+    public GameObject firstAvailableObject {
+        get
+        {
+            try
+            {
+                return objectPool.First(obj => !obj.activeInHierarchy);
+            } catch
+            {
+                Debug.LogWarning(this.name.ToString() + " gameobject pool does not have enough instances to fulfill requirements");
+            }
+            return objectPool[0];
+            
+        }
+    } 
     bool poolEmpty
     {
         get

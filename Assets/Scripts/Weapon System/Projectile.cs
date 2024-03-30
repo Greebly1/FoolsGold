@@ -41,7 +41,7 @@ public class Projectile : IDamage
 
         if (isAlive == false)
         {
-            Debug.Log("Hit");
+            //Debug.Log("Hit");
             OnTimerEnd?.Invoke(damage);
         }
 

@@ -67,7 +67,7 @@ public class HealthStatus : MonoBehaviour
 
     public void Damage(int damage)
     {
-        Debug.Log("took damage");
+        //Debug.Log("took damage");
         currHealth -= damage;
     }
 

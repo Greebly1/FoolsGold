@@ -31,7 +31,6 @@ public class Controller : MonoBehaviour
     protected virtual void OnPawnDeath()
     {
         unpossessPawn();
-        Debug.Log("I DIe");
 
     }
 

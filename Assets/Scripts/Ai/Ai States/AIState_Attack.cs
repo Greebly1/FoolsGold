@@ -27,6 +27,7 @@ public class AIState_Attack : IState
 
     public void OnBegin()
     {
+        Debug.LogWarning("I AM ATTACKING NOW");
         controller.possessedPawn.lookTarget.setTarget(PlayerController.ClientPlayerController.possessedPawn);
 
 
@@ -87,14 +88,26 @@ public class AIState_Attack : IState
 
     Vector3 randPosAroundTarget()
     {
-        while (true)
+        Vector3 targetPos;
+
+        if (PlayerController.ClientPlayerController.possessedPawn.transform.position != null)
+        {
+            targetPos = PlayerController.ClientPlayerController.possessedPawn.transform.position;
+        } else
+        {
+            targetPos = new Vector3(0, 0, 0);
+        }
+
+        int MAX_ITERATIONS = 100;
+        int ITERATIONS = 0;
+        while (true && ITERATIONS < MAX_ITERATIONS)
         {
             //Generate a random direction
             Vector2 dir = Vector2.zero.Randomize();
 
             float randDistance = Random.Range(minDistanceToTarget, maxDistanceToTarget);
-
-            Vector3 randPosition = PlayerController.ClientPlayerController.possessedPawn.transform.position + (new Vector3(dir.x, 0, dir.y) * randDistance);
+            
+            Vector3 randPosition = targetPos + (new Vector3(dir.x, 0, dir.y) * randDistance);
 
             var agent = controller.navAgent;
             var path = new NavMeshPath();
@@ -108,9 +121,10 @@ public class AIState_Attack : IState
                 default:
                     break;
             }
-        }
-        
 
-        
+            ITERATIONS++;
+        }
+
+        return new Vector3(0, 0, 0);
     }
 }

@@ -16,7 +16,7 @@ public class Ai_Grunt : AiController
         idleState = new AiState_Idle(1);
         attackState = new AIState_Attack(2, this, senses, moveTargeter, 3, 6);
 
-        decisionStateMachine.AddTransitionGlobal(attackState, playerInLineOfSight);
+        decisionStateMachine.AddTransitionLocal(idleState, attackState, playerInLineOfSight);
 
         decisionStateMachine.currState = idleState;
 
