@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using UnityEngine;
 using Zenject.Asteroids;
 
@@ -54,16 +55,10 @@ public class EnemyWaveManager : MonoBehaviour
 
     IEnumerator SpawnWave(Wave waveToSpawn)
     {
-        Debug.Log("Starting wave delay");
+        //Debug.Log("Starting wave delay");
         Spawn.SortByDistance();
-        waveDelayTimer = waveDelayLength;
-
-        while (waveDelayTimer > 0)
-        {
-            waveDelayTimer -= Time.deltaTime;
-            yield return null;
-        }
-        Debug.Log("exiting wave delay");
+        yield return new WaitForSeconds(waveDelayLength);
+        //Debug.Log("exiting wave delay");
 
         int enemiesSpawnedThisWave = 0;
 

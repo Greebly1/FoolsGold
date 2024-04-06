@@ -59,7 +59,7 @@ public class WeaponAction_Raycast : WeaponAction //GameAction, Monobehavior
         if (Physics.Raycast(firePointPosition, firePointForward, out hitResults))
         {
             Debug.Log("Hit something");
-            HealthStatus hitTarget = hitResults.collider.gameObject.GetComponent<HealthStatus>();
+            Status hitTarget = hitResults.collider.gameObject.GetComponent<Status>();
             if (hitTarget != null) { hitTarget.Damage(damage); }
         }
     }

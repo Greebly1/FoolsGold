@@ -79,10 +79,21 @@ public partial class @CameraControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""07570c39-0888-4a26-895a-cf29720256bf"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Mouse>/forwardButton"",
                     ""interactions"": ""Hold(duration=0.2)"",
                     ""processors"": """",
                     ""groups"": ""M&K"",
+                    ""action"": ""AlignYRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74452867-0715-4706-b87e-a347ae718e6f"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""AlignYRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

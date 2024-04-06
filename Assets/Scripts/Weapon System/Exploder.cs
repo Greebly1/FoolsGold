@@ -20,7 +20,7 @@ public class Exploder : MonoBehaviour
         {
             try
             {
-                HealthStatus damagable = target.GetComponent<HealthStatus>();
+                Status damagable = target.GetComponent<Status>();
                 damagable.Damage(damage);
             }
             catch { /*the thingamabob does not have a health component */ }

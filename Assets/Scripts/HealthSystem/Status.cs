@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HealthStatus : MonoBehaviour
+public class Status : MonoBehaviour
 {
     #region vars
     #region editor vars
@@ -12,21 +12,22 @@ public class HealthStatus : MonoBehaviour
     #endregion
 
     #region Events
-    public UnityEvent<float> healthChanged;
+    public StatEvent healthChanged;
     public UnityEvent deathEvent; //health is <= 0
     #endregion
 
     #region state vars
-    int _currHealth;
+
+    Stat health;
     public int currHealth
     {
-        get { return _currHealth; }
+        get { return health.current; }
         private set { //Publish an event when the _currhealth variable changes
             if (value != currHealth)
             {
-                _currHealth = value;
+                health.current = value;
                 CheckDeath();
-                healthChanged?.Invoke(currHealth);
+                healthChanged?.Invoke(health);
             }
         }
     }
@@ -46,6 +47,7 @@ public class HealthStatus : MonoBehaviour
 
     protected virtual void Awake()
     {
+        health = new Stat(maxHealth, maxHealth);
         currHealth = (int)(initialHealthPercent/100 * maxHealth);
     }
 
@@ -82,4 +84,17 @@ public class HealthStatus : MonoBehaviour
         }
     }
     #endregion
+}
+
+
+[System.Serializable]
+public struct Stat
+{
+    public int max;
+    public int current;
+    public Stat(int Max, int Current)
+    {
+        this.max = Max;
+        this.current = Current;
+    }
 }
