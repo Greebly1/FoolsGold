@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour, IHoldable
     public UnityEvent OffPrimaryAttack;
     public UnityEvent OnSecondaryAttack;
     public UnityEvent OffSecondaryAttack;
+    public UnityEvent OnPickup;
     public Team owningTeam = Team.noTeam;
 
     #region Holdable interface
@@ -46,5 +47,7 @@ public class Weapon : MonoBehaviour, IHoldable
         if (pawnCast == null) { Debug.LogError("Somehow, a non humanoid Pawn gameobject has tried to pick this weapon up, this should never happen");  return; } //early out
 
         pawnCast.HoldObject(this.gameObject);
+
+        OnPickup.Invoke();
     }
 }

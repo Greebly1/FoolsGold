@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class WeaponAction_Projectile : WeaponAction
 {
     [SerializeField] Transform firePointTransform;
-    [SerializeField] int damage = 5; //TODO: encapsulate damage data into its own serializable struct
+    [SerializeField] Damage damage; //TODO: encapsulate damage data into its own serializable struct
     [SerializeField] GameObject prefab = null;
     bool triggerHeld = false;
     [SerializeField] float autofireDelay = 0.1f;
@@ -45,6 +45,13 @@ public class WeaponAction_Projectile : WeaponAction
 
 
     #region Weapon Event Responders
+
+    public void onPickup()
+    {
+        //We need to update the team enum inside the damage struct
+        damage.teamSource = owningWeapon.owningTeam;
+    }
+
     //public void functions with no parameters to be subscribed to weapon events via the inspector
     public void triggerPulled()
     {
@@ -66,7 +73,7 @@ public class WeaponAction_Projectile : WeaponAction
         GameObjectPool.pools[prefab]
             .PoolInstantiate(firePointPosition, firePointTransform.rotation)
             .GetComponent<IDamage>()
-            .damage.teamSource = owningWeapon.owningTeam;
+            .damage = this.damage;
     }
     #endregion
 

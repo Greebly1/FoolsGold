@@ -348,6 +348,21 @@ MonoBehaviour:
   OffSecondaryAttack:
     m_PersistentCalls:
       m_Calls: []
+  OnPickup:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7290926743793551253}
+        m_TargetAssemblyTypeName: WeaponAction_Projectile, Assembly-CSharp
+        m_MethodName: onPickup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   owningTeam: 2
   _isTwoHanded: 1
   leftHandPosition: {fileID: 4367420746174349546}
@@ -365,7 +380,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePointTransform: {fileID: 9121460892360036710}
-  damage: 10
+  damage:
+    amount: 5
+    damagetype: 1
+    teamSource: 2
   prefab: {fileID: 2785575798110036040, guid: 0c0647593be9cc84d8661e2861e92117, type: 3}
   autofireDelay: 0.5
   owningWeapon: {fileID: 320800074246478822}

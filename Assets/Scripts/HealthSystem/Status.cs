@@ -9,6 +9,10 @@ public class Status : MonoBehaviour
     #region editor vars
     [SerializeField] float initialHealthPercent = 1;
     [SerializeField] int maxHealth = 20;
+
+    [SerializeField]
+    [DamageType]
+    int resistances = 0; //damage type bitmask
     #endregion
 
     #region Events
@@ -63,7 +67,10 @@ public class Status : MonoBehaviour
         if (owningpawn == null) { return; }
         if (damage.teamSource != owningpawn.team)
         {
-            Damage(damage.amount);
+            if(DamageUtility.CompareResistanceToDamage(resistances, damage.damagetype))
+            {
+                Damage(damage.amount);
+            }
         } 
     }
 
@@ -72,6 +79,7 @@ public class Status : MonoBehaviour
         //Debug.Log("took damage");
         currHealth -= damage;
     }
+
 
     #region helper functions
     void CheckDeath()
