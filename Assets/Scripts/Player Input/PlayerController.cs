@@ -138,7 +138,7 @@ public class PlayerController : Controller
     protected override void OnPawnDeath()
     {
         base.OnPawnDeath();
-        GameManager.instance.PlayerDied.Invoke();
+        GameManager.instance?.PlayerDied.Invoke();
     }
 
     #endregion

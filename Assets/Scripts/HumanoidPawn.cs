@@ -11,7 +11,7 @@ using UnityEngine.Animations;
 /// <summary>
 /// The 
 /// </summary>
-public class HumanoidPawn : Pawn, IHolder
+public class HumanoidPawn : Pawn, IHolder, IRagdoll
 {
     #region vars
 
@@ -118,6 +118,8 @@ public class HumanoidPawn : Pawn, IHolder
         {
             HoldObject(heldObject);
         }
+
+        isRagdoll = isRagdoll; //initializes the ragdoll via a setter
     }
 
     #region Pawn class overrides
@@ -196,6 +198,44 @@ public class HumanoidPawn : Pawn, IHolder
         rightHandIK.SmoothdampLayerWeight(0);
         leftHandIK.SmoothdampLayerWeight(0);
     }
+
+    #endregion
+
+    #region IRagdoll Interface
+
+    [SerializeField]
+    GameObject rootBone;
+
+    bool _isRagdoll = false;
+
+    public bool isRagdoll {
+        get => _isRagdoll;
+        set {
+            if (value == _isRagdoll) return; //Early leave if its the same value
+            _isRagdoll = value;
+            if(_isRagdoll)
+            {
+                EnableRagdoll();
+            } else { DisableRagdoll(); }
+        }
+    }
+
+    public void EnableRagdoll()
+    {
+        //turn off animator
+        AnimationController.enabled = false;
+
+        RagdollUtility.EnableRigPhysics(rootBone);
+        
+    }
+
+    public void DisableRagdoll()
+    {
+        RagdollUtility.DisableRigPhysics(rootBone);
+        //turn on animator
+        AnimationController.enabled = true;
+    }
+
 
     #endregion
 }
