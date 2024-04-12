@@ -5,11 +5,11 @@ using UnityEngine;
 public class OnBeginTest : MonoBehaviour
 {
     [DamageType]
-    public int damage = (1<<2) + (1<<4);
+    public int damage;
 
     [SerializeField]
     [DamageType]
-    public int resistance = (1<<2) + (1<<4) + (1<<5);
+    public int resistance;
     // Start is called before the first frame update
     void Start()
     {

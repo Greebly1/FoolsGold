@@ -125,6 +125,8 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
     #region Pawn class overrides
     protected override void UpdateAnimator()
     {
+        if (AnimationController == null) return; //don't do anything, if there is no animation controller the pawn is likely dead or disabled,
+
         base.UpdateAnimator(); //support base animation controller params from parent class
 
         //Humanoid skeletal mesh animation controllers supports crouching and sprinting input

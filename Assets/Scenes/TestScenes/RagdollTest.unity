@@ -346,6 +346,10 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136133027940403472, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: destroyAfterDelay
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6412343430709738258, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -407,16 +411,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8607201981378655762, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 555009341}
+      objectReference: {fileID: 555009347}
     - target: {fileID: 8607201981378655762, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: EnableRagdoll
+      value: Kill
       objectReference: {fileID: 0}
     - target: {fileID: 8607201981378655762, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: deathEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: HumanoidPawn, Assembly-CSharp
+      value: Death_Delete, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8608418271067467791, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: m_Enabled
@@ -517,6 +529,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b60140ed524a2124190bd0a7376e44b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &555009347 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6136133027940403472, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+  m_PrefabInstance: {fileID: 307224607}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555009340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3450cd1f7e1894192b38af494e980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &831167547

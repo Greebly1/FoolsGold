@@ -57,6 +57,14 @@ public class Pawn : MonoBehaviour, ICamTargetable
     {
         get { return inputMovement.magnitude; }
     }
+
+    protected bool isAnimatorValid
+    {
+        get
+        {
+            return AnimationController != null && AnimationController.isActiveAndEnabled;
+        }
+    }
     #endregion
 
     #endregion
@@ -102,6 +110,9 @@ public class Pawn : MonoBehaviour, ICamTargetable
     #region Input Functions
     public void setMoveVec(Vector2 input)
     {
+        //early out
+        if(!isAnimatorValid) { return; } //the animator is likely null or inactive due to ragdoll, or another mechanic
+
         inputMovement = Vector2.ClampMagnitude(input, 1);
         //If the coroutine isn't running, start the coroutine
         if (!isAccelBlending) { accelBlending = StartCoroutine("AccelerationBlending"); }
@@ -131,6 +142,9 @@ public class Pawn : MonoBehaviour, ICamTargetable
 
     protected virtual void UpdateAnimator()
     {
+        //early out
+        if (!isAnimatorValid) { return; } //the animator is likely null or inactive due to ragdoll, or another mechanic
+
         Vector2 actualMovement = Vector2.ClampMagnitude(inputMovement, maxSpeedPercent); 
 
         //The input must be rotated so it is no longer relative to the rotation of this pawn, instead it must be relative to the world
@@ -155,7 +169,7 @@ public class Pawn : MonoBehaviour, ICamTargetable
     {
         isAccelBlending = true; //So outside scope knows if this coroutine is already running
 
-        while (currMovement != inputMovement)
+        while (currMovement != inputMovement && isAnimatorValid)
         {
             //unit vector pointing from _movement to _targetMovement
             Vector2 accelVec = (inputMovement - currMovement).normalized;
@@ -184,6 +198,9 @@ public class Pawn : MonoBehaviour, ICamTargetable
     //Spherical interpolates this transform rotation towards a given lookdirection this frame
     private void slerpYRot(Vector2 lookDir)
     {
+        //early out
+        if (!isAnimatorValid) { return; } //the animator is likely null or inactive due to ragdoll, or another mechanic
+
         float desiredYRot = Quaternion.LookRotation(new Vector3(lookDir.x, 0, lookDir.y), Vector3.up).eulerAngles.y;
 
         Quaternion newRot = Quaternion.Euler(transform.rotation.eulerAngles.x, desiredYRot, transform.rotation.eulerAngles.z);

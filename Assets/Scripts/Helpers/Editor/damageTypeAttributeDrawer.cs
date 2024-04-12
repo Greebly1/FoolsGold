@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 /// <summary>
 /// Property drawer for my bitmask damage types
@@ -23,7 +24,7 @@ public class damageTypeAttributeDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        return 7*vertScale + 2f; //hard code the property height to be the 
+        return 8*vertScale + 2f; //hard code the property height to be the 
         //N * vertscale + 2f (2 for extra padding)
         //N is the number of property cells
     }
@@ -36,20 +37,25 @@ public class damageTypeAttributeDrawer : PropertyDrawer
         //Set the bitmask bools to reflect what the current property value is
         setBools(property.intValue);
 
+        
         //EditorGUI.PropertyField(position, property, label);
         //Rect labelRect = new Rect(position.x, position.y, position.width, 16f);
         //Rect buttonRect = new Rect(position.x, position.y = labelRect.height, position.width, 16f);
         EditorGUI.LabelField(offsetRect(position, 0), label, new GUIContent(property.intValue.ToString()));
+        EditorGUI.LabelField(offsetRect(position, 1), "Bitmask", BitmaskAsBinary);
 
+        
+        
         Rect checkboxRect = new Rect(position.x + 20f, position.y, position.width, position.height);
-        physical = GUI.Toggle(offsetRect(checkboxRect, 1), physical, "Physical");
-        ethereal = GUI.Toggle(offsetRect(checkboxRect, 2), ethereal, "Ethereal");
-        fire = GUI.Toggle(offsetRect(checkboxRect, 3), fire, "Fire");
-        shock = GUI.Toggle(offsetRect(checkboxRect, 4), shock, "Shock");
-        holy = GUI.Toggle(offsetRect(checkboxRect, 5), holy, "Holy");
-        psychic = GUI.Toggle(offsetRect(checkboxRect, 6), psychic, "Psychic");
+        physical = GUI.Toggle(offsetRect(checkboxRect, 2), physical, "Physical");
+        ethereal = GUI.Toggle(offsetRect(checkboxRect, 3), ethereal, "Ethereal");
+        fire = GUI.Toggle(offsetRect(checkboxRect, 4), fire, "Fire");
+        shock = GUI.Toggle(offsetRect(checkboxRect, 5), shock, "Shock");
+        holy = GUI.Toggle(offsetRect(checkboxRect, 6), holy, "Holy");
+        psychic = GUI.Toggle(offsetRect(checkboxRect, 7), psychic, "Psychic"); 
+        
 
-        property.intValue = getBitmask;
+        property.intValue = getBitmask; 
         EditorGUI.EndProperty();
     }
 
@@ -96,6 +102,29 @@ public class damageTypeAttributeDrawer : PropertyDrawer
         if (DamageUtility.ContainsType(bitmask, DamageType.shock)) shock = true;
         if (DamageUtility.ContainsType(bitmask, DamageType.holy)) holy = true;
         if (DamageUtility.ContainsType(bitmask, DamageType.psychic)) psychic = true;
+    }
+
+    //Returns a number representing the bitmask as 1s and 0s
+    string BitmaskAsBinary
+    {
+        get
+        {
+            int outputNumber = 0;
+            if (physical)   outputNumber += 1;
+            if (ethereal)   outputNumber += 10;
+            if (fire)       outputNumber += 100;
+            if (shock)      outputNumber += 1000;
+            if (holy)       outputNumber += 10000;
+            if (psychic)    outputNumber += 100000;
+
+            string outputString = outputNumber.ToString();
+            while(outputString.Length < 6)
+            {
+                outputString = "0" + outputString;
+            }
+            
+            return outputString;
+        }
     }
 }
 

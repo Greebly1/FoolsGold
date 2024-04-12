@@ -31,7 +31,6 @@ public class Controller : MonoBehaviour
     protected virtual void OnPawnDeath()
     {
         unpossessPawn();
-
     }
 
     public void tryPossessGameObject (GameObject possiblePawn)

@@ -17,6 +17,8 @@ public class Hud : MonoBehaviour
     [SerializeField] TextMeshProUGUI HealthText;
     public void setHealthBar(Stat newHealth)
     {
+        Debug.Log("Arg");
+
         if (HealthBar != null && HealthText != null) {
             float healthPercent = Mathf.Clamp((float)newHealth.current, 0, (float)newHealth.max)/ (float)newHealth.max;
             Debug.Log(healthPercent);
