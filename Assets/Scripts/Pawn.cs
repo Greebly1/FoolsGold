@@ -27,7 +27,7 @@ public class Pawn : MonoBehaviour, ICamTargetable
     protected Animator AnimationController { get; private set; }
     #endregion
 
-    public Vector2 inputMovement = Vector3.zero;  //Describes the goal movement of this pawn (this is the input the controller gives this pawn)
+    protected Vector2 inputMovement = Vector3.zero;  //Describes the goal movement of this pawn (this is the input the controller gives this pawn)
     protected Vector2 currMovement = Vector3.zero; //Describes how this pawn is moving (this is the input given to the AnimationController)
 
     float _maxSpeedPercent = 1f; //controls the max speed of this pawn used to clamp input going into the animation controller
@@ -37,6 +37,17 @@ public class Pawn : MonoBehaviour, ICamTargetable
         set { _maxSpeedPercent = Mathf.Clamp(value, 0, 1); }
     }
     
+    protected bool _takingInput = false;
+    [HideInInspector]
+    public bool takingInput
+    {
+        get { 
+            return _takingInput && isAnimatorValid; //only take input if the animator is also working
+        }
+        set { 
+            _takingInput = value; 
+        }
+    }
 
     #region Coroutine Vars
     Coroutine accelBlending;
@@ -111,7 +122,7 @@ public class Pawn : MonoBehaviour, ICamTargetable
     public void setMoveVec(Vector2 input)
     {
         //early out
-        if(!isAnimatorValid) { return; } //the animator is likely null or inactive due to ragdoll, or another mechanic
+        if (!takingInput) { return; } //ragdolling or another mechanic has likely disabled input
 
         inputMovement = Vector2.ClampMagnitude(input, 1);
         //If the coroutine isn't running, start the coroutine
@@ -123,8 +134,16 @@ public class Pawn : MonoBehaviour, ICamTargetable
         inputMovement = new Vector2(0,0);
     }
 
+    public virtual void ResetAnimator()
+    {
+        AnimationController.SetFloat("Right", 0);
+        AnimationController.SetFloat("Forward", 0);
+    }
     public virtual void Interact()
     {
+        //early out
+        if (!takingInput) { return; } //ragdolling or another mechanic has likely disabled input
+
         Collider[] interactTargets = Physics.OverlapSphere(transform.position, interactRadius);
 
         foreach (Collider target in interactTargets)
@@ -143,7 +162,7 @@ public class Pawn : MonoBehaviour, ICamTargetable
     protected virtual void UpdateAnimator()
     {
         //early out
-        if (!isAnimatorValid) { return; } //the animator is likely null or inactive due to ragdoll, or another mechanic
+        if (!takingInput) { return; } //the animator is likely null or inactive due to ragdoll, or another mechanic has disabled input
 
         Vector2 actualMovement = Vector2.ClampMagnitude(inputMovement, maxSpeedPercent); 
 
@@ -199,7 +218,7 @@ public class Pawn : MonoBehaviour, ICamTargetable
     private void slerpYRot(Vector2 lookDir)
     {
         //early out
-        if (!isAnimatorValid) { return; } //the animator is likely null or inactive due to ragdoll, or another mechanic
+        if (!takingInput) { return; } //dont let it rotate
 
         float desiredYRot = Quaternion.LookRotation(new Vector3(lookDir.x, 0, lookDir.y), Vector3.up).eulerAngles.y;
 
@@ -215,8 +234,8 @@ public class Pawn : MonoBehaviour, ICamTargetable
     #endregion
 
 
-    #region Message Responders
     //These functions are called from other components that are expected to be on a pawn gameobject such as a health component via the sendmessages function
+    #region Message Responders
     public void Dead()
     {
         OnDeath.Invoke();

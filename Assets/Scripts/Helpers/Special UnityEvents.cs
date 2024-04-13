@@ -21,3 +21,6 @@ public class DamageEvent : UnityEvent<Damage>
 
 [System.Serializable]
 public class StatEvent : UnityEvent<Stat> { }
+
+[System.Serializable]
+public class BoolEvent : UnityEvent<bool> { }

@@ -18,6 +18,7 @@ public class Controller : MonoBehaviour
         possessedPawn = pawn;
         pawn.OnDeath.AddListener(OnPawnDeath);
         pawn.team = this.team;
+        pawn.takingInput = true;
     }
 
     protected virtual void unpossessPawn()
