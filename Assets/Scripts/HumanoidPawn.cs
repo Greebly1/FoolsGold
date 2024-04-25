@@ -124,7 +124,7 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
     {
         if (heldObject != null)
         {
-            HoldObject(heldObject);
+            HoldObject(heldObject, destroyHeld: false);
         }
 
         isRagdoll = isRagdoll; //initializes the ragdoll via a setter
@@ -172,8 +172,10 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
 
     public GameObject heldObjectEmptyTarget { get => heldObjectEmpty; }
 
-    public void HoldObject(GameObject obj)
+    public void HoldObject(GameObject obj, bool destroyHeld)
     {
+        if (heldObject != null && destroyHeld) { Destroy(heldObject); }
+
         heldObject = obj;
         IHoldable holdableObj = obj.GetComponent<IHoldable>();
         if (holdableObj != null)

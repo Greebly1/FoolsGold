@@ -48,22 +48,13 @@ public class AIState_Attack : IState
         //Shooting/sprinting logic
         if (senses.canSee(PlayerController.ClientPlayerController.possessedPawn))
         { //The ai sees the player
-            (controller.possessedPawn as HumanoidPawn).PrimaryAction(true);
-            controller.possessedPawn.lookAtTarget = true;
-            if ((controller.possessedPawn as HumanoidPawn).Sprinting == true)
-            {
-                (controller.possessedPawn as HumanoidPawn).toggleSprint(false);
-            }
+            
+            isAttacking = true;
             
         } else
         { //the ai does not see the player
-            (controller.possessedPawn as HumanoidPawn).PrimaryAction(false);
-            controller.possessedPawn.lookAtTarget = false;
-            if ((controller.possessedPawn as HumanoidPawn).Sprinting == false)
-            {
-                (controller.possessedPawn as HumanoidPawn).toggleSprint(true);
-            }
 
+            isAttacking = false;
         }
 
 
@@ -126,5 +117,37 @@ public class AIState_Attack : IState
         }
 
         return new Vector3(0, 0, 0);
+    }
+
+
+    bool _isAttacking = false;
+    bool isAttacking
+    {
+        get { return _isAttacking; }
+        set
+        {
+            if (_isAttacking != value)
+            {
+                if (value)
+                {
+                    if ((controller.possessedPawn as HumanoidPawn).Sprinting == true)
+                    {
+                        (controller.possessedPawn as HumanoidPawn).toggleSprint(false);
+                    }
+                    controller.possessedPawn.lookAtTarget = true;
+                    (controller.possessedPawn as HumanoidPawn).PrimaryAction(true);
+                } else
+                {
+                    (controller.possessedPawn as HumanoidPawn).PrimaryAction(false);
+                    controller.possessedPawn.lookAtTarget = false;
+                    if ((controller.possessedPawn as HumanoidPawn).Sprinting == false)
+                    {
+                        (controller.possessedPawn as HumanoidPawn).toggleSprint(true);
+                    }
+                }
+            }
+
+            _isAttacking = value;
+        }
     }
 }

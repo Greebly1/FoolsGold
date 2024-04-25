@@ -7,6 +7,7 @@ using Zenject.Asteroids;
 public class EnemyWaveManager : MonoBehaviour
 {
     public static EnemyWaveManager Singleton;
+    public bool randomWaves = false; //toggle to true for endless mode
 
     public List<Wave> allWaves;
     public int currWave = 0;
@@ -31,7 +32,7 @@ public class EnemyWaveManager : MonoBehaviour
     private void Start()
     {
         Debug.Log("Starting wave");
-        spawnWaveCoroutine = StartCoroutine("SpawnWave", allWaves[currWave]);
+        SpawnNextWave();
 
         EnemyDiedEvent.EnemyDied += EnemyDied;
     }
@@ -47,10 +48,21 @@ public class EnemyWaveManager : MonoBehaviour
 
     public void SpawnNextWave()
     {
+        if(randomWaves)
+        {
+            SpawnRandomWave();
+            return; //early out
+        }
         if (currWave+1 >= allWaves.Count) { return; }
-
-        currWave++;
         spawnWaveCoroutine = StartCoroutine("SpawnWave", allWaves[currWave]);
+        currWave++;
+    }
+
+    public void SpawnRandomWave()
+    {
+        currWave++;
+        int randWaveIndex = Random.Range(0, allWaves.Count);
+        spawnWaveCoroutine = StartCoroutine("SpawnWave", allWaves[randWaveIndex]);
     }
 
     IEnumerator SpawnWave(Wave waveToSpawn)

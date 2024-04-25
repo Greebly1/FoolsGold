@@ -12,7 +12,7 @@ public interface IHolder
 
     public GameObject heldObjectEmptyTarget { get; }
 
-    public void HoldObject(GameObject obj);
+    public void HoldObject(GameObject obj, bool destroyHeld);
 
     public void StopHoldingObject();
 }

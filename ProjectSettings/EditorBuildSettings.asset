@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PauseMenu.unity
     guid: c5e36e80c86598741821ac5ac1de6dba
+  - enabled: 1
+    path: Assets/Scenes/EndlessWaves.unity
+    guid: f9d32ade5e1b4ee458ea9c4ad0c1fe99
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

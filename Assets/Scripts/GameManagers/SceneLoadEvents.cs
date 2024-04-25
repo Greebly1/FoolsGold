@@ -14,6 +14,11 @@ public class SceneLoadEvents : MonoBehaviour
         GameManager.instance.setScene(sceneName);
     }
 
+    public void ChangeSceneEnum(level levelEnum)
+    {
+        GameManager.instance.setScene(levelEnum);
+    }
+
     public void Quit()
     {
         GameManager.instance.Quit();

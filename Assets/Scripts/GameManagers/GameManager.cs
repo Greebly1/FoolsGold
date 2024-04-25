@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
@@ -103,11 +100,13 @@ public class GameManager : MonoBehaviour
         {
             case true: 
                 initiatePause();
-                return;
+                return; //early out
             case false:
                 endPause();
-                return;
+                return; //early out
         }
+        //no code will execute past this point inside this function
+
     }
 
     public void initiatePause()
@@ -128,6 +127,11 @@ public class GameManager : MonoBehaviour
     public void setScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void setScene(level scene)
+    {
+        SceneManager.LoadScene(Scenes.SceneDictionary[scene]);
     }
     
     public void Quit()

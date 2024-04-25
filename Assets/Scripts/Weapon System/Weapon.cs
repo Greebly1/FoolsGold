@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -46,7 +45,7 @@ public class Weapon : MonoBehaviour, IHoldable
         HumanoidPawn pawnCast = newOwner.GetComponent<HumanoidPawn>();
         if (pawnCast == null) { Debug.LogError("Somehow, a non humanoid Pawn gameobject has tried to pick this weapon up, this should never happen");  return; } //early out
 
-        pawnCast.HoldObject(this.gameObject);
+        pawnCast.HoldObject(this.gameObject, destroyHeld: true);
 
         OnPickup.Invoke();
     }

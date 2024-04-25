@@ -15,7 +15,7 @@ public class Ai_Roamer : AiController
     {
         base.Awake();
 
-        RoamingState = new AiState_Roaming(1, this, moveTargeter, 5, 10);
+        RoamingState = new AiState_Roaming(1, this, moveTargeter, 5, 10, 6, 9);
         IdleState = new AiState_Idle(2);
 
         decisionStateMachine.AddTransitionLocal(RoamingState, IdleState, atTarget);

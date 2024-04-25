@@ -3354,12 +3354,12 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8bbcdd609affdd543a362ff4cecf7133, type: 3}
   m_Controller: {fileID: 9100000, guid: bf271a4d71f74454588e40a0b6dd7ac1, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
+  m_CullingMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
+  m_AnimatePhysics: 1
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -3393,7 +3393,7 @@ MonoBehaviour:
   heldObjectEmpty: {fileID: 3882806825749972898}
   rightHandIK: {fileID: 1717829471115709735}
   leftHandIK: {fileID: 4823440426452543172}
-  rootBone: {fileID: 0}
+  rootBone: {fileID: 5796838063771665139}
 --- !u!143 &7968294517568755253
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3415,10 +3415,10 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 60
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_SkinWidth: 0.2
+  m_MinMoveDistance: 0.0001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &902366067482341863
 MonoBehaviour:

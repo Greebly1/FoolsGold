@@ -23,4 +23,4 @@ MonoBehaviour:
     - Key: 4
       Value: PauseMenu
     - Key: 2
-      Value: EnemyWaves
+      Value: EndlessWaves

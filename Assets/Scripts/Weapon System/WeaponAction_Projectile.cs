@@ -8,6 +8,7 @@ public class WeaponAction_Projectile : WeaponAction
     [SerializeField] Transform firePointTransform;
     [SerializeField] Damage damage; //TODO: encapsulate damage data into its own serializable struct
     [SerializeField] GameObject prefab = null;
+    [SerializeField] Material bulletMat = null;
     bool triggerHeld = false;
     [SerializeField] float autofireDelay = 0.1f;
     Coroutine autofireRoutine;
@@ -70,10 +71,10 @@ public class WeaponAction_Projectile : WeaponAction
         fireEvent.Invoke();
         //Locate the projectile object pool
         //Spawn the projectile from the object pool
-        GameObjectPool.pools[prefab]
-            .PoolInstantiate(firePointPosition, firePointTransform.rotation)
-            .GetComponent<IDamage>()
+        GameObject bullet = GameObjectPool.pools[prefab].PoolInstantiate(firePointPosition, firePointTransform.rotation);
+        bullet.GetComponent<IDamage>()
             .damage = this.damage;
+        bullet.GetComponentInChildren<MeshRenderer>().material = bulletMat ?? bullet.GetComponentInChildren<MeshRenderer>().material;
     }
     #endregion
 
