@@ -3318,7 +3318,7 @@ GameObject:
   - component: {fileID: 7968294517568755253}
   - component: {fileID: 902366067482341863}
   - component: {fileID: 8607201981378655762}
-  - component: {fileID: 6325157118230800261}
+  - component: {fileID: 6136133027940403472}
   m_Layer: 0
   m_Name: BasePawn
   m_TagString: Untagged
@@ -3393,6 +3393,7 @@ MonoBehaviour:
   heldObjectEmpty: {fileID: 3882806825749972898}
   rightHandIK: {fileID: 1717829471115709735}
   leftHandIK: {fileID: 4823440426452543172}
+  rootBone: {fileID: 5796838063771665139}
 --- !u!143 &7968294517568755253
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3464,7 +3465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialHealthPercent: 100
-  maxHealth: 1
+  maxHealth: 50
   resistances: 0
   healthChanged:
     m_PersistentCalls:
@@ -3484,7 +3485,7 @@ MonoBehaviour:
           m_StringArgument: Dead
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6325157118230800261}
+      - m_Target: {fileID: 6136133027940403472}
         m_TargetAssemblyTypeName: Death_Delete, Assembly-CSharp
         m_MethodName: Kill
         m_Mode: 1
@@ -3496,7 +3497,7 @@ MonoBehaviour:
           m_StringArgument: Dead
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6325157118230800261
+--- !u!114 &6136133027940403472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3505,9 +3506,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6032264717403365800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 045ab74ecbb9fe64da1c34c0d588ac15, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d3450cd1f7e1894192b38af494e980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyDelay: 5
+  destroyAfterDelay: 1
 --- !u!1 &6429084272223552709
 GameObject:
   m_ObjectHideFlags: 0

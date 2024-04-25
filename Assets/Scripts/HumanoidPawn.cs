@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Animations;
-
-
+using System.Security.Cryptography;
 
 /// <summary>
 /// The 
@@ -41,6 +40,8 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
     #region Input Functions
     public void toggleSprint(bool isButtonHeld)
     {
+        if (!takingInput) { return; } //ragdolling or another mechanic can disabled input
+
         if (!isButtonHeld && crouched) { 
             toggleCrouch();
             return; } // early out
@@ -60,6 +61,8 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
 
     public void toggleCrouch()
     {
+        if (!takingInput) { return; } //ragdolling or another mechanic can disabled input
+
         crouched = !crouched;
         sprinting = false;
 
@@ -69,6 +72,8 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
     //TODO: extract some attack logic into the base pawn class so nonhumanoid pawns can still attack
     public void PrimaryAction(bool isInitiating)
     {
+        if (!takingInput) { return; } //ragdolling or another mechanic can disabled input
+
         try
         {
             (heldItem as Weapon)?.Action_Primary(isInitiating);
@@ -82,6 +87,8 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
 
     public void SecondaryAction(bool isInitiating)
     {
+        if (!takingInput) { return; } //ragdolling or another mechanic can disabled input
+
         try
         {
             (heldItem as Weapon)?.Action_Secondary(isInitiating);
@@ -94,6 +101,7 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
         }
     }
 
+    //I do not know what this function was meant to be in the past
     public void FocusItem(bool isInitiating)
     {
         try
@@ -125,6 +133,8 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
     #region Pawn class overrides
     protected override void UpdateAnimator()
     {
+        if (AnimationController == null) return; //don't do anything, if there is no animation controller the pawn is likely dead or disabled,
+
         base.UpdateAnimator(); //support base animation controller params from parent class
 
         //Humanoid skeletal mesh animation controllers supports crouching and sprinting input
@@ -132,6 +142,24 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
         AnimationController.SetBool("Sprinting", sprinting);
         //Debug.Log(lookAtTarget);
         AnimationController.SetBool("Aiming", lookAtTarget);
+    }
+
+    public override void ResetInput()
+    {
+        base.ResetInput();
+        crouched = false;
+        sprinting = false;
+        lookAtTarget = false;
+        PrimaryAction(false);
+        SecondaryAction(false);
+    }
+
+    public override void ResetAnimator()
+    {
+        base.ResetAnimator();
+        AnimationController.SetBool("Aiming", false);
+        AnimationController.SetBool("Crouching", false);
+        AnimationController.SetBool("Sprinting", false);
     }
     #endregion
 
@@ -184,7 +212,7 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
 
     public void StopHoldingObject()
     {
-        heldObject = null;
+        
 
         //get the rig layers
         //These are blendable rigs, which is just a helper class I made that extends the normal rig class with a SmoothdampLayerWeight function
@@ -197,6 +225,10 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
         leftHandIKPosition.SmoothdampLayerWeight(0);
         rightHandIK.SmoothdampLayerWeight(0);
         leftHandIK.SmoothdampLayerWeight(0);
+
+        //for now destroy the object when we are done
+        Destroy(heldObject);
+        heldObject = null;
     }
 
     #endregion
@@ -211,7 +243,6 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
     public bool isRagdoll {
         get => _isRagdoll;
         set {
-            if (value == _isRagdoll) return; //Early leave if its the same value
             _isRagdoll = value;
             if(_isRagdoll)
             {
@@ -222,6 +253,12 @@ public class HumanoidPawn : Pawn, IHolder, IRagdoll
 
     public void EnableRagdoll()
     {
+        //reset all input; stop fire guns, uncrouch, stop sprinting, stop moving, etc
+        ResetInput();
+        ResetAnimator();
+
+        StopHoldingObject(); //let go of the object we were holding
+
         //turn off animator
         AnimationController.enabled = false;
 
