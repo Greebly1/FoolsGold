@@ -3409,6 +3409,18 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e810257c380238b46aa2b432dc40c9b2, type: 2}
+    - target: {fileID: 1016991857541816680, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1016991857541816680, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1016991857541816680, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4882036877722667226, guid: b21ee1cbce428d94283cf8d004a208ea, type: 3}
       propertyPath: team
       value: 0
@@ -6144,7 +6156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHealthPercent: 100
   maxHealth: 50
-  resistances: 0
+  baseResistances: 0
   healthChanged:
     m_PersistentCalls:
       m_Calls: []
